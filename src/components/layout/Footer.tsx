@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import { SITE_CONFIG } from '@/lib/constants'
 import { useAbout } from '@/context/AboutContext'
 import { socialIcon } from '@/components/icons/socialIcons'
-import logoSrc from '@/assets/favicon.png'
+import logoSrc from '@/assets/Favicon.png'
 
 export function Footer() {
   const { social } = useAbout()

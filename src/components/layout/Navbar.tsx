@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X } from 'lucide-react'
 import { NAV_ITEMS } from '@/lib/constants'
 import { cn } from '@/lib/utils'
-import logoSrc from '@/assets/favicon_trans.png'
+import logoSrc from '@/assets/Favicon_Trans.png'
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
