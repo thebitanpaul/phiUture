@@ -40,7 +40,7 @@ export function Navbar() {
         className="fixed top-0 left-0 right-0 z-50 py-4"
       >
         <nav
-          className="mx-auto max-w-6xl px-6 flex items-center justify-between rounded-2xl py-2.5 glass-strong"
+          className="mx-auto max-w-6xl px-6 flex items-center justify-between rounded-2xl py-2.5 glass-bar"
           style={{ border: '1px solid transparent', boxShadow: '0 10px 40px rgba(0,0,0,0.4)' }}
         >
           {/* Logo */}
