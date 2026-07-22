@@ -1,0 +1,1728 @@
+{
+  "featured": {
+    "1": "ArchAItect",
+    "2": "theacepirant",
+    "3": "FaceSaysBMI",
+    "4": "InfinityVault",
+    "5": "BallSortPuzzle"
+  },
+
+  "products": [
+    {
+      "id": "phi-prod-001",
+      "slug": "ArchAItect",
+      "name": "ArchAItect",
+      "tagline": "Turn a plain-English requirements document into a complete microservice architecture.",
+      "category": "applications",
+      "subcategory": "Website",
+      "status": "live",
+      "overview": "Shape your business with AI: Turn a plain-English requirements document into a complete microservice architecture — a service map, an AI risk audit, a failure-resilience simulation, architecture metrics, a traceability matrix, a migration roadmap, and live competitor intelligence.",
+      "icon": "https://res.cloudinary.com/b0tb1mho/image/upload/v1784579210/mvc0kqxxwrtax3d5wh1n.webp",
+      "heroImage": "https://res.cloudinary.com/b0tb1mho/image/upload/v1784626188/q8vgomhungoglex9axyk.webp",
+      "gallery": [
+        {
+          "src": "https://res.cloudinary.com/b0tb1mho/image/upload/v1784579257/lad6w4g1ks2egche5luh.webp",
+          "caption": "Architecture Overview"
+        },
+        {
+          "src": "https://res.cloudinary.com/b0tb1mho/image/upload/v1784579254/ekgniehr6yzragge16kb.webp",
+          "caption": "Cohesion · Coupling · Scalability · DDD"
+        },
+        {
+          "src": "https://res.cloudinary.com/b0tb1mho/image/upload/v1784579260/ussn9x2puahejiybfqf9.webp",
+          "caption": "Generated Service Map"
+        }
+      ],
+      "technologies": [
+        "FastAPI",
+        "Agentic AI",
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn-ui",
+        "Vite",
+        "React Flow",
+        "Framer Motion",
+        "Claude API"
+      ],
+      "links": {
+        "website": "https://archaitect-ten.vercel.app",
+        "playStore": "",
+        "appStore": "",
+        "github": "https://github.com/thebitanpaul/ArchAItect",
+        "demo": "",
+        "dashboard": "",
+        "workflow": "",
+        "caseStudy": "",
+        "youtube": "",
+        "facebook": "",
+        "instagram": "",
+        "x": "",
+        "linkedin": ""
+      },
+      "metrics": [
+        {
+          "value": "~65%",
+          "label": "Token Savings via Payload Reduction"
+        },
+        {
+          "value": "$0",
+          "label": "API Cost for Graph Calculations (Blast Radius & Metrics)"
+        }
+      ],
+      "problem": "Designing and stress-testing a microservice architecture from complex requirements documents is traditionally slow, expensive, and token-heavy.",
+      "solution": "ArchAItect uses deterministic Python to pre-compress specs and run instant, 0-token resilience and architecture analyses, invoking surgical LLM calls only when semantic reasoning or on-demand deep dives are required.",
+      "features": [
+        {
+          "title": "Token-first architecture",
+          "description": "Pre-processes specs in pure Python to cut input tokens by up to 70% before invoking LLMs."
+        },
+        {
+          "title": "Interactive service map",
+          "description": "Visualizes proposed microservices, sync/async communications, data stores, and external dependencies."
+        },
+        {
+          "title": "Real-time resilience simulator",
+          "description": "Traverses dependency graphs in pure Python at zero token cost to highlight downstream failure blast radius."
+        },
+        {
+          "title": "Zero-cost architecture metrics",
+          "description": "Computes cohesion, coupling looseness, scalability, and Domain-Driven Design boundaries using deterministic formulas."
+        },
+        {
+          "title": "On-demand AI lenses",
+          "description": "Runs targeted single-call LLM audits for risk evaluation, traceability matrices, migration roadmaps, and competitor intelligence."
+        }
+      ],
+      "architecture": "A staged agentic pipeline: uploaded documents are first compressed by deterministic Python, then passed through three required LLM agents (domain analysis, service decomposition, dependency mapping) to produce a service graph. Free Python analyses — resilience simulation via graph traversal and architecture metrics — run on that graph at zero token cost. Four optional on-demand LLM lenses (risk audit, traceability, migration roadmap, competitor intelligence) let users deep-dive without paying upfront. The LLM layer is abstracted behind a provider-agnostic client, keeping the system portable across models.",
+      "challenges": [
+        "Fitting complex requirements documents within free-tier token limits required multiple compression rounds and slimmed inter-agent payloads.",
+        "Avoiding the logical awkwardness of AI auditing its own output — solved by reframing on-demand analyses as an independent review board that stress-tests the user's edited design.",
+        "Ensuring every service didn't default to just a database — adding an explicit integrations field (Stripe, Auth0, SendGrid, etc.) was a correctness fix, not cosmetic.",
+        "Collapsing multi-call agents into single calls and keeping all edit operations client-side to stay within token and cost budgets."
+      ],
+      "results": "Delivered a fully functional agentic AI product — solo-built end-to-end in a hackathon sprint — that generates interactive, editable microservice architectures from plain-English documents, with ~65% token savings and zero-cost graph-based analyses.",
+      "trigger": "Recognizing that architects spend days translating requirement documents into service maps and then manually stress-testing them — a process that's both slow and expensive when done with brute-force LLM calls.",
+      "process": [
+        "Upload a requirements document (PDF, DOCX, or plain text).",
+        "Python compresses the document, cutting input tokens by up to 70%.",
+        "Three required LLM agents sequentially analyze the domain, decompose services, and map dependencies.",
+        "Deterministic Python computes architecture metrics (cohesion, coupling, scalability, DDD alignment) and runs resilience simulation via graph traversal — all at zero token cost.",
+        "The user reviews and edits the interactive service map, making the architecture their own.",
+        "On-demand AI lenses (risk audit, traceability, migration roadmap, competitor intelligence) stress-test the user's design as an independent review board."
+      ],
+      "outcome": "A complete, editable microservice architecture with interactive visualisation, quantified health metrics, failure blast-radius simulation, and deep-dive AI analyses — generated in minutes from a single document upload.",
+      "dataFlow": [
+        "User uploads requirements document → Python compresses and extracts structured spec.",
+        "Compressed spec → Domain Agent → domain context and bounded contexts.",
+        "Domain context → Decompose Agent → proposed microservices with responsibilities, data stores, and integrations.",
+        "Services → Dependency Agent → typed sync/async dependency graph.",
+        "Dependency graph → Python graph traversal → resilience blast-radius map and architecture metrics.",
+        "User edits service map → On-demand LLM lenses → risk audit, traceability matrix, migration roadmap, competitor intelligence."
+      ],
+      "kpis": [
+        {
+          "value": "~65%",
+          "label": "Token reduction via pre-compression & slim payloads"
+        },
+        {
+          "value": "$0",
+          "label": "Cost Analyses-100%\nPython-Based"
+        },
+        {
+          "value": "3",
+          "label": "LLM calls per document"
+        },
+        {
+          "value": "4",
+          "label": "On-Demand Lenses"
+        }
+      ],
+      "insights": [
+        "Token efficiency is a hard engineering constraint, not an optimisation afterthought — it shaped every design decision from document compression to inter-agent payload structure.",
+        "UX framing matters for AI tools: letting the user edit first and then running AI analyses as an independent review board avoids the credibility gap of AI auditing its own output.",
+        "Provider-agnostic abstraction from day one (llm_client.py) prevents painful rework and signals open-source intent clearly.",
+        "Modelling integrations explicitly (Stripe, Auth0, SendGrid) per service is a correctness requirement — defaulting everything to just a database misrepresents real architecture."
+      ],
+      "motivation": "Built solo for a company hackathon to prove that agentic AI pipelines, when designed token-first, can automate the most expensive phase of software planning — translating business requirements into validated microservice architectures — at a fraction of the traditional cost and time.",
+      "findings": [
+        "Deterministic Python can handle the majority of architecture analysis (graph traversal, metric computation) without any LLM involvement, dramatically reducing cost.",
+        "Collapsing multi-call agents into single surgical LLM calls maintained output quality while halving token spend.",
+        "Users trust AI-generated architectures more when they can edit the service map before running independent AI audits on their version.",
+        "A staged pipeline (compress → required agents → free analyses → optional lenses) gives the best balance of cost, quality, and user control."
+      ],
+      "relatedProducts": [
+        "datanexus",
+        "DataAnalyzerAi",
+        "theacepirant"
+      ],
+      "date": "2026"
+    },
+    {
+      "id": "phi-prod-002",
+      "slug": "BallSortPuzzle",
+      "name": "BallSortPuzzle",
+      "tagline": "Test your logic by sorting colorful balls into matching tubes.",
+      "category": "games",
+      "subcategory": "Android Games",
+      "status": "live",
+      "overview": "Ball Sort Puzzle is a relaxing yet addictive color-sorting puzzle game where players arrange colorful balls into matching tubes. Featuring intuitive controls, smooth animations, multiple visual themes, offline gameplay, and progressively challenging levels, the game delivers an engaging experience that sharpens logical thinking and problem-solving skills.",
+      "icon": "https://res.cloudinary.com/b0tb1mho/image/upload/v1784581906/nmkrwo36f1ikjmjj4d7j.webp",
+      "heroImage": "https://res.cloudinary.com/b0tb1mho/image/upload/v1784582060/rithypljvbbpu3ibjf00.webp",
+      "gallery": [
+        {
+          "src": "https://res.cloudinary.com/b0tb1mho/image/upload/v1784582092/xqp1akkkzh7jh2ogrnat.webp",
+          "caption": "Welcome Screen"
+        },
+        {
+          "src": "https://res.cloudinary.com/b0tb1mho/image/upload/v1784582447/s4ltvkhmovrfeeqjioci.webp",
+          "caption": "Day Sky Theme"
+        },
+        {
+          "src": "https://res.cloudinary.com/b0tb1mho/image/upload/v1784582472/b0tl7hzdlbu5ltc7gvhb.webp",
+          "caption": "Night Sky Theme"
+        },
+        {
+          "src": "https://res.cloudinary.com/b0tb1mho/image/upload/v1784582451/hy3o81rcouhv0unrqknz.webp",
+          "caption": "Dawn Sky Theme"
+        },
+        {
+          "src": "https://res.cloudinary.com/b0tb1mho/image/upload/v1784582476/txayjxsdfq4xewdcveoe.webp",
+          "caption": "Level Complete Screen"
+        },
+        {
+          "src": "https://youtu.be/tl6FoXGU2lU?si=llTXgRLEh3PJqCTc",
+          "caption": "Gameplay Demo"
+        }
+      ],
+      "technologies": [
+        "HTML5",
+        "CSS3",
+        "JavaScript",
+        "Tailwind CSS",
+        "Canvas API",
+        "Web Audio API",
+        "Kotlin",
+        "Android WebView",
+        "Google AdMob"
+      ],
+      "links": {
+        "website": "",
+        "playStore": "https://play.google.com/store/apps/details?id=com.thebitanpaul.ballsortpuzzle",
+        "appStore": "",
+        "github": "https://github.com/thebitanpaul/BallSortPuzzle",
+        "demo": "",
+        "dashboard": "",
+        "workflow": "",
+        "caseStudy": "",
+        "youtube": "",
+        "facebook": "",
+        "instagram": "",
+        "x": "",
+        "linkedin": ""
+      },
+      "metrics": [
+        {
+          "value": "Cross",
+          "label": "Platforms-Android + Web"
+        },
+        {
+          "value": "Offline",
+          "label": "Game Modes for Relaxation"
+        },
+        {
+          "value": "Progressive",
+          "label": "Difficulty-Best for Brain Training"
+        }
+      ],
+      "problem": "Many puzzle games either become repetitive quickly or overwhelm players with complicated mechanics. Players need a simple yet engaging logic game that remains relaxing while providing an increasing level of challenge.",
+      "solution": "Ball Sort Puzzle combines intuitive tap controls with progressively difficult color-sorting puzzles, smooth animations, multiple visual themes, and offline support to create a satisfying brain-training experience suitable for all ages.",
+      "features": [
+        {
+          "title": "Progressive Difficulty",
+          "description": "Levels gradually introduce more colors and tubes to keep puzzles engaging."
+        },
+        {
+          "title": "Undo System",
+          "description": "Undo previous moves to experiment with different strategies."
+        },
+        {
+          "title": "Beautiful Themes",
+          "description": "Dynamic day, dusk, and night backgrounds create a relaxing atmosphere."
+        },
+        {
+          "title": "Offline Gameplay",
+          "description": "Enjoy the complete puzzle experience without requiring an internet connection."
+        },
+        {
+          "title": "Hint System",
+          "description": "Receive helpful hints when you get stuck on challenging levels."
+        },
+        {
+          "title": "Smooth User Experience",
+          "description": "Fluid animations, responsive controls, and lightweight performance across devices."
+        }
+      ],
+      "architecture": "The game is built using HTML, CSS, and vanilla JavaScript with a modular game engine handling level generation, move validation, undo history, animations, audio, and game state management. The Android version wraps the HTML5 game inside a Kotlin WebView application integrated with Google AdMob for monetization.",
+      "challenges": [
+        "Designing puzzle progression that remains challenging without becoming frustrating.",
+        "Optimizing animations and rendering for smooth gameplay on low-end mobile devices.",
+        "Creating a fully responsive interface for phones, tablets, and desktop browsers.",
+        "Maintaining consistent gameplay across both Android WebView and web browsers.",
+        "Balancing ad integration while preserving a seamless player experience."
+      ],
+      "results": "Successfully released on both Google Play Store and GamePix, providing a cross-platform puzzle experience with responsive gameplay, offline support, and optimized performance.",
+      "trigger": "The project was created to build a lightweight yet highly engaging logic puzzle game that anyone could pick up and enjoy within seconds while continuously challenging their reasoning skills.",
+      "process": [
+        "Designed scalable level layouts and gameplay mechanics.",
+        "Implemented responsive UI for multiple screen sizes.",
+        "Developed ball movement, validation, undo, and completion algorithms.",
+        "Added immersive visual themes and audio effects.",
+        "Integrated Google AdMob for Android monetization.",
+        "Published on Google Play Store and GamePix."
+      ],
+      "outcome": "A polished cross-platform logic puzzle game offering an addictive gameplay loop, responsive performance, and a clean user experience suitable for casual players and puzzle enthusiasts alike.",
+      "dataFlow": [
+        "Player selects a tube.",
+        "Game validates whether the move is legal.",
+        "Ball movement animation is executed.",
+        "Game state and move history are updated.",
+        "Win condition is evaluated.",
+        "Level completion triggers rewards or progression."
+      ],
+      "kpis": [
+        {
+          "value": "Multi",
+          "label": "Platform-Android & Web"
+        },
+        {
+          "value": "Yes",
+          "label": "Offline Support"
+        },
+        {
+          "value": "100%",
+          "label": "Responsive Design"
+        }
+      ],
+      "insights": [
+        "Simple mechanics combined with progressive difficulty significantly improve player retention.",
+        "Smooth animations make puzzle-solving more satisfying.",
+        "Visual themes contribute greatly to the game's relaxing experience.",
+        "Offline support increases accessibility and play time."
+      ],
+      "motivation": "To create a minimal yet polished puzzle game that is instantly understandable, relaxing to play, and capable of keeping players engaged through increasingly challenging levels.",
+      "findings": [
+        "Responsive layouts provide a consistent experience across phones, tablets, and desktop browsers.",
+        "Lightweight HTML5 architecture enables fast loading and broad compatibility.",
+        "Progressive puzzle design keeps gameplay engaging without introducing unnecessary complexity."
+      ],
+      "relatedProducts": [
+        "CatchTheInsect",
+        "InfinityVault",
+        "NetflixDashboard"
+      ],
+      "date": "2025"
+    },
+    {
+      "id": "phi-prod-003",
+      "slug": "theacepirant",
+      "name": "TheAcepirant",
+      "tagline": "An AI-powered motivational media engine that never stops creating.",
+      "category": "automation",
+      "subcategory": "n8n Workflow",
+      "status": "prototype",
+      "overview": "TheAcepirant is an AI-powered motivational content engine that automatically discovers inspiring stories, transforms them into narrated short-form videos using AI, and publishes them across YouTube Shorts, Instagram Reels, and Facebook Reels with minimal human intervention.",
+      "icon": "https://res.cloudinary.com/b0tb1mho/image/upload/v1784621133/cp95wwkegrj6lii3laty.webp",
+      "heroImage": "https://res.cloudinary.com/b0tb1mho/image/upload/v1784621250/vf3zn5acvemnopmyjkci.webp",
+      "gallery": [
+        {
+          "src": "https://youtube.com/shorts/Ded5Yg229fc?si=Rk4goaImsZ2qwiJl",
+          "caption": "YouTube Shorts Demo"
+        },
+        {
+          "src": "https://www.instagram.com/reel/DNwA6f9xDW0/?igsh=MWJseDdzYnJnNTd3ZQ==",
+          "caption": "Instagram Reels Demo"
+        },
+        {
+          "src": "https://www.facebook.com/share/r/1Yw2XKsGja/?mibextid=wwXIfr",
+          "caption": "Facebook Reels Demo"
+        },
+        {
+          "src": "https://res.cloudinary.com/b0tb1mho/image/upload/v1784620561/a3gcm1lb0uvmbhgt0qqj.webp",
+          "caption": "Successful Run"
+        }
+      ],
+      "technologies": [
+        "n8n",
+        "Google Gemini",
+        "Reddit API",
+        "YouTube Data API",
+        "Facebook Graph API",
+        "Instagram Graph API",
+        "GitHub API",
+        "HTTP API",
+        "MCP",
+        "JSON"
+      ],
+      "links": {
+        "website": "",
+        "playStore": "",
+        "appStore": "",
+        "github": "https://github.com/thebitanpaul/TheAcepirant",
+        "demo": "https://youtube.com/shorts/XJHugJ0Fdqc?si=J8aDyvLcbJ67w7lL",
+        "dashboard": "",
+        "workflow": "",
+        "caseStudy": "",
+        "youtube": "https://www.youtube.com/@theacepirant",
+        "facebook": "https://www.facebook.com/profile.php?id=61578929849808",
+        "instagram": "https://www.instagram.com/theacepirant",
+        "x": "",
+        "linkedin": ""
+      },
+      "metrics": [
+        {
+          "value": "6",
+          "label": "Videos Generated Daily"
+        },
+        {
+          "value": "3",
+          "label": "Publishing Platforms"
+        },
+        {
+          "value": "100%",
+          "label": "Automation Level"
+        },
+        {
+          "value": "Reddit",
+          "label": "Source Community"
+        }
+      ],
+      "problem": "Producing engaging motivational short-form content consistently requires researching stories, writing scripts, generating videos, publishing to multiple platforms, and managing media assets. Doing this manually is repetitive, time-consuming, and difficult to scale.",
+      "solution": "TheAcepirant automates the complete motivational content pipeline by sourcing inspiring stories, generating AI-powered narrations, creating short-form videos, publishing them across multiple social platforms, and cleaning up temporary assets automatically.",
+      "features": [
+        {
+          "title": "Reddit Content Discovery",
+          "description": "Automatically fetches trending motivational stories from Reddit for continuous content generation."
+        },
+        {
+          "title": "Smart Content Filtering",
+          "description": "Removes low-quality posts and keeps only meaningful stories suitable for short-form videos."
+        },
+        {
+          "title": "Randomized Selection",
+          "description": "Shuffles the content pool before processing to ensure variety across published videos."
+        },
+        {
+          "title": "AI Script Generation",
+          "description": "Uses Google Gemini to transform raw stories into concise, engaging motivational narrations."
+        },
+        {
+          "title": "Automated Video Creation",
+          "description": "Generates narrated short videos with subtitles, background music, and optimized timing."
+        },
+        {
+          "title": "Rendering Monitoring",
+          "description": "Continuously checks video generation status until the final asset is ready for publishing."
+        },
+        {
+          "title": "Multi-Platform Publishing",
+          "description": "Publishes every generated video to YouTube Shorts, Instagram Reels, and Facebook Reels."
+        },
+        {
+          "title": "Built-in Retry Logic",
+          "description": "Automatically retries failed API requests and waits for external services to become ready."
+        },
+        {
+          "title": "GitHub Media Bridge",
+          "description": "Temporarily hosts generated videos to support Facebook Reel upload requirements."
+        },
+        {
+          "title": "Automatic Cleanup",
+          "description": "Deletes temporary media files after successful publishing to keep storage organized."
+        },
+        {
+          "title": "Scheduled Automation",
+          "description": "Runs every four hours without manual intervention to maintain a consistent publishing cadence."
+        },
+        {
+          "title": "Structured AI Output",
+          "description": "Parses AI responses into a predictable format for reliable downstream automation."
+        }
+      ],
+      "architecture": "A scheduled n8n workflow orchestrates the entire pipeline by retrieving trending Reddit stories, filtering and randomizing content, generating AI narrations with Google Gemini, creating videos through an MCP video generation service, monitoring rendering status, publishing to YouTube Shorts, Instagram Reels, and Facebook Reels, using GitHub as temporary media storage when required, and finally removing temporary assets after successful publication.",
+      "challenges": [
+        "Handling asynchronous video rendering",
+        "Waiting for Instagram and Facebook processing before publishing",
+        "Managing retries for external APIs",
+        "Maintaining reliable cross-platform publishing",
+        "Working around Facebook Reel upload requirements",
+        "Cleaning temporary assets after successful publishing"
+      ],
+      "results": "TheAcepirant continuously creates and distributes motivational short-form videos with almost no manual intervention, enabling a scalable AI-powered publishing workflow across multiple social platforms.",
+      "trigger": "Runs automatically every four hours using the n8n Schedule Trigger.",
+      "process": [
+        "Fetch trending motivational posts from Reddit.",
+        "Filter posts with meaningful content.",
+        "Shuffle posts to ensure content variety.",
+        "Generate an AI-powered motivational narration using Google Gemini.",
+        "Create a narrated short-form video through the MCP video generation service.",
+        "Poll the rendering service until the video is ready.",
+        "Download the completed video.",
+        "Publish the video to YouTube Shorts.",
+        "Publish the video to Instagram Reels.",
+        "Publish the video to Facebook Reels.",
+        "Delete temporary GitHub media after successful publishing."
+      ],
+      "outcome": "TheAcepirant functions as a hands-free AI media engine capable of creating and publishing motivational content around the clock with minimal operational effort.",
+      "dataFlow": [
+        "Schedule Trigger → Reddit API",
+        "Reddit API → Content Filtering",
+        "Content Filtering → AI Script Generation",
+        "Google Gemini → MCP Video Generator",
+        "Video Generator → Status Polling",
+        "Generated Video → YouTube Upload",
+        "Generated Video → GitHub Temporary Storage",
+        "GitHub Storage → Instagram Reels",
+        "GitHub Storage → Facebook Reels",
+        "Publishing Complete → GitHub Cleanup"
+      ],
+      "kpis": [
+        {
+          "value": "4h",
+          "label": "Publishing Frequency"
+        },
+        {
+          "value": "10s",
+          "label": "Video Duration"
+        },
+        {
+          "value": "3",
+          "label": "Supported Platforms"
+        },
+        {
+          "value": "95%",
+          "label": "Success Rate"
+        },
+        {
+          "value": "~0",
+          "label": "Manual Effort"
+        }
+      ],
+      "insights": [
+        "AI-generated motivational content can sustain a consistent publishing schedule.",
+        "Polling significantly improves reliability when working with asynchronous rendering services.",
+        "Temporary GitHub hosting simplifies Facebook Reel publishing.",
+        "Short-form motivational videos are well suited for fully automated distribution.",
+        "Retry logic greatly improves workflow resilience across multiple APIs."
+      ],
+      "motivation": "Build TheAcepirant into a scalable AI-first motivational media brand capable of continuously producing, publishing, and growing high-quality inspirational content across every major short-form platform.",
+      "findings": [
+        "Reddit provides a consistent source of authentic motivational stories.",
+        "AI rewriting produces more natural text-to-speech narration.",
+        "Each social platform requires a different publishing workflow.",
+        "Waiting for processing completion is essential before publishing on Meta platforms.",
+        "Automatic cleanup keeps temporary storage organized and lightweight."
+      ],
+      "relatedProducts": [
+        "ArchAItect",
+        "DataAnalyzerAi",
+        "datanexus"
+      ],
+      "date": "2025"
+    },
+    {
+      "id": "phi-prod-004",
+      "slug": "datanexus",
+      "name": "DataNexus",
+      "tagline": "From raw checkout data to real-time insight, one medallion layer at a time.",
+      "category": "data",
+      "subcategory": "Data Pipeline",
+      "status": "opensource",
+      "overview": "An end-to-end data engineering pipeline built on the Olist Brazilian e-commerce dataset, demonstrating a full Bronze → Silver → Gold medallion architecture with automated data quality gates, orchestrated workflows, and real-time streaming — designed to mirror a production-grade analytics platform.",
+      "icon": "https://res.cloudinary.com/b0tb1mho/image/upload/v1784639532/q63wig5yf5fcpblwcjxx.webp",
+      "heroImage": "https://res.cloudinary.com/b0tb1mho/image/upload/v1784625322/ttiyho5gr7owdie5qntq.webp",
+      "gallery": [
+        {
+          "src": "https://res.cloudinary.com/b0tb1mho/image/upload/v1784624166/d3r63o4aqiremsmgye4u.webp",
+          "caption": "DataNexus workflow: pipeline to insights"
+        },
+        {
+          "src": "https://res.cloudinary.com/b0tb1mho/image/upload/v1784624171/hlwbrqapphua9wrt0fxk.webp",
+          "caption": "Data journey: from chaos to insight"
+        },
+        {
+          "src": "https://res.cloudinary.com/b0tb1mho/image/upload/v1784624677/w9m5scpfsgbahkzhz5q6.webp",
+          "caption": "Kafka stream processing for real-time data"
+        }
+      ],
+      "technologies": [
+        "Databricks",
+        "PySpark",
+        "Delta Lake",
+        "Great Expectations",
+        "Apache Airflow",
+        "Astronomer Astro CLI",
+        "Apache Kafka",
+        "Docker",
+        "Python"
+      ],
+      "links": {
+        "website": "",
+        "playStore": "",
+        "appStore": "",
+        "github": "https://github.com/thebitanpaul/DataNexus",
+        "demo": "",
+        "dashboard": "",
+        "workflow": "",
+        "caseStudy": "",
+        "youtube": "",
+        "facebook": "",
+        "instagram": "",
+        "x": "",
+        "linkedin": ""
+      },
+      "metrics": [
+        {
+          "value": "4",
+          "label": "Core e-commerce tables ingested into the Bronze layer"
+        },
+        {
+          "value": "9",
+          "label": "Interconnected tables spanning Bronze, Silver, and Gold layers"
+        },
+        {
+          "value": "3",
+          "label": "Curated Gold aggregates for analytics-ready reporting"
+        },
+        {
+          "value": "5/5",
+          "label": "Data quality expectations passed in validation suite"
+        },
+        {
+          "value": "5",
+          "label": "Orchestrated tasks in the Airflow DAG with a quality gate"
+        },
+        {
+          "value": "100",
+          "label": "Simulated order events streamed through Kafka"
+        },
+        {
+          "value": "610",
+          "label": "Products relabeled instead of dropped for missing category data"
+        },
+        {
+          "value": "0",
+          "label": "Duplicate orders found in the raw dataset"
+        }
+      ],
+      "problem": "Raw e-commerce data arrives messy, unvalidated, and disconnected — orders, customers, and products live in separate silos with nulls, inconsistent keys, and no guarantee of quality before it reaches analysts or downstream systems.",
+      "solution": "DataNexus ingests raw CSV data into a Bronze layer, cleans and joins it into a trusted Silver layer, and computes business-ready Gold aggregates, with every stage validated by automated data quality checks, orchestrated on a schedule, and paired with a real-time Kafka stream for high-value order alerts.",
+      "features": [
+        {
+          "title": "Medallion Architecture",
+          "description": "Implements a Bronze, Silver, and Gold data architecture using Delta Tables in Databricks for scalable data processing."
+        },
+        {
+          "title": "Analytical Gold Layer",
+          "description": "Builds Gold-layer aggregates including daily revenue by category, top customers by lifetime value, and rolling order volume."
+        },
+        {
+          "title": "Data Quality Validation",
+          "description": "Uses Great Expectations to automatically validate datasets and generate interactive HTML Data Docs."
+        },
+        {
+          "title": "Airflow Quality Gates",
+          "description": "Leverages an Airflow DAG with branching logic to quarantine data whenever quality checks fail."
+        },
+        {
+          "title": "Kafka Streaming",
+          "description": "Simulates real-time event processing with Apache Kafka to detect high-value orders as they arrive."
+        },
+        {
+          "title": "Project Documentation",
+          "description": "Includes comprehensive documentation, architecture diagrams, and open-source licensing for easy adoption."
+        }
+      ],
+      "architecture": "Four raw Olist CSVs (orders, customers, products, order items) land in the Bronze layer with ingestion metadata, are cleaned and joined into Silver tables using customer_unique_id for correct lifetime-value grouping, then aggregated into three Gold tables. Great Expectations validates the Silver layer before Airflow's BranchPythonOperator gates promotion to Gold. Independently, a local Kafka broker streams simulated order events, with a consumer filtering high-value orders into a JSON landing zone.",
+      "challenges": [
+        "Distinguishing customer_id (order-scoped) from customer_unique_id (customer-scoped) to correctly compute lifetime value",
+        "Deciding how to handle 610 products with null categories — relabeling as \"unknown\" instead of dropping data",
+        "Managing Kafka topic persistence across Docker Compose restarts without losing streamed data",
+        "Resolving Python environment mismatches causing module errors despite successful installs"
+      ],
+      "results": "Delivered a fully working six-phase pipeline: validated Bronze/Silver/Gold Delta tables, a 5/5 passing data quality suite, a scheduled and gated Airflow DAG, a live Kafka producer/consumer stream, and complete documentation — with every code cell paired with talking points for stakeholder walkthroughs.",
+      "trigger": "",
+      "process": [],
+      "outcome": "",
+      "dataFlow": [
+        "Ingest four raw Olist CSVs into Bronze Delta tables with audit columns.",
+        "Cleanse, deduplicate, and join into Silver tables using PySpark.",
+        "Validate Silver data with a Great Expectations suite before promotion.",
+        "Aggregate into three Gold tables for reporting and analysis.",
+        "Orchestrate the full pipeline daily via an Airflow DAG with a quality gate.",
+        "Stream simulated real-time orders through Kafka, filtering high-value events to a JSON landing zone."
+      ],
+      "kpis": [
+        {
+          "value": "5/5",
+          "label": "Data quality expectations passing in the Great Expectations suite"
+        },
+        {
+          "value": "3",
+          "label": "Analytical Gold aggregates powering downstream reporting"
+        },
+        {
+          "value": "100",
+          "label": "Simulated order events processed per streaming run"
+        },
+        {
+          "value": "5",
+          "label": "Tasks executing end-to-end in the orchestrated Airflow DAG"
+        }
+      ],
+      "insights": [
+        "Grouping by the wrong customer key silently produces inflated, incorrect lifetime-value numbers — a subtle bug that only surfaces on inspection",
+        "Preserving imperfect data (unknown categories) rather than dropping it keeps downstream aggregates honest about coverage",
+        "Pairing every transformation step with plain-language talking points makes a technical pipeline presentable to non-technical stakeholders"
+      ],
+      "motivation": "Built as a capstone to demonstrate complete, production-style data engineering skills — ingestion, transformation, quality assurance, orchestration, and streaming — using a realistic e-commerce dataset rather than a toy example.",
+      "findings": [
+        "Zero duplicate orders existed in the raw dataset, simplifying deduplication logic",
+        "610 products lacked a category label and required explicit handling rather than silent removal",
+        "Kafka topics are destroyed by docker compose down but preserved by stop/start, which shapes safe local development habits"
+      ],
+      "relatedProducts": [
+        "DataAnalyzerAi",
+        "ArchAItect",
+        "NetflixDashboard"
+      ],
+      "date": "2026"
+    },
+    {
+      "id": "phi-prod-005",
+      "slug": "InfinityVault",
+      "name": "InfinityVault",
+      "tagline": "Transform ordinary YouTube videos into experimental cloud file storage.",
+      "category": "research",
+      "subcategory": "Proof of Concept",
+      "status": "research",
+      "overview": "InfinityVault is a proof-of-concept research project that explores using YouTube as a large-scale file storage medium by encoding ZIP archives into video frames and reconstructing them back into their original files. It demonstrates how visual media platforms can be repurposed for unconventional data storage through binary encoding techniques.",
+      "icon": "https://res.cloudinary.com/b0tb1mho/image/upload/v1784639185/bbuq4h2ifhnslgzeam65.webp",
+      "heroImage": "https://res.cloudinary.com/b0tb1mho/image/upload/v1784634050/wceytjpwvty5jgzisr4j.webp",
+      "gallery": [
+        {
+          "src": "https://res.cloudinary.com/b0tb1mho/image/upload/v1784634052/ul5ys2vdjzjwonctnuet.webp",
+          "caption": "InfinityVault architecture diagram"
+        },
+        {
+          "src": "https://res.cloudinary.com/b0tb1mho/image/upload/v1784634051/ybed78bbq1wporalxhh3.webp",
+          "caption": "InfinityVault: Data safety use cases"
+        },
+        {
+          "src": "https://res.cloudinary.com/b0tb1mho/image/upload/v1784634052/ysvz0w6c16kpjl9mfflt.webp",
+          "caption": "Steganography in video explained visually"
+        },
+        {
+          "src": "https://youtu.be/wsbZO4kmXFI",
+          "caption": "Working Demo"
+        }
+      ],
+      "technologies": [
+        "Python",
+        "OpenCV",
+        "NumPy",
+        "MoviePy",
+        "Pillow",
+        "FFmpeg"
+      ],
+      "links": {
+        "website": "",
+        "playStore": "",
+        "appStore": "",
+        "github": "https://github.com/thebitanpaul/InfinityVault",
+        "demo": "https://youtu.be/wsbZO4kmXFI",
+        "dashboard": "",
+        "workflow": "",
+        "caseStudy": "",
+        "youtube": "https://youtu.be/wsbZO4kmXFI",
+        "facebook": "",
+        "instagram": "",
+        "x": "",
+        "linkedin": ""
+      },
+      "metrics": [
+        {
+          "value": "Binary → Video",
+          "label": "Encoding Method"
+        },
+        {
+          "value": "YouTube",
+          "label": "Storage Medium"
+        },
+        {
+          "value": "1920×1080",
+          "label": "Video Resolution"
+        }
+      ],
+      "problem": "Traditional cloud storage platforms enforce storage limits, require dedicated infrastructure, or charge for large file hosting. This project investigates whether publicly available video hosting services can be repurposed as an unconventional archival medium by embedding binary data inside video frames.",
+      "solution": "The project converts ZIP archives into binary data, renders the bits as high-contrast pixel blocks across video frames, and reconstructs the original archive by decoding the uploaded video. Larger pixel blocks improve resilience against YouTube's video compression and transcoding pipeline.",
+      "features": [
+        {
+          "title": "Binary-to-Video Encoding",
+          "description": "Converts any ZIP archive into a sequence of video frames."
+        },
+        {
+          "title": "Video-to-Binary Recovery",
+          "description": "Extracts binary information from video frames and reconstructs the original archive."
+        },
+        {
+          "title": "Compression-Tolerant Encoding",
+          "description": "Uses enlarged pixel blocks to reduce data corruption caused by video compression."
+        },
+        {
+          "title": "YouTube-Compatible Output",
+          "description": "Produces standard MP4 videos suitable for uploading to YouTube."
+        },
+        {
+          "title": "End-to-End File Reconstruction",
+          "description": "Recovers the uploaded ZIP archive from the downloaded video."
+        }
+      ],
+      "architecture": "ZIP Archive → Binary Stream → Pixel Block Encoder → Frame Generator → MP4 Video → YouTube Upload → Downloaded Video → Frame Decoder → Binary Reconstruction → ZIP Archive Recovery.",
+      "challenges": [
+        "Handling YouTube's lossy video compression.",
+        "Maintaining binary integrity after transcoding.",
+        "Choosing optimal pixel block sizes for reliable decoding.",
+        "Balancing storage density against recovery accuracy.",
+        "Processing large files without excessive memory usage."
+      ],
+      "results": "Successfully demonstrated that arbitrary ZIP files can be encoded into standard videos, uploaded to YouTube, downloaded later, and reconstructed with high reliability under controlled conditions, validating the feasibility of the concept as a research experiment.",
+      "trigger": "",
+      "process": [],
+      "outcome": "",
+      "dataFlow": [],
+      "kpis": [
+        {
+          "value": "Validated",
+          "label": "Proof of Concept"
+        },
+        {
+          "value": "End-to-End",
+          "label": "Encoding Pipeline"
+        },
+        {
+          "value": "Recovery",
+          "label": "Video → Original ZIP"
+        }
+      ],
+      "insights": [
+        "Video platforms can unintentionally function as data storage systems.",
+        "Larger pixel blocks significantly improve resistance to video compression artifacts.",
+        "Binary visualization is surprisingly resilient when designed around platform-specific encoding behavior.",
+        "Storage density and decoding reliability require careful trade-offs."
+      ],
+      "motivation": "To investigate whether large-scale video hosting platforms could be repurposed as unconventional cloud storage by encoding arbitrary binary data into videos while preserving recoverability after platform processing.",
+      "findings": [
+        "Reliable data recovery is achievable despite lossy compression.",
+        "Pixel block sizing is a critical parameter for successful decoding.",
+        "Standard video codecs can transport non-visual binary information.",
+        "The approach is technically feasible but primarily valuable as a research experiment rather than a production storage solution."
+      ],
+      "relatedProducts": [
+        "ArchAItect",
+        "datanexus",
+        "DataAnalyzerAi"
+      ],
+      "date": "2024"
+    },
+    {
+      "id": "phi-prod-006",
+      "slug": "CatchTheInsect",
+      "name": "CatchTheInsect",
+      "tagline": "A fast-paced web game where you catch insects before time runs out.",
+      "category": "games",
+      "subcategory": "Web Game",
+      "status": "live",
+      "overview": "CatchTheInsect is a lightweight browser-based game where players react quickly to catch insects on screen and score points under time pressure.",
+      "icon": "https://res.cloudinary.com/b0tb1mho/image/upload/v1784638527/tbk7cxdsgae8fegodvlv.webp",
+      "heroImage": "https://res.cloudinary.com/b0tb1mho/image/upload/v1784638643/uj1okywso0xxhxkmzx8g.webp",
+      "gallery": [
+        {
+          "src": "https://res.cloudinary.com/b0tb1mho/image/upload/v1784638651/f9rsi2qbm9czlyzq5cz5.webp",
+          "caption": "Chose the insect to catch"
+        },
+        {
+          "src": "https://res.cloudinary.com/b0tb1mho/image/upload/v1784638654/eeslu2fhibioyj8wg9a7.webp",
+          "caption": "Catch the insect before time runs out"
+        }
+      ],
+      "technologies": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "links": {
+        "website": "",
+        "playStore": "",
+        "appStore": "",
+        "github": "https://github.com/thebitanpaul/CatchTheInsect",
+        "demo": "https://thebitanpaul.github.io/CatchTheInsect",
+        "dashboard": "",
+        "workflow": "",
+        "caseStudy": "",
+        "youtube": "",
+        "facebook": "",
+        "instagram": "",
+        "x": "",
+        "linkedin": ""
+      },
+      "metrics": [
+        {
+          "value": "Web Game",
+          "label": "Play Without Installation"
+        },
+        {
+          "value": "Live",
+          "label": "Play Remotely Anywhere"
+        }
+      ],
+      "problem": "Players need a simple, engaging game that works instantly in the browser without installation.",
+      "solution": "The game provides a quick-reaction insect-catching challenge that runs directly on the web.",
+      "features": [
+        {
+          "title": "Fast gameplay",
+          "description": "Players catch insects under time pressure."
+        },
+        {
+          "title": "Browser-based",
+          "description": "Runs directly in a web browser."
+        },
+        {
+          "title": "Lightweight",
+          "description": "Minimal setup and quick loading."
+        }
+      ],
+      "architecture": "Client-side web game built with standard frontend technologies and hosted as a static site.",
+      "challenges": [
+        "Maintaining responsive gameplay across screen sizes.",
+        "Balancing speed, scoring, and timing for a satisfying play loop."
+      ],
+      "results": "A playable web game deployed online and linked to its GitHub repository.",
+      "trigger": "Manual execution",
+      "process": [
+        "Load the game in the browser",
+        "Spawn insects on screen",
+        "Handle player clicks or taps",
+        "Update score and timing",
+        "End the round when time expires"
+      ],
+      "outcome": "Players get a quick, interactive browser game with immediate access via demo link.",
+      "dataFlow": [],
+      "kpis": [
+        {
+          "value": "Web",
+          "label": "Platform Independent"
+        },
+        {
+          "value": "Deployed",
+          "label": "Via GitHub Pages"
+        }
+      ],
+      "insights": [
+        "Static hosting is sufficient for casual web games.",
+        "Simple mechanics improve accessibility and replayability."
+      ],
+      "motivation": "To create a small, fun web game that demonstrates interactive frontend logic.",
+      "findings": [
+        "Browser-native delivery reduces friction for users.",
+        "A small core loop is effective for casual game projects."
+      ],
+      "relatedProducts": [
+        "BallSortPuzzle",
+        "InfinityVault",
+        "NetflixDashboard"
+      ],
+      "date": "2024"
+    },
+    {
+      "id": "phi-prod-007",
+      "slug": "NetflixDashboard",
+      "name": "NetflixDashboard",
+      "tagline": "An interactive Power BI dashboard for exploring Netflix content trends.",
+      "category": "data",
+      "subcategory": "BI Dashboard",
+      "status": "live",
+      "overview": "A Power BI business intelligence dashboard for analyzing Netflix catalog trends, content distribution, and platform insights.",
+      "icon": "https://res.cloudinary.com/b0tb1mho/image/upload/v1784641993/eeofl4jbfip3mqzxzpcc.webp",
+      "heroImage": "https://res.cloudinary.com/b0tb1mho/image/upload/v1784642029/f5rg8yihnulranqxm2pc.webp",
+      "gallery": [
+        {
+          "src": "https://res.cloudinary.com/b0tb1mho/image/upload/v1784642316/rm94uip2qkejnbffyx92.webp",
+          "caption": "Welcome Screen"
+        },
+        {
+          "src": "https://res.cloudinary.com/b0tb1mho/image/upload/v1784642168/p7kjumehdpz3r17fie1r.webp",
+          "caption": "Interactive Filters"
+        }
+      ],
+      "technologies": [
+        "Power BI"
+      ],
+      "links": {
+        "website": "",
+        "playStore": "",
+        "appStore": "",
+        "github": "https://github.com/thebitanpaul/Netflix-Dashboard-PowerBi",
+        "demo": "",
+        "dashboard": "https://thebitanpaul.github.io/Netflix-Dashboard-PowerBi",
+        "workflow": "",
+        "caseStudy": "",
+        "youtube": "",
+        "facebook": "",
+        "instagram": "",
+        "x": "",
+        "linkedin": ""
+      },
+      "metrics": [
+        {
+          "value": "12+",
+          "label": "Interactive dashboard pages designed"
+        },
+        {
+          "value": "50+",
+          "label": "Business insights presented through visuals"
+        },
+        {
+          "value": "30+",
+          "label": "Charts, cards, and analytical visualizations"
+        },
+        {
+          "value": "20+",
+          "label": "Dimensions available for exploration"
+        },
+        {
+          "value": "100%",
+          "label": "Cross-filtering and drill-down interactions"
+        },
+        {
+          "value": "Yes",
+          "label": "Designed for real-time analytical exploration"
+        }
+      ],
+      "problem": "Netflix content data is difficult to explore quickly without a structured visual analysis layer.",
+      "solution": "A dashboard that organizes Netflix data into clear visual insights for content analysis and decision-making.",
+      "features": [
+        {
+          "title": "Interactive Analytics",
+          "description": "Explore Netflix data through dashboard visuals and filters."
+        },
+        {
+          "title": "Content Insights",
+          "description": "Understand catalog patterns, trends, and distribution."
+        },
+        {
+          "title": "BI Reporting",
+          "description": "Present business-ready summaries through Power BI."
+        }
+      ],
+      "architecture": "Power BI dashboard built from Netflix dataset visualization layers, published for web access through the project dashboard link.",
+      "challenges": [
+        "Structuring large content datasets into readable visual summaries.",
+        "Designing a clean dashboard layout for fast insight retrieval."
+      ],
+      "results": "Delivered a live dashboard for Netflix data exploration and portfolio presentation.",
+      "trigger": "Manual execution",
+      "process": [
+        "Collect Netflix dataset",
+        "Model and prepare data in Power BI",
+        "Build dashboard visuals",
+        "Publish dashboard online"
+      ],
+      "outcome": "A live BI dashboard that showcases Netflix data insights in a portfolio-friendly format.",
+      "dataFlow": [
+        "Netflix dataset → Power BI",
+        "Power BI → Dashboard visuals",
+        "Dashboard → Public web link"
+      ],
+      "kpis": [
+        {
+          "value": "Optimized",
+          "label": "Dashboard usability and navigation experience"
+        },
+        {
+          "value": "High",
+          "label": "Visual consistency across report pages"
+        },
+        {
+          "value": "Concise",
+          "label": "Data storytelling through interactive reports"
+        },
+        {
+          "value": "Production",
+          "label": "Business intelligence reporting readiness"
+        },
+        {
+          "value": "Advanced",
+          "label": "Filtering and analytical capabilities"
+        },
+        {
+          "value": "Enterprise-grade",
+          "label": "Decision-support visualization quality"
+        }
+      ],
+      "insights": [
+        "Power BI is effective for compact storytelling with business data.",
+        "A focused visual layout improves portfolio usability."
+      ],
+      "motivation": "To showcase data visualization and BI dashboard skills using a public Netflix analytics project.",
+      "findings": [
+        "Netflix data can be summarized effectively with a dashboard-first approach.",
+        "Public deployment improves accessibility for reviewers and recruiters."
+      ],
+      "relatedProducts": [
+        "AmazonPrimeDashboard",
+        "datanexus",
+        "DataAnalyzerAi"
+      ],
+      "date": "2024"
+    },
+    {
+      "id": "phi-prod-008",
+      "slug": "AmazonPrimeDashboard",
+      "name": "AmazonPrimeDashboard",
+      "tagline": "An interactive Power BI dashboard for exploring Amazon Prime content trends and catalog insights.",
+      "category": "data",
+      "subcategory": "BI Dashboard",
+      "status": "live",
+      "overview": "A Power BI business intelligence dashboard built on the Amazon Prime dataset to visualize content distribution, ratings, genres, release trends, and platform insights.",
+      "icon": "https://res.cloudinary.com/b0tb1mho/image/upload/v1784644311/llgkm1b2ahzqgfnlr3la.webp",
+      "heroImage": "https://res.cloudinary.com/b0tb1mho/image/upload/v1784644361/uc1b38enpopedlvrecwf.webp",
+      "gallery": [
+        {
+          "src": "https://res.cloudinary.com/b0tb1mho/image/upload/v1784643761/atqhvzkkg8b2a4k7c9pg.webp",
+          "caption": "In-Depth Amazon Prime content analysis"
+        },
+        {
+          "src": "https://res.cloudinary.com/b0tb1mho/image/upload/v1784643787/koxlkx9nefj9ztajb07g.webp",
+          "caption": "Detailed Map of Amazon Prime content distribution"
+        },
+        {
+          "src": "https://res.cloudinary.com/b0tb1mho/image/upload/v1784643788/mpy31jdouv0r0adw2qze.webp",
+          "caption": "Rating and genre breakdown of Amazon Prime content"
+        }
+      ],
+      "technologies": [
+        "Power BI"
+      ],
+      "links": {
+        "website": "",
+        "playStore": "",
+        "appStore": "",
+        "github": "https://github.com/thebitanpaul/Amazon-Prime-Dashboard---PowerBi",
+        "demo": "",
+        "dashboard": "https://thebitanpaul.github.io/Amazon-Prime-Dashboard---PowerBi",
+        "workflow": "",
+        "caseStudy": "",
+        "youtube": "",
+        "facebook": "",
+        "instagram": "",
+        "x": "",
+        "linkedin": ""
+      },
+      "metrics": [
+        {
+          "value": "12+",
+          "label": "Interactive dashboard pages designed"
+        },
+        {
+          "value": "50+",
+          "label": "Business insights presented through visuals"
+        },
+        {
+          "value": "30+",
+          "label": "Charts, cards, and analytical visualizations"
+        },
+        {
+          "value": "20+",
+          "label": "Dimensions available for exploration"
+        },
+        {
+          "value": "100%",
+          "label": "Cross-filtering and drill-down interactions"
+        },
+        {
+          "value": "Yes",
+          "label": "Designed for analytical exploration"
+        }
+      ],
+      "problem": "Amazon Prime content data is difficult to analyze quickly without a structured visual reporting layer.",
+      "solution": "A dashboard that organizes Amazon Prime content into clear, interactive business intelligence visuals.",
+      "features": [
+        {
+          "title": "Interactive Analytics",
+          "description": "Explore Amazon Prime data through filters and dynamic dashboard visuals."
+        },
+        {
+          "title": "Content Insights",
+          "description": "Understand catalog patterns, trends, and distribution."
+        },
+        {
+          "title": "BI Reporting",
+          "description": "Present business-ready summaries through Power BI."
+        }
+      ],
+      "architecture": "Power BI dashboard built from the Amazon Prime dataset, with data preparation, modeling, and report publishing for web access.",
+      "challenges": [
+        "Structuring large streaming catalog data into readable visual summaries.",
+        "Designing a clean dashboard layout for fast insight retrieval."
+      ],
+      "results": "Delivered a live dashboard for Amazon Prime data exploration and portfolio presentation.",
+      "trigger": "Manual execution",
+      "process": [
+        "Collect Amazon Prime dataset",
+        "Prepare and model data in Power BI",
+        "Build dashboard visuals",
+        "Publish dashboard online"
+      ],
+      "outcome": "A live BI dashboard that showcases Amazon Prime insights in a portfolio-friendly format.",
+      "dataFlow": [
+        "Amazon Prime dataset → Power BI",
+        "Power BI → Dashboard visuals",
+        "Dashboard → Public web link"
+      ],
+      "kpis": [
+        {
+          "value": "Optimized",
+          "label": "Dashboard usability and navigation experience"
+        },
+        {
+          "value": "High",
+          "label": "Visual consistency across report pages"
+        },
+        {
+          "value": "In-depth",
+          "label": "Data storytelling through interactive reports"
+        },
+        {
+          "value": "Production",
+          "label": "Business intelligence reporting readiness"
+        },
+        {
+          "value": "Advanced",
+          "label": "Filtering and analytical capabilities"
+        },
+        {
+          "value": "Enterprise-grade",
+          "label": "Decision-support visualization quality"
+        }
+      ],
+      "insights": [
+        "Power BI is effective for compact storytelling with streaming catalog data.",
+        "A focused visual layout improves portfolio usability."
+      ],
+      "motivation": "To showcase data visualization and BI dashboard skills using a public Amazon Prime analytics project.",
+      "findings": [
+        "Amazon Prime content can be summarized effectively with a dashboard-first approach.",
+        "Public deployment improves accessibility for reviewers and recruiters."
+      ],
+      "relatedProducts": [
+        "NetflixDashboard",
+        "datanexus",
+        "DataAnalyzerAi"
+      ],
+      "date": "2024"
+    },
+    {
+      "id": "phi-prod-009",
+      "slug": "FaceSaysBMI",
+      "name": "FaceSaysBMI",
+      "tagline": "Predict BMI, age, and gender from facial images using deep learning.",
+      "category": "ai",
+      "subcategory": "Vision / ML",
+      "status": "prototype",
+      "overview": "FaceSaysBMI is a computer vision and machine learning prototype that detects faces in an image and predicts BMI, age, and gender for each visible person. It uses multi-task learning with MTCNN-based face detection and VGGFace-style feature extraction to support single-face and multi-face inference from a single input image.",
+      "icon": "https://res.cloudinary.com/b0tb1mho/image/upload/v1784647264/arvnvpgkfaopsllcjpgc.webp",
+      "heroImage": "https://res.cloudinary.com/b0tb1mho/image/upload/v1784646670/uu3wjohrqff38shoapql.webp",
+      "gallery": [
+        {
+          "src": "https://res.cloudinary.com/b0tb1mho/image/upload/v1784646692/xuu5ltbzfjv2zwrrscjy.webp",
+          "caption": "Model Architecture"
+        },
+        {
+          "src": "https://res.cloudinary.com/b0tb1mho/image/upload/v1784646694/gsx6do4rkx3hjaujia3v.webp",
+          "caption": "Illustration of face alignment and preprocessing"
+        },
+        {
+          "src": "https://res.cloudinary.com/b0tb1mho/image/upload/v1784646758/skmjnhwefa8eyywa8lx8.webp",
+          "caption": "Illustration of ability to process multiple faces in a single image"
+        },
+        {
+          "src": "https://res.cloudinary.com/b0tb1mho/image/upload/v1784646762/gcaawizchggh7mfwm293.webp",
+          "caption": "Illustration of ability to process multiple Asian faces"
+        },
+        {
+          "src": "https://res.cloudinary.com/b0tb1mho/image/upload/v1784646805/pgmquq3tgjsib7qehkw9.webp",
+          "caption": "A Deep Relationship Network with shared convolutional and task-specific fully connected layers with matrix priors (Long and Wang, 2015)."
+        },
+        {
+          "src": "https://res.cloudinary.com/b0tb1mho/image/upload/v1784646764/ugnq89ibilo0dn11ab9b.webp",
+          "caption": "Working Demo"
+        }
+      ],
+      "technologies": [
+        "Python",
+        "TensorFlow",
+        "Keras",
+        "OpenCV",
+        "MTCNN",
+        "VGGFace",
+        "Jupyter Notebook"
+      ],
+      "links": {
+        "website": "",
+        "playStore": "",
+        "appStore": "",
+        "github": "https://github.com/thebitanpaul/FaceSaysBMI",
+        "demo": "https://github.com/user-attachments/assets/26d0ac1a-a3d0-40f9-953a-01885ccc6236",
+        "dashboard": "",
+        "workflow": "",
+        "caseStudy": "",
+        "youtube": "",
+        "facebook": "",
+        "instagram": "",
+        "x": "",
+        "linkedin": ""
+      },
+      "metrics": [
+        {
+          "value": "3 Prediction",
+          "label": "Predicts BMI • Age • Gender"
+        },
+        {
+          "value": "Multiple",
+          "label": "Faces processed per image"
+        },
+        {
+          "value": "Multi-task CNN",
+          "label": "Deep learning architecture"
+        }
+      ],
+      "problem": "Estimating BMI from facial images is difficult because it requires reliable face detection, preprocessing, and learning subtle visual cues while still handling multiple faces in the same image.",
+      "solution": "The project detects and aligns faces using MTCNN, then passes each cropped face through a shared deep learning backbone with separate prediction heads for BMI, age, and gender.",
+      "features": [
+        {
+          "title": "Automatic face detection",
+          "description": "Detects one or multiple faces in an image using MTCNN before running predictions."
+        },
+        {
+          "title": "Facial landmark alignment",
+          "description": "Aligns and crops facial regions to improve consistency before feature extraction."
+        },
+        {
+          "title": "BMI prediction",
+          "description": "Estimates an individual's Body Mass Index directly from facial features."
+        },
+        {
+          "title": "Age estimation",
+          "description": "Predicts the approximate age of each detected face using the shared deep learning model."
+        },
+        {
+          "title": "Gender classification",
+          "description": "Classifies the predicted gender for every detected individual."
+        },
+        {
+          "title": "Multi-task learning",
+          "description": "Uses a shared VGGFace backbone with separate prediction heads for BMI, age, and gender."
+        },
+        {
+          "title": "Multi-person inference",
+          "description": "Processes multiple people within a single image and generates predictions independently for each face."
+        },
+        {
+          "title": "VGGFace feature extraction",
+          "description": "Leverages pretrained facial representations to improve learning efficiency and recognition quality."
+        },
+        {
+          "title": "End-to-end inference pipeline",
+          "description": "Performs detection, alignment, feature extraction, and prediction in a unified workflow."
+        },
+        {
+          "title": "Research-oriented architecture",
+          "description": "Designed as a computer vision prototype for exploring facial biometrics and multi-task deep learning."
+        }
+      ],
+      "architecture": "Input image → MTCNN face detection → face crop and alignment → VGGFace-based feature extraction → shared representation → task-specific heads for BMI, age, and gender prediction.",
+      "challenges": [
+        "Limited dataset diversity, especially for Indian and Asian faces.",
+        "Maintaining prediction accuracy across different lighting, pose, and image quality conditions.",
+        "Balancing multi-task learning performance across BMI, age, and gender outputs."
+      ],
+      "results": "The prototype demonstrates end-to-end facial BMI prediction with multi-face support and a shared multi-task architecture, reducing the need for separate models for each output.",
+      "trigger": "Manual execution",
+      "process": [
+        "Load input image",
+        "Detect all faces with MTCNN",
+        "Align and crop each face",
+        "Extract features with the pretrained backbone",
+        "Run BMI, age, and gender prediction heads",
+        "Return predictions for each detected face"
+      ],
+      "outcome": "A single image can be analyzed to produce structured predictions for every detected face.",
+      "dataFlow": [
+        "Image input → face detection",
+        "Face detection → aligned face crops",
+        "Aligned crops → feature extractor",
+        "Feature extractor → prediction heads",
+        "Prediction heads → BMI, age, gender output"
+      ],
+      "kpis": [
+        {
+          "value": "3",
+          "label": "Predictions Per Face"
+        },
+        {
+          "value": "Multi-face",
+          "label": "Real-time Inference Scope"
+        },
+        {
+          "value": "Efficienct",
+          "label": "Architecture Efficiency via Shared backbone"
+        }
+      ],
+      "insights": [
+        "Shared backbones simplify maintenance compared with training separate models.",
+        "Face alignment improves downstream prediction quality.",
+        "Dataset bias materially affects facial BMI estimation accuracy."
+      ],
+      "motivation": "Build a futuristic proof-of-concept that estimates BMI and related attributes directly from facial images using computer vision and deep learning.",
+      "findings": [
+        "MTCNN is effective for extracting and aligning faces before prediction.",
+        "Multi-task learning reduces model duplication and maintenance overhead.",
+        "Model accuracy drops when the training data distribution does not match the target population."
+      ],
+      "relatedProducts": [
+        "FaceMaskDetector",
+        "DataAnalyzerAi",
+        "ArchAItect"
+      ],
+      "date": "2024"
+    },
+    {
+      "id": "phi-prod-010",
+      "slug": "FaceMaskDetector",
+      "name": "FaceMaskDetector",
+      "tagline": "TensorFlow CNN-based face mask detection for awareness and safety.",
+      "category": "ai",
+      "subcategory": "Vision / ML",
+      "status": "opensource",
+      "overview": "FaceMaskDetector is an open-source computer vision project built with TensorFlow and CNNs to detect face mask usage from camera input and promote safer public behavior during the pandemic era.",
+      "icon": "https://res.cloudinary.com/b0tb1mho/image/upload/v1784648814/tgwzkjifjzosofn6oeog.webp",
+      "heroImage": "https://res.cloudinary.com/b0tb1mho/image/upload/v1784648829/qcyv5ynvbhnzt91dnl7r.webp",
+      "gallery": [
+        {
+          "src": "https://res.cloudinary.com/b0tb1mho/image/upload/v1784648827/zubppfohsnvxupkskiw7.webp",
+          "caption": "No Face mask detected"
+        },
+        {
+          "src": "https://res.cloudinary.com/b0tb1mho/image/upload/v1784648824/ufg24bkguyfm8th4wxpd.webp",
+          "caption": "Face mask detected"
+        },
+        {
+          "src": "https://res.cloudinary.com/b0tb1mho/image/upload/v1784649767/wiyvhsxk0ud8lvcd7n57.webp",
+          "caption": "Face mask not worn properly"
+        }
+      ],
+      "technologies": [
+        "TensorFlow",
+        "CNN",
+        "Python",
+        "Google Colab",
+        "Jupyter Notebook",
+        "GitHub"
+      ],
+      "links": {
+        "website": "",
+        "playStore": "",
+        "appStore": "",
+        "github": "https://github.com/thebitanpaul/FaceMaskDetector",
+        "demo": "https://user-images.githubusercontent.com/99794785/170952290-f64495cb-eb70-4b0f-9a89-afdd9dc4d096.mp4",
+        "dashboard": "",
+        "workflow": "",
+        "caseStudy": "",
+        "youtube": "",
+        "facebook": "",
+        "instagram": "",
+        "x": "",
+        "linkedin": ""
+      },
+      "metrics": [
+        {
+          "label": "TensorFlow model trained for mask recognition.",
+          "value": "CNN"
+        },
+        {
+          "label": "Notebook-based training and experimentation flow.",
+          "value": "2"
+        },
+        {
+          "label": "Core tech stack used in the project.",
+          "value": "6"
+        }
+      ],
+      "problem": "People needed a simple automated way to identify whether a face mask was worn correctly during the pandemic.",
+      "solution": "The project uses a TensorFlow CNN model to classify face mask usage from camera-based input and provide visual recognition output.",
+      "features": [
+        {
+          "title": "Real-time mask recognition",
+          "description": "Detects whether a person is wearing a face mask using a computer vision model trained with TensorFlow and CNN."
+        },
+        {
+          "title": "Camera-based input handling",
+          "description": "Supports direct image capture from the system camera for practical, hands-on testing and inference."
+        },
+        {
+          "title": "CNN-driven classification pipeline",
+          "description": "Uses a convolutional neural network to learn visual patterns that distinguish masked and unmasked faces."
+        },
+        {
+          "title": "Notebook-first development workflow",
+          "description": "Built and iterated through Google Colab and Jupyter Notebook for fast experimentation and training."
+        },
+        {
+          "title": "Awareness-focused output",
+          "description": "Designed not only as a technical demo, but also as a public-safety oriented tool for mask compliance awareness."
+        },
+        {
+          "title": "Open-source learning project",
+          "description": "Works as a compact reference implementation for learners exploring TensorFlow, CNNs, and applied vision ML."
+        }
+      ],
+      "architecture": "The project follows a lightweight vision ML pipeline: camera/image input is processed, the TensorFlow CNN model performs classification, and the prediction is surfaced as the final mask/no-mask result. Development and training were done in Python notebooks using Google Colab and Jupyter Notebook.",
+      "challenges": [
+        "Collecting and preparing suitable face mask training data.",
+        "Achieving reliable predictions across different lighting and camera conditions.",
+        "Keeping the model simple enough for learning while still practical.",
+        "Using notebook-based tooling for a clean training and testing workflow."
+      ],
+      "results": "Delivered a working TensorFlow CNN face mask recognizer as an open-source project and a learning reference for applied computer vision.",
+      "trigger": "Manual execution",
+      "process": [
+        "Capture camera or image input",
+        "Preprocess the frame for model input",
+        "Run TensorFlow CNN inference",
+        "Classify mask presence",
+        "Show the prediction result"
+      ],
+      "outcome": "A usable face mask recognition output that can support awareness, demos, and ML learning.",
+      "dataFlow": [
+        "Camera input → Python preprocessing",
+        "Preprocessed image → TensorFlow CNN",
+        "CNN output → Prediction label",
+        "Prediction label → On-screen result"
+      ],
+      "kpis": [
+        {
+          "label": "Primary model used for image classification.",
+          "value": "CNN"
+        },
+        {
+          "label": "Core runtime framework for the project.",
+          "value": "TF"
+        },
+        {
+          "label": "Main development environment.",
+          "value": "Colab"
+        }
+      ],
+      "insights": [
+        "TensorFlow and CNNs are a strong fit for simple binary vision classification.",
+        "Notebook-based experimentation makes early ML prototyping faster.",
+        "Camera-driven demos improve project clarity and practical value.",
+        "A focused scope helps keep the model understandable for learners."
+      ],
+      "motivation": "The project was created to apply machine learning to a real-world public safety problem while building hands-on computer vision experience.",
+      "findings": [
+        "CNNs can detect visual mask patterns effectively for a focused classification task.",
+        "Python notebooks are convenient for iterative ML development.",
+        "Camera-based validation makes the concept easier to demonstrate and understand."
+      ],
+      "relatedProducts": [
+        "FaceSaysBMI",
+        "DataAnalyzerAi",
+        "ArchAItect"
+      ],
+      "date": "2023"
+    },
+    {
+      "id": "phi-prod-011",
+      "slug": "DataAnalyzerAi",
+      "name": "DataAnalyzerAi",
+      "tagline": "RAG-powered data analysis for uploaded spreadsheets.",
+      "category": "ai",
+      "subcategory": "RAG / LLM",
+      "status": "beta",
+      "overview": "DataAnalyzerAi is an interactive EDA app for uploaded XLS and CSV files. It chunks the dataset, stores embeddings in a vector database, and uses RAG with an LLM to answer user questions grounded in the uploaded data. It also generates pair plots and a downloadable data profiling report for faster analysis.",
+      "icon": "https://res.cloudinary.com/b0tb1mho/image/upload/v1784650894/aintqur1unos1mrf8p26.webp",
+      "heroImage": "https://res.cloudinary.com/b0tb1mho/image/upload/v1784651004/wmrc9tkchwggidppyu66.webp",
+      "gallery": [
+        {
+          "src": "https://res.cloudinary.com/b0tb1mho/image/upload/v1784650976/lqvbok1btejwilemhmth.webp",
+          "caption": "Interactive data analysis workflow"
+        },
+        {
+          "src": "https://res.cloudinary.com/b0tb1mho/image/upload/v1784650994/mt9nav1mfmkulgqcmeni.webp",
+          "caption": "Data driven pair plot generation and EDA insights"
+        },
+        {
+          "src": "https://res.cloudinary.com/b0tb1mho/image/upload/v1784650991/uhe237le3qkz3mw3j4mo.webp",
+          "caption": "Excel Viewer for uploaded spreadsheets"
+        },
+        {
+          "src": "https://res.cloudinary.com/b0tb1mho/image/upload/v1784651167/sv7cdf15jd3ztthc48ym.webp",
+          "caption": "Downloadable data profiling report"
+        }
+      ],
+      "technologies": [
+        "Python",
+        "Streamlit",
+        "Pandas",
+        "NumPy",
+        "LLM",
+        "RAG",
+        "Vector Database",
+        "FAISS",
+        "OpenAI API",
+        "Matplotlib",
+        "Seaborn",
+        "Plotly"
+      ],
+      "links": {
+        "website": "https://dataanalyzerai.streamlit.app",
+        "playStore": "",
+        "appStore": "",
+        "github": "https://github.com/thebitanpaul/DataAnalyzerAi",
+        "demo": "",
+        "dashboard": "",
+        "workflow": "",
+        "caseStudy": "",
+        "youtube": "",
+        "facebook": "",
+        "instagram": "",
+        "x": "",
+        "linkedin": ""
+      },
+      "metrics": [
+        {
+          "label": "Uploaded dataset formats supported",
+          "value": "2"
+        },
+        {
+          "label": "Core analysis pipeline layers",
+          "value": "4"
+        },
+        {
+          "label": "Primary intelligence stack",
+          "value": "RAG"
+        }
+      ],
+      "problem": "Users need a practical way to explore spreadsheets, understand structure, and ask natural-language questions without manually writing analysis code.",
+      "solution": "The app ingests XLS and CSV files, breaks the data into chunks, stores embeddings in a vector database, and uses an LLM-driven RAG pipeline to answer questions using the uploaded dataset as context.",
+      "features": [
+        {
+          "title": "Spreadsheet ingestion",
+          "description": "Upload XLS or CSV files and convert them into an analysis-ready format for downstream RAG and EDA processing."
+        },
+        {
+          "title": "Chunking and embedding",
+          "description": "Break large datasets into smaller chunks and store their embeddings in a vector database for fast retrieval."
+        },
+        {
+          "title": "RAG question answering",
+          "description": "Ask natural-language questions and get answers grounded in the uploaded data through retrieval-augmented generation."
+        },
+        {
+          "title": "LLM-assisted EDA guidance",
+          "description": "Use the LLM chatbot to suggest suitable machine learning algorithms based on the dataset structure and contents."
+        },
+        {
+          "title": "Pair plot generation",
+          "description": "Generate pair plots directly from the uploaded data to quickly inspect relationships between numeric features."
+        },
+        {
+          "title": "Data profiling report",
+          "description": "Create and download a profiling report to review summary statistics, missing values, and dataset quality signals."
+        },
+        {
+          "title": "Interactive data preview",
+          "description": "Inspect the uploaded spreadsheet in a readable interface before and after analysis."
+        },
+        {
+          "title": "Grounded responses",
+          "description": "Keep answers tied to retrieved dataset chunks so the LLM responds with context-specific analysis instead of generic output."
+        }
+      ],
+      "architecture": "Streamlit frontend → file upload and parsing → dataset chunking → embedding generation → vector database storage → retrieval layer → LLM response generation → visualization and reporting outputs.",
+      "challenges": [
+        "Handling mixed spreadsheet structures",
+        "Keeping retrieval grounded to the uploaded file",
+        "Balancing vector search quality with LLM response relevance",
+        "Generating useful EDA visuals from heterogeneous columns"
+      ],
+      "results": "Delivers interactive spreadsheet analysis, contextual Q&A, pair plots, and downloadable profiling reports in a single RAG-powered workflow.",
+      "trigger": "Manual execution",
+      "process": [
+        "Upload XLS or CSV",
+        "Parse and clean the data",
+        "Chunk the dataset",
+        "Create embeddings",
+        "Store chunks in vector DB",
+        "Retrieve relevant context",
+        "Generate LLM answer",
+        "Render pair plot and profiling report"
+      ],
+      "outcome": "User gets grounded answers, visual EDA output, and a downloadable profile report from a single uploaded dataset.",
+      "dataFlow": [
+        "User upload → Streamlit app",
+        "Spreadsheet parser → chunking engine",
+        "Chunks → embeddings model",
+        "Embeddings → vector database",
+        "User query → retriever",
+        "Retriever context → LLM",
+        "LLM output → UI answer and charts"
+      ],
+      "kpis": [
+        {
+          "label": "Files processed per session",
+          "value": "1"
+        },
+        {
+          "label": "Retrieval stages in pipeline",
+          "value": "3"
+        },
+        {
+          "label": "Output types generated",
+          "value": "3"
+        }
+      ],
+      "insights": [
+        "RAG improves answer relevance for dataset-specific questions.",
+        "Vector search is most useful when spreadsheet chunks are well structured.",
+        "LLM guidance adds value when paired with direct EDA outputs.",
+        "Profiling reports reduce friction for quick dataset inspection."
+      ],
+      "motivation": "Built to make spreadsheet exploration faster, more interactive, and more accessible with LLM-backed analysis instead of manual EDA only.",
+      "findings": [
+        "Chunking improves retrieval for larger spreadsheets.",
+        "Vector database storage enables grounded question answering.",
+        "Pair plots and profiling reports complement the LLM chatbot.",
+        "RAG is effective for answering questions based on uploaded tabular data."
+      ],
+      "relatedProducts": [
+        "datanexus",
+        "ArchAItect",
+        "FaceSaysBMI"
+      ],
+      "date": "2024"
+    }
+  ]
+}

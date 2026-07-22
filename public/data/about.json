@@ -1,0 +1,253 @@
+{
+  "people": [
+    {
+      "id": "phi-people-001",
+      "name": "Bitan Paul",
+      "avatar": "https://res.cloudinary.com/b0tb1mho/image/upload/w_512,h_512,c_fill,g_auto,q_auto,f_auto/v1784711074/aup4vqxarodsfwjouf0v.jpg",
+      "monogram": "BP",
+      "location": "Bengaluru, India",
+      "roles": ["Founder", "AI / ML Engineer", "Agentic Systems"],
+      "bio": "Bitan Paul founded phiUture and leads its engineering. With 2+ years building production-grade Generative AI, LLM, and agentic systems, he works across the full AI lifecycle — RAG pipelines, multi-agent orchestration, computer vision, and cloud-native data engineering — and maintains a large body of open-source work. Through phiUture he brings that same standard to every product and creative release: capable underneath, effortless on the surface.",
+      "journeyCta": "Explore the journey",
+      "journey": [
+        {
+          "id": "phi-jrny-001",
+          "year": "2020",
+          "title": "Started with AI",
+          "description": "Began a B.E. in Artificial Intelligence & Machine Learning at Chandigarh University.",
+          "icon": "graduation",
+          "color": "#7c3aed"
+        },
+        {
+          "id": "phi-jrny-002",
+          "year": "2022",
+          "title": "Went deep on machine learning",
+          "description": "Earned the ISRO / IIRS \"Machine Learning to Deep Learning\" certification and started building with deep learning, computer vision, and NLP.",
+          "icon": "cpu",
+          "color": "#a855f7"
+        },
+        {
+          "id": "phi-jrny-003",
+          "year": "2023",
+          "title": "Shipped to real users",
+          "description": "Launched Campus Buddy, a published Android app — 1,000+ downloads, 600+ active users, and a 4.8★ rating.",
+          "icon": "smartphone",
+          "color": "#d946ef"
+        },
+        {
+          "id": "phi-jrny-004",
+          "year": "2024",
+          "title": "Graduated",
+          "description": "Completed the B.E. in Artificial Intelligence & Machine Learning at Chandigarh University.",
+          "icon": "award",
+          "color": "#e879f9"
+        },
+        {
+          "id": "phi-jrny-005",
+          "year": "2024",
+          "title": "Started a professional career",
+          "description": "Joined an AI company as a Data Engineering & AI Specialist, building production Generative AI, LLM, and cloud data systems.",
+          "icon": "briefcase",
+          "color": "#d946ef"
+        },
+        {
+          "id": "phi-jrny-006",
+          "year": "2024",
+          "title": "Founded phiUture",
+          "description": "Launched phiUture as the umbrella for products, AI agents, automation solutions, and creative work.",
+          "icon": "lightbulb",
+          "color": "#a855f7"
+        },
+        {
+          "id": "phi-jrny-007",
+          "year": "Now",
+          "title": "Scaling the vision",
+          "description": "2+ years into building production LLM and agentic systems — growing the phiUture ecosystem across AI, data, applications, and music.",
+          "icon": "target",
+          "color": "#d946ef"
+        }
+      ]
+    },
+
+    {
+      "id": "phi-people-002",
+      "name": "phiUture",
+      "avatar": "https://res.cloudinary.com/b0tb1mho/image/upload/w_512,h_512,c_fill,g_auto,q_auto,f_auto/v1784711074/aup4vqxarodsfwjouf0v.jpg",
+      "monogram": "PU",
+      "location": "Bengaluru, India",
+      "roles": ["AI & Data Products", "Agentic Systems", "Music & Video"],
+      "bio": "phiUture is a technology and creative studio, founded by Bitan Paul. It builds production-grade AI and data products, agentic systems, and original music and video releases — all with a focus on quality, capability, and user experience.",
+      "journeyCta": "Explore the journey",
+      "journey": [
+        {
+          "id": "phi-jrny-008",
+          "year": "2024",
+          "title": "Founded phiUture",
+          "description": "Launched phiUture as the umbrella for products, AI agents, automation solutions, and creative work.",
+          "icon": "lightbulb",
+          "color": "#a855f7"
+        },
+        {
+          "id": "phi-jrny-009",
+          "year": "Now",
+          "title": "Scaling the vision",
+          "description": "2+ years into building production LLM and agentic systems — growing the phiUture ecosystem across AI, data, applications, and music.",
+          "icon": "target",
+          "color": "#d946ef"
+        }
+      ]
+    },
+
+    {
+      "id": "phi-people-003",
+      "name": "phiUture",
+      "avatar": "https://res.cloudinary.com/b0tb1mho/image/upload/w_512,h_512,c_fill,g_auto,q_auto,f_auto/v1784711074/aup4vqxarodsfwjouf0v.jpg",
+      "monogram": "PU",
+      "location": "Bengaluru, India",
+      "roles": ["AI & Data Products", "Agentic Systems", "Music & Video"],
+      "bio": "phiUture is a technology and creative studio, founded by Bitan Paul. It builds production-grade AI and data products, agentic systems, and original music and video releases — all with a focus on quality, capability, and user experience.",
+      "journeyCta": "Explore the journey",
+      "journey": [
+        {
+          "id": "phi-jrny-010",
+          "year": "2024",
+          "title": "Founded phiUture",
+          "description": "Launched phiUture as the umbrella for products, AI agents, automation solutions, and creative work.",
+          "icon": "lightbulb",
+          "color": "#a855f7"
+        },
+        {
+          "id": "phi-jrny-011",
+          "year": "Now",
+          "title": "Scaling the vision",
+          "description": "2+ years into building production LLM and agentic systems — growing the phiUture ecosystem across AI, data, applications, and music.",
+          "icon": "target",
+          "color": "#d946ef"
+        }
+      ]
+    }
+  ],
+
+  "kpis": [
+    {
+      "id": "phi-kpi-001",
+      "kind": "years",
+      "since": "2024-01",
+      "suffix": "+",
+      "label": "Years Serving Industry",
+      "sub": "production AI since 2024"
+    },
+    {
+      "id": "phi-kpi-002",
+      "kind": "github",
+      "githubUsername": "thebitanpaul",
+      "githubReposFallback": 50,
+      "suffix": "+",
+      "label": "GitHub Repositories",
+      "sub": "public & open-source"
+    },
+    {
+      "id": "phi-kpi-003",
+      "kind": "products",
+      "label": "Products Shipped",
+      "sub": "across six domains"
+    },
+    {
+      "id": "phi-kpi-004",
+      "kind": "ai-products",
+      "label": "AI Agents & RAG",
+      "sub": "agentic · retrieval · vision"
+    },
+    {
+      "id": "phi-kpi-005",
+      "kind": "records",
+      "label": "Original Records",
+      "sub": "written & released"
+    },
+    {
+      "id": "phi-kpi-006",
+      "kind": "videos",
+      "label": "Music Videos",
+      "sub": "produced with AI"
+    }
+  ],
+
+  "capabilities": [
+    {
+      "id": "phi-cap-001",
+      "icon": "cpu",
+      "title": "AI Agents & RAG",
+      "description": "Agentic pipelines, retrieval-augmented systems, and computer-vision models — built token-first so intelligence stays affordable at scale.",
+      "products": ["ArchAItect", "DataAnalyzerAi", "FaceSaysBMI"],
+      "color": "#d946ef"
+    },
+    {
+      "id": "phi-cap-002",
+      "icon": "appwindow",
+      "title": "Full-Stack Applications",
+      "description": "Production web and mobile experiences engineered end to end — from architecture and API to a polished, responsive interface.",
+      "products": ["ArchAItect", "BallSortPuzzle", "CatchTheInsect"],
+      "color": "#a855f7"
+    },
+    {
+      "id": "phi-cap-003",
+      "icon": "workflow",
+      "title": "Automation Engineering",
+      "description": "Self-running workflows that create, publish, and clean up without a hand on the wheel — measured in hours of effort removed.",
+      "products": ["TheAcepirant"],
+      "color": "#e879f9"
+    },
+    {
+      "id": "phi-cap-004",
+      "icon": "database",
+      "title": "Data & Analytics",
+      "description": "Medallion data pipelines with quality gates and streaming, plus BI dashboards that turn raw data into decisions.",
+      "products": ["DataNexus", "NetflixDashboard", "AmazonPrimeDashboard"],
+      "color": "#7c3aed"
+    },
+    {
+      "id": "phi-cap-005",
+      "icon": "flask",
+      "title": "Applied Research",
+      "description": "Proof-of-concept R&D that stress-tests unconventional ideas — pushing a platform far past what it was designed to do.",
+      "products": ["InfinityVault"],
+      "color": "#c026d3"
+    },
+    {
+      "id": "phi-cap-006",
+      "icon": "sparkles",
+      "title": "Beyond — Music & Video",
+      "description": "Original records and music videos released to real audiences on Spotify and YouTube, with AI brought into the studio as a collaborator, not a shortcut.",
+      "products": ["Records", "Videos", "Images (soon)"],
+      "color": "#d946ef",
+      "href": "/beyond"
+    }
+  ],
+
+  "social": {
+    "email": "thephiuture@gmail.com",
+    "connect": [
+      { "id": "github", "platform": "GitHub", "url": "https://github.com/thebitanpaul", "icon": "github" },
+      { "id": "linkedin", "platform": "LinkedIn", "url": "https://linkedin.com/in/thebitanpaul", "icon": "linkedin" },
+      { "id": "x", "platform": "X", "url": "https://x.com/thebitanpaul_", "icon": "x" },
+      { "id": "email", "platform": "Email", "url": "mailto:thephiuture@gmail.com", "icon": "mail" }
+    ],
+    "profiles": [
+      { "id": "instagram", "platform": "Instagram", "url": "https://instagram.com/thebitanpaul", "icon": "instagram", "footer": true },
+      { "id": "youtube", "platform": "YouTube", "url": "https://www.youtube.com/@thebitanpaul", "icon": "youtube", "footer": true },
+      { "id": "spotify", "platform": "Spotify", "url": "https://open.spotify.com/artist/6ghDcCBlKzJIgm3e586jpV", "icon": "spotify", "footer": true },
+      { "id": "apple-music", "platform": "Apple Music", "url": "https://music.apple.com/us/artist/thebitanpaul/1858534880", "icon": "applemusic" },
+      { "id": "amazon-music", "platform": "Amazon Music", "url": "https://music.amazon.com/albums/B0G52QMYDC", "icon": "amazonmusic" },
+      { "id": "facebook", "platform": "Facebook", "url": "https://www.facebook.com/thebitanpaul", "icon": "facebook" },
+      { "id": "snapchat", "platform": "Snapchat", "url": "https://snapchat.com/t/UgO0Iywr", "icon": "snapchat" },
+      { "id": "google-play", "platform": "Google Play", "url": "https://play.google.com/store/apps/dev?id=6358474525178045834&hl=en", "icon": "googleplay", "footer": true }
+    ],
+    "artist": [
+      { "id": "artist-spotify", "platform": "Spotify", "url": "https://open.spotify.com/artist/6ghDcCBlKzJIgm3e586jpV", "icon": "spotify" },
+      { "id": "artist-apple-music", "platform": "Apple Music", "url": "https://music.apple.com/us/artist/thebitanpaul/1858534880", "icon": "applemusic" },
+      { "id": "artist-amazon-music", "platform": "Amazon Music", "url": "https://music.amazon.com/albums/B0G52QMYDC", "icon": "amazonmusic" },
+      { "id": "artist-youtube", "platform": "YouTube", "url": "https://www.youtube.com/@thebitanpaul", "icon": "youtube" },
+      { "id": "artist-youtube-music", "platform": "YouTube Music", "url": "https://music.youtube.com/@thebitanpaul?si=IhqDPrlOUFq_w360", "icon": "youtubemusic" }
+    ]
+  }
+}

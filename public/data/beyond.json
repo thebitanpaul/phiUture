@@ -1,0 +1,38 @@
+{
+  "mediums": [
+    {
+      "id": "music",
+      "label": "Music",
+      "status": "live",
+      "icon": "music",
+      "blurb": "Original records — written, arranged, and mastered as real releases, with AI brought in as a collaborator in the studio.",
+      "music": [
+        { "id": "phi-music-001", "spotifyId": "44nfvCCJAerycDbsgyOGvv", "height": 352, "title": "Tera Mera Afsaana", "artist": "Bitan Paul", "tags": ["breakup", "romantic", "hindi"] },
+        { "id": "phi-music-002", "spotifyId": "1jHmdMLFDvp2jKP0jRvYkE", "height": 352, "title": "Meri Hain Tuu", "artist": "Bitan Paul", "tags": ["dance", "romantic", "hindi"] },
+        { "id": "phi-music-003", "spotifyId": "6fu2H9muyqJplpKHalqsn2", "height": 352, "title": "Barfili Wadiyan", "artist": "Bitan Paul", "tags": ["romantic", "lyrical", "hindi"] },
+        { "id": "phi-music-004", "spotifyId": "4lh6TFDISC2xbGPrO1Sxa8", "height": 352, "title": "Dure Kono Shohore", "artist": "Bitan Paul", "tags": ["bengali", "melancholy", "love lost"] }
+      ]
+    },
+    {
+      "id": "video",
+      "label": "Video",
+      "status": "live",
+      "icon": "video",
+      "blurb": "The songs as films — official audio and lyrical pieces, shaped and edited into finished releases, with AI helping carry the heavy lifting.",
+      "videos": [
+        { "id": "phi-video-001", "youtubeId": "NdHy-XpAmPM", "title": "Tera Mera Afsaana", "artist": "Ek Deewane Ki Deewaniyat · Side B", "tags": ["breakup", "romantic", "official audio"] },
+        { "id": "phi-video-002", "youtubeId": "c0-mHsz5qHk", "title": "Meri Hain Tuu", "artist": "Original Dance Song", "tags": ["dance", "romantic", "official audio"] },
+        { "id": "phi-video-003", "youtubeId": "axVnvYDxZTI", "title": "Barfili Wadiyan", "artist": "Official Lyrical Video", "tags": ["romantic", "lyrical", "copyright free"] },
+        { "id": "phi-video-004", "youtubeId": "kG0ookPTc4k", "title": "Dure Kono Shohore", "artist": "Love Lost in the Hard Times", "tags": ["bengali", "melancholy", "original"] },
+        { "id": "phi-video-005", "youtubeId": "HlAhtfn9qlI", "title": "Ardhangini · অর্ধাঙ্গিনী", "artist": "The One Who Left When She Was Needed the Most", "tags": ["bengali", "emotional"] }
+      ]
+    },
+    {
+      "id": "images",
+      "label": "Images",
+      "status": "coming-soon",
+      "icon": "images",
+      "blurb": "A visual collection — composed and art-directed, with AI as a brush in the process. Taking shape now."
+    }
+  ]
+}

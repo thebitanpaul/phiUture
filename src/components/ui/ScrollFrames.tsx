@@ -1,0 +1,218 @@
+import { useRef, useEffect, useState, useCallback } from 'react'
+import { motion, useMotionValueEvent, type MotionValue } from 'framer-motion'
+
+const EASE = [0.16, 1, 0.3, 1] as const
+const VOID = '#020203'
+
+// ── Scroll-driven frame sequence (9:16) ──────────────────────────────────────
+// A portrait "video" that scrubs with the scroll wheel. As the visitor moves
+// through a bounded scroll region, we advance through N stills painted to a
+// <canvas>, giving a cinematic backdrop that reacts to every scroll. Shared by
+// the Beyond scene and the Products scene — only the frame source differs.
+
+// Preloads every frame, reporting progress so we can show a tasteful loader and
+// only reveal the scene once the opening frames exist to scrub without gaps.
+function useFrameSequence(frameCount: number, frameSrc: (i: number) => string) {
+  const framesRef = useRef<HTMLImageElement[]>([])
+  const [ready, setReady] = useState(false)
+  const [progress, setProgress] = useState(0)
+
+  useEffect(() => {
+    let cancelled = false
+    let loaded = 0
+    const images: HTMLImageElement[] = new Array(frameCount)
+
+    for (let i = 0; i < frameCount; i++) {
+      const img = new Image()
+      img.decoding = 'async'
+      img.src = frameSrc(i)
+      img.onload = img.onerror = () => {
+        if (cancelled) return
+        loaded++
+        setProgress(loaded / frameCount)
+        if (loaded >= Math.min(10, frameCount)) setReady(true)
+      }
+      images[i] = img
+    }
+    framesRef.current = images
+
+    return () => {
+      cancelled = true
+    }
+  }, [frameCount, frameSrc])
+
+  return { framesRef, ready, progress }
+}
+
+interface ScrollFramesProps {
+  /** Scroll progress (0→1) of the enclosing section, drives the frame index. */
+  scrollYProgress: MotionValue<number>
+  /** How many stills make up the sequence. */
+  frameCount: number
+  /** Resolves a frame index (0-based) to its image URL. */
+  frameSrc: (i: number) => string
+  /** Optional caption stamped over the scene. */
+  label?: string
+}
+
+export function ScrollFrames({
+  scrollYProgress,
+  frameCount,
+  frameSrc,
+  label = '',
+}: ScrollFramesProps) {
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+  const { framesRef, ready, progress } = useFrameSequence(frameCount, frameSrc)
+  // Only fade the canvas in once a real frame has been painted — prevents the
+  // brief flash of an unpainted/half-sized canvas during the page transition.
+  const [painted, setPainted] = useState(false)
+
+  // Smooth-scrub state: `target` follows scroll instantly, `current` eases
+  // toward it each frame so fast flicks feel fluid rather than choppy.
+  const targetFrame = useRef(0)
+  const currentFrame = useRef(0)
+  const rafId = useRef<number>()
+
+  useMotionValueEvent(scrollYProgress, 'change', (v) => {
+    targetFrame.current = Math.min(
+      frameCount - 1,
+      Math.max(0, v * (frameCount - 1))
+    )
+  })
+
+  // Draws one frame to the canvas using "cover" fit + devicePixelRatio scaling.
+  const drawFrame = useCallback((index: number) => {
+    const canvas = canvasRef.current
+    const img = framesRef.current[Math.round(index)]
+    if (!canvas || !img || !img.complete || img.naturalWidth === 0) return
+    const ctx = canvas.getContext('2d')
+    if (!ctx) return
+
+    const cw = canvas.width
+    const ch = canvas.height
+    const scale = Math.max(cw / img.naturalWidth, ch / img.naturalHeight)
+    const dw = img.naturalWidth * scale
+    const dh = img.naturalHeight * scale
+    const dx = (cw - dw) / 2
+    const dy = (ch - dh) / 2
+
+    // Paint the backdrop void first (never a transparent/white flash), then
+    // overscan the image by a pixel each side so no sub-pixel seam shows at
+    // the edges while scrubbing.
+    ctx.fillStyle = VOID
+    ctx.fillRect(0, 0, cw, ch)
+    ctx.drawImage(
+      img,
+      Math.floor(dx) - 1,
+      Math.floor(dy) - 1,
+      Math.ceil(dw) + 2,
+      Math.ceil(dh) + 2
+    )
+    setPainted(true)
+  }, [framesRef])
+
+  // Size the canvas to its container (with DPR) and repaint on resize.
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+
+    const resize = () => {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2)
+      const { clientWidth, clientHeight } = canvas
+      if (clientWidth === 0 || clientHeight === 0) return
+      canvas.width = Math.round(clientWidth * dpr)
+      canvas.height = Math.round(clientHeight * dpr)
+      drawFrame(currentFrame.current)
+    }
+
+    resize()
+    window.addEventListener('resize', resize)
+    return () => window.removeEventListener('resize', resize)
+  }, [drawFrame, ready])
+
+  // Continuous rAF loop: eases the displayed frame toward the scroll target.
+  useEffect(() => {
+    if (!ready) return
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+    const tick = () => {
+      const cur = currentFrame.current
+      const tgt = targetFrame.current
+      // Reduced motion → snap straight to target (no eased interpolation).
+      const next = reduce ? tgt : cur + (tgt - cur) * 0.18
+      currentFrame.current = Math.abs(tgt - next) < 0.05 ? tgt : next
+      if (Math.round(currentFrame.current) !== Math.round(cur) || cur === 0) {
+        drawFrame(currentFrame.current)
+      }
+      rafId.current = requestAnimationFrame(tick)
+    }
+    rafId.current = requestAnimationFrame(tick)
+    return () => {
+      if (rafId.current) cancelAnimationFrame(rafId.current)
+    }
+  }, [ready, drawFrame])
+
+  return (
+    <div className="relative w-full h-full overflow-hidden bg-void">
+      {/* The scrubbed frame sequence. The canvas is overscanned 2px beyond
+          every edge (root clips it) so its own anti-aliased layer edge falls
+          outside the visible area — kills the faint 1px seam that otherwise
+          flashes at the top edge during transitions / tab switches. */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: ready && painted ? 1 : 0 }}
+        transition={{ duration: 1, ease: EASE }}
+        className="absolute -inset-[2px]"
+      >
+        <canvas
+          ref={canvasRef}
+          className="w-full h-full block"
+          style={{ backgroundColor: VOID }}
+        />
+      </motion.div>
+
+      {/* Loader while the opening frames stream in */}
+      {!(ready && painted) && (
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="flex flex-col items-center gap-4">
+            <div className="w-40 h-px bg-border-light overflow-hidden rounded-full">
+              <div
+                className="h-full bg-gradient-to-r from-magenta to-violet transition-[width] duration-300"
+                style={{ width: `${Math.round(progress * 100)}%` }}
+              />
+            </div>
+            <span className="typo-label text-text-muted/60" style={{ fontSize: '10px' }}>
+              Loading experience
+            </span>
+          </div>
+        </div>
+      )}
+
+      {/* ── Gradient blend layers ──────────────────────────────────────────── */}
+      {/* Top & bottom vignette — melts the panel into the page above and below. */}
+      <div className="absolute inset-x-0 top-0 h-1/4 bg-gradient-to-b from-void to-transparent pointer-events-none" />
+      <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-void to-transparent pointer-events-none" />
+
+      {/* Desktop — fade the right edge into the void so the frame bleeds into
+          the content column instead of ending on a hard seam. */}
+      <div className="hidden lg:block absolute inset-y-0 right-0 w-1/2 bg-gradient-to-r from-transparent to-void pointer-events-none" />
+      {/* A touch of left darkening for depth on desktop. */}
+      <div className="hidden lg:block absolute inset-y-0 left-0 w-1/4 bg-gradient-to-l from-transparent to-void/70 pointer-events-none" />
+
+      {/* Mobile — the frame IS the page background, so lay a blackish scrim
+          over it to keep the content cards and text readable. */}
+      <div className="lg:hidden absolute inset-0 bg-gradient-to-b from-void/85 via-void/55 to-void/90 pointer-events-none" />
+      <div className="lg:hidden absolute inset-0 bg-void/40 pointer-events-none" />
+
+      {/* Optional corner caption stamped over the scene. */}
+      {label && (
+        <div className="hidden lg:flex absolute bottom-10 left-8 items-center gap-3 pointer-events-none">
+          <span className="w-8 h-px bg-magenta/60" />
+          <span className="typo-label text-text-secondary/80 tracking-[0.2em]">
+            {label}
+          </span>
+        </div>
+      )}
+    </div>
+  )
+}

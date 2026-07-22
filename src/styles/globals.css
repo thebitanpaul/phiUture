@@ -1,0 +1,190 @@
+@import "tailwindcss";
+
+/* ============================================
+   phiUture Design Tokens
+   ============================================ */
+
+@theme {
+  --color-void: #020203;
+  --color-abyss: #050507;
+  --color-surface: #0a0a0f;
+  --color-elevated: #111118;
+  --color-card: #16161f;
+  --color-border: #1e1e2a;
+  --color-border-light: #2a2a3a;
+
+  --color-magenta: #d946ef;
+  --color-violet: #a855f7;
+  --color-fuschia: #e879f9;
+  --color-purple: #7c3aed;
+  --color-accent: #c026d3;
+
+  --color-text-primary: #f0f0f5;
+  --color-text-secondary: #a0a0b8;
+  --color-text-muted: #6b6b80;
+
+  --font-display: 'Space Grotesk', sans-serif;
+  --font-body: 'Space Grotesk', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+/* ============================================
+   Base
+   ============================================ */
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-void);
+  color: var(--color-text-primary);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+::selection {
+  background-color: rgba(217, 70, 239, 0.3);
+  color: var(--color-text-primary);
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-abyss);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border-light);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-magenta);
+}
+
+/* ============================================
+   Typography — prefixed to avoid TW collisions
+   ============================================ */
+
+.typo-display {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+}
+
+.typo-section {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.typo-body {
+  font-family: var(--font-body);
+  font-weight: 400;
+  line-height: 1.7;
+}
+
+.typo-label {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* ============================================
+   Hero Heading — dedicated class for the landing
+   title so it feels premium at every viewport.
+   Uses the display font but at a controlled scale
+   with text-shadow for depth over the 3D scene.
+   ============================================ */
+
+.hero-heading {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.045em;
+  line-height: 0.95;
+  font-size: clamp(3.25rem, 8.5vw, 6rem);
+  text-shadow:
+    0 4px 30px rgba(0, 0, 0, 0.85),
+    0 0 100px rgba(2, 2, 3, 0.7);
+}
+
+/* Shared wordmark style — navbar + anywhere the phiUture
+   name appears inline. Same family as the hero for consistency. */
+.hero-wordmark {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+/* ============================================
+   Glass
+   ============================================ */
+
+.glass {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.glass-strong {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* ============================================
+   Gradients
+   ============================================ */
+
+.gradient-text {
+  background: linear-gradient(135deg, var(--color-magenta), var(--color-violet));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Sticky control/filter bars — glass, but opaque enough that content
+   scrolling behind never bleeds through and overlaps the text. Shared by
+   the Beyond gallery bar and the Products filter bar for one design language. */
+.glass-bar {
+  background: linear-gradient(135deg, rgba(18, 18, 26, 0.9), rgba(10, 10, 16, 0.86));
+  backdrop-filter: blur(28px) saturate(1.3);
+  -webkit-backdrop-filter: blur(28px) saturate(1.3);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Hide scrollbars on horizontally-scrollable strips (e.g. tab rows) */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* ============================================
+   Reduced Motion
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
