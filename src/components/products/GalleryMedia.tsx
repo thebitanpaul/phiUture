@@ -19,8 +19,8 @@ const WORDMARK_SRC =
  * Every tile uses a uniform 16:9 frame so the caption band is identical
  * regardless of the media's own aspect ratio.
  *
- * Videos use a branded placeholder (logo on the theme gradient with a
- * magenta tint) as their thumbnail, so the gallery stays on-theme.
+ * Videos use the phiUture wordmark as a clean branded thumbnail that fills the
+ * whole 16:9 frame (the wordmark shares that aspect ratio).
  */
 export function GalleryMedia({ src, caption, alt, onOpen }: GalleryMediaProps) {
   const isVideo = getMediaEmbed(src) !== null
@@ -35,38 +35,12 @@ export function GalleryMedia({ src, caption, alt, onOpen }: GalleryMediaProps) {
       >
         {isVideo ? (
           <>
-            {/* Theme gradient */}
-            <div
-              className="absolute inset-0"
-              style={{
-                background:
-                  'radial-gradient(120% 120% at 30% 20%, rgba(217,70,239,0.18), transparent 55%), radial-gradient(120% 120% at 80% 90%, rgba(168,85,247,0.16), transparent 55%)',
-              }}
-            />
-            {/* Fine grid texture */}
-            <div
-              className="absolute inset-0 opacity-[0.35]"
-              style={{
-                backgroundImage:
-                  'linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)',
-                backgroundSize: '28px 28px',
-              }}
-            />
-            {/* Magenta tint wash — kept behind the wordmark so it stays legible */}
-            <div
-              className="absolute inset-0"
-              style={{
-                background:
-                  'linear-gradient(135deg, rgba(217,70,239,0.22), rgba(168,85,247,0.16))',
-              }}
-            />
-            {/* Wordmark — the branded video thumbnail */}
+            {/* Wordmark fills the whole 16:9 thumbnail (shared aspect ratio) */}
             <img
               src={WORDMARK_SRC}
               alt=""
               aria-hidden="true"
-              className="absolute left-1/2 top-1/2 w-[62%] max-w-[220px] -translate-x-1/2 -translate-y-1/2 object-contain"
-              style={{ filter: 'drop-shadow(0 6px 20px rgba(0,0,0,0.45))' }}
+              className="absolute inset-0 h-full w-full object-cover"
             />
             {/* Play button */}
             <span className="absolute left-1/2 top-1/2 flex h-16 w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-magenta/90 shadow-lg shadow-magenta/30 transition-transform duration-300 group-hover/tile:scale-110">
