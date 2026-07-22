@@ -1,22 +1,19 @@
 <div align="center">
 
-# phiUture
+<h1>
+<img src="https://res.cloudinary.com/b0tb1mho/image/upload/v1784574355/Favicon_Trans_osnttg.png"
+     width="55"
+     alt="phiUture Logo"
+     style="vertical-align: middle;">
+&nbsp;phiUture
+</h1>
 
-### Beautifully engineered technology, centered around you — to shape the future.
+<h3><em>Beautifully engineered technology, centered around you — shaping the future.</em></h3>
 
-*φ is for perfection · **U** is for you — phiUture is where the two meet.*
-
-<br/>
-
-![Status](https://img.shields.io/badge/status-live-brightgreen?style=for-the-badge)
-![Made with](https://img.shields.io/badge/made%20with-AI%20%C2%B7%20not%20by%20it-d946ef?style=for-the-badge)
-![License](https://img.shields.io/badge/license-Proprietary-red?style=for-the-badge)
+<p><strong>φ</strong> is for perfection · <strong>U</strong> is for you — phiUture is where the two meet.</p>
 
 </div>
 
-<br/>
-
----
 
 ## What is phiUture?
 
@@ -31,7 +28,7 @@ the surface.* This repository hosts the phiUture showcase website — the single
 philosophy, the engineer, the products, and the creative releases all come together.
 
 <div align="center">
-<img src="https://res.cloudinary.com/b0tb1mho/image/upload/v1784626188/q8vgomhungoglex9axyk.webp" alt="phiUture showcase" width="85%" />
+<img src="https://res.cloudinary.com/b0tb1mho/image/upload/v1784721803/kznaczrovq01nkjcy6jj.webp" alt="phiUture showcase" width="85%" />
 </div>
 
 <br/>
