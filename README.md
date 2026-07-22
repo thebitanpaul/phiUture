@@ -1,7 +1,5 @@
 <div align="center">
 
-<img src="https://raw.githubusercontent.com/thebitanpaul/phiUture/main/public/logo.png" alt="phiUture" width="120" />
-
 # phiUture
 
 ### Beautifully engineered technology, centered around you — to shape the future.
@@ -64,7 +62,7 @@ Turn a plain-English requirements document into a complete microservice architec
 map, AI risk audit, resilience simulation, and migration roadmap. Token-first agentic design with
 ~65% token savings.
 
-<img src="https://res.cloudinary.com/b0tb1mho/image/upload/v1784579210/mvc0kqxxwrtax3d5wh1n.webp" alt="ArchAItect" width="72" />
+<img src="https://raw.githubusercontent.com/thebitanpaul/phiUture/main/public/logo.png" alt="phiUture" width="72" />
 
 </td>
 <td width="50%" valign="top">
@@ -136,11 +134,25 @@ content that updates live from JSON — deployed on **Vercel**.
 
 <div align="center">
 
-## Connect
+## Get in touch
+
+📧 **[thephiuture@gmail.com](mailto:thephiuture@gmail.com)** · India — Available worldwide
+
+<br/>
+
+[![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/thebitanpaul)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/thebitanpaul)
+[![X](https://img.shields.io/badge/X-000000?style=for-the-badge&logo=x&logoColor=white)](https://x.com/thebitanpaul_)
 
 [![Instagram](https://img.shields.io/badge/Instagram-E4405F?style=for-the-badge&logo=instagram&logoColor=white)](https://instagram.com/thebitanpaul)
-[![YouTube](https://img.shields.io/badge/YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://www.youtube.com/@theacepirant)
-[![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/thebitanpaul)
+[![YouTube](https://img.shields.io/badge/YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://www.youtube.com/@thebitanpaul)
+[![Facebook](https://img.shields.io/badge/Facebook-1877F2?style=for-the-badge&logo=facebook&logoColor=white)](https://www.facebook.com/thebitanpaul)
+[![Snapchat](https://img.shields.io/badge/Snapchat-FFFC00?style=for-the-badge&logo=snapchat&logoColor=black)](https://snapchat.com/t/UgO0Iywr)
+
+[![Spotify](https://img.shields.io/badge/Spotify-1DB954?style=for-the-badge&logo=spotify&logoColor=white)](https://open.spotify.com/artist/6ghDcCBlKzJIgm3e586jpV)
+[![Apple Music](https://img.shields.io/badge/Apple%20Music-FA243C?style=for-the-badge&logo=apple-music&logoColor=white)](https://music.apple.com/us/artist/thebitanpaul/1858534880)
+[![Amazon Music](https://img.shields.io/badge/Amazon%20Music-25D1DA?style=for-the-badge&logo=amazon&logoColor=white)](https://music.amazon.com/albums/B0G52QMYDC)
+[![Google Play](https://img.shields.io/badge/Google%20Play-414141?style=for-the-badge&logo=google-play&logoColor=white)](https://play.google.com/store/apps/dev?id=6358474525178045834&hl=en)
 
 </div>
 
