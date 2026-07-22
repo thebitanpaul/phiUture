@@ -2,7 +2,7 @@ import { useRef, useEffect, useState, useCallback } from 'react'
 import { motion, useScroll, useTransform, useMotionValueEvent } from 'framer-motion'
 import { ChevronDown, ArrowRight } from 'lucide-react'
 import { Link } from 'react-router-dom'
-import { PhiMark } from '@/components/ui/PhiMark'
+import { PhiLogo } from '@/components/ui/PhiLogo'
 
 const EASE = [0.16, 1, 0.3, 1] as const
 
@@ -261,7 +261,7 @@ export function Hero() {
           <div className="text-right max-w-md md:max-w-lg">
             <span className="typo-label text-magenta/80 mb-5 block">The Golden Ratio</span>
             <h2 className="typo-display text-4xl md:text-6xl text-text-primary">
-              <PhiMark className="text-4xl md:text-6xl" /> is for perfection.
+              <PhiLogo alt="phi" className="text-4xl md:text-6xl" /> is for perfection.
             </h2>
             <p className="typo-body text-text-secondary text-lg mt-6 ml-auto max-w-sm">
               Every detail balanced, harmonious, and built to evolve.

@@ -10,7 +10,8 @@ import {
 } from 'lucide-react'
 
 import { Hero } from '@/components/sections/Hero'
-import { PhiMark } from '@/components/ui/PhiMark'
+import { PhiLogo } from '@/components/ui/PhiLogo'
+import { Wordmark } from '@/components/ui/Wordmark'
 import { Section } from '@/components/layout/Section'
 import { PageTransition } from '@/components/layout/PageTransition'
 import { GlassCard } from '@/components/ui/GlassCard'
@@ -130,7 +131,7 @@ export default function Home() {
                   'radial-gradient(ellipse 60% 60% at 40% 40%, rgba(217,70,239,0.10), transparent 70%)',
               }}
             />
-            <PhiMark className="relative leading-none text-[8rem] md:text-[11rem]" />
+            <PhiLogo alt="phi" className="relative leading-none text-[8rem] md:text-[11rem]" />
             <div className="relative mt-2 flex items-baseline gap-3">
               <span className="typo-display text-2xl md:text-3xl text-text-primary">
                 1.618
@@ -155,7 +156,7 @@ export default function Home() {
               <span className="gradient-text">everything</span>.
             </h2>
             <p className="typo-body text-text-secondary text-lg mt-6 max-w-xl">
-              <PhiMark /> is for perfection, U is for you — phiUture is where the two meet.
+              <PhiLogo alt="phi" /> is for perfection, U is for you — <Wordmark /> is where the two meet.
               Every product and every piece of creative work is measured against
               the same standard: harmonious, considered, and built to evolve.
             </p>
@@ -426,7 +427,7 @@ export default function Home() {
             <Sparkles size={14} /> About
           </span>
           <h2 className="typo-section text-3xl md:text-4xl lg:text-5xl text-text-primary mb-6">
-            The story behind <span className="gradient-text">phiUture</span>
+            The story behind <Wordmark />
           </h2>
           <p className="typo-body text-text-secondary text-lg mb-10">
             A comprehensive view of the philosophy, the engineer, and the work

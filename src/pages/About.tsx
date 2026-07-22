@@ -7,7 +7,9 @@ import { PageTransition } from '@/components/layout/PageTransition'
 import { GlassCard } from '@/components/ui/GlassCard'
 import { AnimatedGroup, AnimatedItem } from '@/components/ui/AnimatedGroup'
 import { PhilosophyBook } from '@/components/about/PhilosophyBook'
-import { PhiMark } from '@/components/ui/PhiMark'
+import { PhiLogo } from '@/components/ui/PhiLogo'
+import { Wordmark } from '@/components/ui/Wordmark'
+import { BrandText } from '@/components/ui/BrandText'
 import { useProducts } from '@/context/ProductsContext'
 import { useAbout } from '@/context/AboutContext'
 import { useRemoteData } from '@/hooks/useRemoteData'
@@ -185,7 +187,7 @@ export default function About() {
           >
             The meaning behind
             <br />
-            <span className="gradient-text">phiUture</span>
+            <Wordmark />
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 15 }}
@@ -206,7 +208,7 @@ export default function About() {
         subtitle={
           <>
             phiUture packs three ideas into one word. Flip through the book to
-            see how <PhiMark />, U, and future fit together.
+            see how <PhiLogo alt="phi" />, U, and future fit together.
           </>
         }
       >
@@ -223,7 +225,7 @@ export default function About() {
           className="text-center max-w-3xl mx-auto"
         >
           <div className="text-5xl md:text-7xl mb-6 leading-tight">
-            <PhiMark />
+            <PhiLogo alt="phi" />
           </div>
           <p className="typo-section text-2xl md:text-3xl text-text-primary leading-snug">
             Beautifully engineered technology, crafted for you, shaping the future.
@@ -239,7 +241,11 @@ export default function About() {
           band and the capability cards below. */}
       <Section
         label="The Team"
-        title={multiPerson ? 'The people behind phiUture' : 'The person behind phiUture'}
+        title={
+          <BrandText>
+            {multiPerson ? 'The people behind phiUture' : 'The person behind phiUture'}
+          </BrandText>
+        }
         subtitle={
           multiPerson
             ? 'The people building phiUture — use the arrows to meet each one.'

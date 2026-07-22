@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { ArrowLeft, ArrowRight, Check } from 'lucide-react'
 import { PageTransition } from '@/components/layout/PageTransition'
+import { Wordmark } from '@/components/ui/Wordmark'
 import {
   CategoryBadge,
   StatusBadge,
@@ -529,7 +530,7 @@ export default function ProductDetail() {
                   Related
                 </span>
                 <h2 className="typo-section mb-8 text-2xl text-text-primary md:text-3xl">
-                  More from phiUture
+                  More from <Wordmark />
                 </h2>
               </Reveal>
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">

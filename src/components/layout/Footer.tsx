@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import { SITE_CONFIG } from '@/lib/constants'
 import { useAbout } from '@/context/AboutContext'
 import { socialIcon } from '@/components/icons/socialIcons'
-import { PhiMark } from '@/components/ui/PhiMark'
+import { Wordmark } from '@/components/ui/Wordmark'
 
 export function Footer() {
   const { social } = useAbout()
@@ -30,9 +30,8 @@ export function Footer() {
         <div className="flex flex-col md:flex-row items-center justify-between gap-8">
           {/* Brand */}
           <div className="flex items-center gap-3">
-            <PhiMark title="phiUture" className="text-[1.75rem] opacity-70" />
             <span className="text-text-muted text-sm">
-              {SITE_CONFIG.name} &copy; {year}
+              <Wordmark className="text-text-secondary" /> &copy; {year}
             </span>
           </div>
 

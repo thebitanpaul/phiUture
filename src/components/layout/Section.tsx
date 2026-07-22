@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils'
 interface SectionProps {
   id?: string
   label?: string
-  title?: string
+  title?: ReactNode
   subtitle?: ReactNode
   children: ReactNode
   className?: string

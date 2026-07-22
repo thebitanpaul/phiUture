@@ -1,10 +1,10 @@
 <div align="center">
 
-<h1 style="display: flex; align-items: center; justify-content: center; gap: 12px; margin: 0;">
-  <img src="https://res.cloudinary.com/b0tb1mho/image/upload/v1784753097/aj9rycbehzhpwepoc3g0.png"
+<h1>
+  <img src="https://res.cloudinary.com/b0tb1mho/image/upload/v1784753097/jkjx3aig0glkoojrimic.png"
        width="55"
-       alt="phiUture Logo">
-  <span>phiUture</span>
+       alt="phiUture Logo"
+       align="center"> phiUture
 </h1>
 
 <h3><em>Beautifully engineered technology, centered around you — shaping the future.</em></h3>
@@ -27,7 +27,7 @@ the surface.* This repository hosts the phiUture showcase website — the single
 philosophy, the engineer, the products, and the creative releases all come together.
 
 <div align="center">
-<img src="https://res.cloudinary.com/b0tb1mho/image/upload/v1784721803/kznaczrovq01nkjcy6jj.webp" alt="phiUture showcase" width="85%" />
+<img src="https://res.cloudinary.com/b0tb1mho/image/upload/v1784753097/lgvkw3dn9w5veqhbej2b.png" alt="phiUture showcase" width="85%" />
 </div>
 
 <br/>

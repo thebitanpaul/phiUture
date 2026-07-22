@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { BookOpen, ChevronLeft, ChevronRight, Ratio, Rocket, User } from 'lucide-react'
-import { PhiMark } from '@/components/ui/PhiMark'
+import { PhiLogo } from '@/components/ui/PhiLogo'
+import { BrandText } from '@/components/ui/BrandText'
 
 // ============================================
 // PhilosophyBook — the meaning of phiUture told
@@ -264,11 +265,11 @@ function CoverSpread({ page }: { page: Extract<BookPage, { kind: 'cover' }> }) {
       />
       <div className="relative z-10 max-w-xl">
         <div className="text-7xl md:text-8xl mb-8 leading-none">
-          <PhiMark />
+          <PhiLogo />
         </div>
         <span className="typo-label text-magenta mb-4 block">{page.kicker}</span>
         <h3 className="typo-display text-3xl md:text-5xl text-text-primary mb-6">
-          {page.title}
+          <BrandText>{page.title}</BrandText>
         </h3>
         <p className="typo-body text-text-secondary text-base md:text-lg leading-relaxed">
           {page.subtitle}
@@ -319,9 +320,8 @@ function ChapterSpread({
             }}
           >
             {page.symbol === 'φ' ? (
-              <PhiMark
-                gradient={false}
-                title="phi"
+              <PhiLogo
+                alt="phi"
                 style={{ filter: `drop-shadow(0 8px 50px ${page.color}55)` }}
               />
             ) : (
