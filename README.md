@@ -59,7 +59,7 @@ Turn a plain-English requirements document into a complete microservice architec
 map, AI risk audit, resilience simulation, and migration roadmap. Token-first agentic design with
 ~65% token savings.
 
-<img src="https://raw.githubusercontent.com/thebitanpaul/phiUture/main/public/logo.png" alt="phiUture" width="72" />
+<img src="https://res.cloudinary.com/b0tb1mho/image/upload/v1784579210/mvc0kqxxwrtax3d5wh1n.webp" alt="phiUture" width="72" />
 
 </td>
 <td width="50%" valign="top">
