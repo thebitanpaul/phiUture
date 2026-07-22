@@ -1,24 +1,37 @@
 import { useMemo } from 'react'
 import { motion } from 'framer-motion'
-import { Search, X } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { CATEGORIES, getCategoryCounts, type FilterId } from '@/lib/products'
 import { useProducts } from '@/context/ProductsContext'
+import { SearchSort, type SortOption } from '@/components/ui/SearchSort'
+
+export type ProductSortKey = 'featured' | 'az' | 'za'
+
+export const PRODUCT_SORTS: readonly SortOption<ProductSortKey>[] = [
+  { key: 'featured', label: 'Featured' },
+  { key: 'az', label: 'Name A–Z' },
+  { key: 'za', label: 'Name Z–A' },
+]
 
 interface ProductFilterBarProps {
   active: FilterId
   onChange: (id: FilterId) => void
   query: string
   onQueryChange: (value: string) => void
+  sort: ProductSortKey
+  onSortChange: (key: ProductSortKey) => void
 }
 
 // Shares the Beyond gallery control-bar language: a floating glass-strong pill
-// with gradient active-tab pills and a matching search field.
+// with gradient active-tab pills and a matching search field that carries the
+// sort control inside it. Stacks cleanly on mobile.
 export function ProductFilterBar({
   active,
   onChange,
   query,
   onQueryChange,
+  sort,
+  onSortChange,
 }: ProductFilterBarProps) {
   const products = useProducts()
   // Counts drive which tabs appear (empty categories are hidden); not shown.
@@ -71,32 +84,17 @@ export function ProductFilterBar({
             })}
           </div>
 
-          {/* Search */}
-          <div className="lg:pr-1">
-            <div className="relative lg:w-56">
-              <Search
-                size={15}
-                className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted pointer-events-none"
-              />
-              <input
-                type="text"
-                value={query}
-                onChange={(e) => onQueryChange(e.target.value)}
-                placeholder="Search products…"
-                aria-label="Search products by name"
-                className="w-full pl-9 pr-8 py-2 rounded-xl bg-white/[0.04] border border-white/[0.07] text-sm text-text-primary placeholder:text-text-muted/70 focus:outline-none focus:border-magenta/40 transition-colors"
-              />
-              {query && (
-                <button
-                  type="button"
-                  onClick={() => onQueryChange('')}
-                  aria-label="Clear search"
-                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-text-muted hover:text-text-primary"
-                >
-                  <X size={15} />
-                </button>
-              )}
-            </div>
+          {/* Search + sort */}
+          <div className="lg:flex-none lg:pr-1">
+            <SearchSort
+              query={query}
+              onQueryChange={onQueryChange}
+              placeholder="Search products…"
+              sort={sort}
+              onSortChange={onSortChange}
+              sortOptions={PRODUCT_SORTS}
+              className="w-full lg:w-64"
+            />
           </div>
         </div>
       </div>

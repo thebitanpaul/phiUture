@@ -6,7 +6,7 @@ interface SectionProps {
   id?: string
   label?: string
   title?: string
-  subtitle?: string
+  subtitle?: ReactNode
   children: ReactNode
   className?: string
   fullWidth?: boolean

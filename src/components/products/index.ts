@@ -9,4 +9,8 @@ export { MediaLightbox, type LightboxItem } from './MediaLightbox'
 export { FeaturedCarousel } from './FeaturedCarousel'
 export { ProductsScrollScene } from './ProductsScrollScene'
 export { HorizontalCarousel } from './HorizontalCarousel'
-export { ProductFilterBar } from './ProductFilterBar'
+export {
+  ProductFilterBar,
+  PRODUCT_SORTS,
+  type ProductSortKey,
+} from './ProductFilterBar'

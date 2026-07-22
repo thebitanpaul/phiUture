@@ -1,11 +1,10 @@
 <div align="center">
 
-<h1>
-<img src="https://res.cloudinary.com/b0tb1mho/image/upload/v1784574355/Favicon_Trans_osnttg.png"
-     width="55"
-     alt="phiUture Logo"
-     style="vertical-align: middle;">
-&nbsp;phiUture
+<h1 style="display: flex; align-items: center; justify-content: center; gap: 12px; margin: 0;">
+  <img src="https://res.cloudinary.com/b0tb1mho/image/upload/v1784753097/aj9rycbehzhpwepoc3g0.png"
+       width="55"
+       alt="phiUture Logo">
+  <span>phiUture</span>
 </h1>
 
 <h3><em>Beautifully engineered technology, centered around you — shaping the future.</em></h3>

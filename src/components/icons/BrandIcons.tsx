@@ -73,3 +73,29 @@ export const SnapchatIcon = brandIcon(
   "Snapchat",
 )
 
+// JioSaavn's app mark — a stroked logo (Arcticons, CC BY-SA 4.0), since JioSaavn
+// is not part of the filled Simple Icons set the other glyphs come from. Renders
+// in currentColor like the rest so it sits naturally in the same rows.
+export function JioSaavnIcon({ size = 24, className }: IconProps) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 48 48"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={3}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      role="img"
+      aria-label="JioSaavn"
+    >
+      <path d="M38.5 5.5h-29c-2.2 0-4 1.8-4 4v29c0 2.2 1.8 4 4 4h29c2.2 0 4-1.8 4-4v-29c0-2.2-1.8-4-4-4" />
+      <path d="M5.5 31.85c4.562-2.96 14.757 1.08 15.07 10.65c0 0 1.402-23.687-15.07-23.687" />
+      <path d="M25.953 5.5c3.928 15.338.752 24.428-3.617 31.313c.42-9.589-7.57-27.13-10.514-31.313" />
+      <path d="M42.5 27.56c-4.372.203-12.168 4.538-15.958 14.94c0-12.512 2.224-18.724 15.958-23.687" />
+    </svg>
+  )
+}
+

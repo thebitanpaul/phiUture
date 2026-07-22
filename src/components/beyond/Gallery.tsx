@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Search, X, ChevronRight, Clock, SearchX } from 'lucide-react'
+import { Clock, SearchX } from 'lucide-react'
 import type { BeyondMedium } from '@/lib/types'
-import { Pagination } from '@/components/ui'
+import { Pagination, SearchSort } from '@/components/ui'
 import { useAbout } from '@/context/AboutContext'
 import { socialIcon } from '@/components/icons/socialIcons'
 import { toGalleryItems, type GalleryItem } from './galleryTypes'
@@ -117,13 +117,15 @@ export function Gallery({ mediums, activeId, onSelect }: GalleryProps) {
               })}
             </div>
 
-            {/* Right group: artist profile links + (when browsable) search & sort */}
+            {/* Right group: streaming profiles + (when browsable) search & sort.
+                Stacks on mobile so nothing is ever squeezed off-screen; the
+                sort lives inside the search field as a dropdown icon-button. */}
             {(artistProfiles.length > 0 || isLive) && (
-              <div className="flex flex-wrap items-center justify-center gap-2 lg:flex-nowrap lg:justify-end lg:pr-1">
-                {/* Artist / streaming profiles — always in view on the sticky bar,
-                    so a visitor who likes a track can jump straight to it. */}
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-end sm:gap-3 lg:flex-none">
+                {/* Artist / streaming profiles — always reachable on the sticky
+                    bar, so a visitor who likes a track can jump straight to it. */}
                 {artistProfiles.length > 0 && (
-                  <div className="flex items-center gap-1">
+                  <div className="flex items-center justify-center gap-1">
                     {artistProfiles.map((link) => {
                       const Icon = socialIcon(link.icon)
                       if (!Icon) return null
@@ -145,49 +147,15 @@ export function Gallery({ mediums, activeId, onSelect }: GalleryProps) {
                 )}
 
                 {isLive && (
-                  <>
-                <div className="relative flex-1 lg:flex-none lg:w-56">
-                  <Search
-                    size={15}
-                    className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted pointer-events-none"
-                  />
-                  <input
-                    type="text"
-                    value={query}
-                    onChange={(e) => setQuery(e.target.value)}
+                  <SearchSort
+                    query={query}
+                    onQueryChange={setQuery}
                     placeholder={`Search ${active.label.toLowerCase()}…`}
-                    className="w-full pl-9 pr-8 py-2 rounded-xl bg-white/[0.04] border border-white/[0.07] text-sm text-text-primary placeholder:text-text-muted/70 focus:outline-none focus:border-magenta/40 transition-colors"
+                    sort={sort}
+                    onSortChange={setSort}
+                    sortOptions={SORTS}
+                    className="w-full sm:w-64"
                   />
-                  {query && (
-                    <button
-                      onClick={() => setQuery('')}
-                      aria-label="Clear search"
-                      className="absolute right-2.5 top-1/2 -translate-y-1/2 text-text-muted hover:text-text-primary"
-                    >
-                      <X size={15} />
-                    </button>
-                  )}
-                </div>
-
-                <div className="relative">
-                  <select
-                    value={sort}
-                    onChange={(e) => setSort(e.target.value as SortKey)}
-                    aria-label="Sort"
-                    className="appearance-none py-2 pl-3 pr-8 rounded-xl bg-white/[0.04] border border-white/[0.07] text-sm text-text-secondary focus:outline-none focus:border-magenta/40 cursor-pointer transition-colors"
-                  >
-                    {SORTS.map((s) => (
-                      <option key={s.key} value={s.key} className="bg-elevated text-text-primary">
-                        {s.label}
-                      </option>
-                    ))}
-                  </select>
-                  <ChevronRight
-                    size={14}
-                    className="absolute right-2.5 top-1/2 -translate-y-1/2 rotate-90 text-text-muted pointer-events-none"
-                  />
-                </div>
-                  </>
                 )}
               </div>
             )}

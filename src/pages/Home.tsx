@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import {
@@ -10,13 +10,14 @@ import {
 } from 'lucide-react'
 
 import { Hero } from '@/components/sections/Hero'
+import { PhiMark } from '@/components/ui/PhiMark'
 import { Section } from '@/components/layout/Section'
 import { PageTransition } from '@/components/layout/PageTransition'
 import { GlassCard } from '@/components/ui/GlassCard'
 import { AnimatedGroup, AnimatedItem } from '@/components/ui/AnimatedGroup'
 import { HomeScrollScene } from '@/components/home'
 import { FeaturedCarousel } from '@/components/products'
-import { SpotifyEmbed } from '@/components/beyond'
+import { SpotifyEmbed, PlayerModal, toGalleryItems } from '@/components/beyond'
 
 import { useProducts, useFeaturedProducts } from '@/context/ProductsContext'
 import { useRemoteData } from '@/hooks/useRemoteData'
@@ -83,7 +84,13 @@ export default function Home() {
   const musicMedium = mediums.find((m) => m.id === 'music')
   const video = mediums.find((m) => m.id === 'video')
   const featuredAlbum = musicMedium?.music?.[0]
-  const filmClips = (video?.videos ?? []).slice(0, 4)
+
+  // Videos as gallery items so the same popup player used on the Beyond page
+  // can play a clip in place here — clicking a thumbnail opens the player at
+  // that clip instead of navigating away.
+  const videoItems = useMemo(() => toGalleryItems(video), [video])
+  const filmClips = videoItems.slice(0, 4)
+  const [videoIndex, setVideoIndex] = useState<number | null>(null)
 
   const counts = getCategoryCounts(allProducts)
   const disciplines = CATEGORIES.filter(
@@ -123,9 +130,7 @@ export default function Home() {
                   'radial-gradient(ellipse 60% 60% at 40% 40%, rgba(217,70,239,0.10), transparent 70%)',
               }}
             />
-            <span className="relative typo-display gradient-text leading-none text-[8rem] md:text-[11rem]">
-              φ
-            </span>
+            <PhiMark className="relative leading-none text-[8rem] md:text-[11rem]" />
             <div className="relative mt-2 flex items-baseline gap-3">
               <span className="typo-display text-2xl md:text-3xl text-text-primary">
                 1.618
@@ -150,7 +155,7 @@ export default function Home() {
               <span className="gradient-text">everything</span>.
             </h2>
             <p className="typo-body text-text-secondary text-lg mt-6 max-w-xl">
-              φ is for perfection, U is for you — phiUture is where the two meet.
+              <PhiMark /> is for perfection, U is for you — phiUture is where the two meet.
               Every product and every piece of creative work is measured against
               the same standard: harmonious, considered, and built to evolve.
             </p>
@@ -353,15 +358,16 @@ export default function Home() {
                   </div>
 
                   <div className="grid grid-cols-2 gap-3 flex-1">
-                    {filmClips.map((clip) => (
-                      <Link
-                        key={clip.id}
-                        to="/beyond"
-                        aria-label={`Watch ${clip.title} on Beyond`}
-                        className="group relative block aspect-video rounded-xl overflow-hidden glass border border-white/[0.06]"
+                    {filmClips.map((clip, i) => (
+                      <button
+                        key={clip.key}
+                        type="button"
+                        onClick={() => setVideoIndex(i)}
+                        aria-label={`Play ${clip.title}`}
+                        className="group relative block w-full aspect-video rounded-xl overflow-hidden glass border border-white/[0.06]"
                       >
                         <img
-                          src={`https://i.ytimg.com/vi/${clip.youtubeId}/hqdefault.jpg`}
+                          src={clip.thumbnail}
                           alt={clip.title}
                           loading="lazy"
                           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.06]"
@@ -372,10 +378,10 @@ export default function Home() {
                             <Play size={17} className="text-white ml-0.5" fill="currentColor" />
                           </span>
                         </div>
-                        <span className="absolute bottom-2 left-2.5 right-2.5 typo-body text-xs text-white/90 truncate">
+                        <span className="absolute bottom-2 left-2.5 right-2.5 typo-body text-xs text-white/90 truncate text-left">
                           {clip.title}
                         </span>
-                      </Link>
+                      </button>
                     ))}
                   </div>
                 </GlassCard>
@@ -396,6 +402,14 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Popup player — plays a home-page video clip in place (no navigation) */}
+      <PlayerModal
+        items={videoItems}
+        index={videoIndex}
+        onIndex={setVideoIndex}
+        onClose={() => setVideoIndex(null)}
+      />
 
       {/* ============================================================
           SECTION 8 — About teaser

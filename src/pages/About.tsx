@@ -7,6 +7,7 @@ import { PageTransition } from '@/components/layout/PageTransition'
 import { GlassCard } from '@/components/ui/GlassCard'
 import { AnimatedGroup, AnimatedItem } from '@/components/ui/AnimatedGroup'
 import { PhilosophyBook } from '@/components/about/PhilosophyBook'
+import { PhiMark } from '@/components/ui/PhiMark'
 import { useProducts } from '@/context/ProductsContext'
 import { useAbout } from '@/context/AboutContext'
 import { useRemoteData } from '@/hooks/useRemoteData'
@@ -202,7 +203,12 @@ export default function About() {
       <Section
         label="The Philosophy"
         title="Read the story behind the name"
-        subtitle="phiUture packs three ideas into one word. Flip through the book to see how φ, U, and future fit together."
+        subtitle={
+          <>
+            phiUture packs three ideas into one word. Flip through the book to
+            see how <PhiMark />, U, and future fit together.
+          </>
+        }
       >
         <PhilosophyBook />
       </Section>
@@ -216,8 +222,8 @@ export default function About() {
           transition={{ duration: 0.8, ease: EASE }}
           className="text-center max-w-3xl mx-auto"
         >
-          <div className="typo-display text-5xl md:text-7xl gradient-text mb-6 leading-tight">
-            φ
+          <div className="text-5xl md:text-7xl mb-6 leading-tight">
+            <PhiMark />
           </div>
           <p className="typo-section text-2xl md:text-3xl text-text-primary leading-snug">
             Beautifully engineered technology, crafted for you, shaping the future.
@@ -665,7 +671,7 @@ function JourneyModal({
                       >
                         {/* Card — sits to one side on desktop, right of rail on mobile */}
                         <div
-                          className={`flex-1 ml-14 md:ml-0 ${
+                          className={`flex-1 ml-16 md:ml-0 ${
                             isLeft ? 'md:pr-14 md:text-right' : 'md:pl-14 md:text-left'
                           }`}
                         >
@@ -685,8 +691,8 @@ function JourneyModal({
                           </div>
                         </div>
 
-                        {/* Icon node — centered on the rail */}
-                        <div className="absolute left-6 top-1 z-10 md:left-1/2 md:top-3 md:-translate-x-1/2">
+                        {/* Icon node — centered on the rail at every breakpoint */}
+                        <div className="absolute left-6 top-1 z-10 -translate-x-1/2 md:left-1/2 md:top-3">
                           <div
                             className="flex h-12 w-12 items-center justify-center rounded-xl"
                             style={{

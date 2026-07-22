@@ -11,6 +11,7 @@ import {
   YouTubeMusicIcon,
   GooglePlayIcon,
   SnapchatIcon,
+  JioSaavnIcon,
 } from './BrandIcons'
 
 export type SocialIcon = ComponentType<{ size?: number | string; className?: string }>
@@ -32,6 +33,7 @@ const ICONS: Record<string, SocialIcon> = {
   youtubemusic: YouTubeMusicIcon,
   googleplay: GooglePlayIcon,
   snapchat: SnapchatIcon,
+  jiosaavn: JioSaavnIcon,
 }
 
 export function socialIcon(key: string): SocialIcon | undefined {

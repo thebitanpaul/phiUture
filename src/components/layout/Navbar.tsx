@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X } from 'lucide-react'
 import { NAV_ITEMS } from '@/lib/constants'
 import { cn } from '@/lib/utils'
-import logoSrc from '@/assets/Favicon_Trans.png'
+import { PhiMark } from '@/components/ui/PhiMark'
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
@@ -45,11 +45,9 @@ export function Navbar() {
         >
           {/* Logo */}
           <Link to="/" onClick={handleLogoClick} className="flex items-center gap-2.5 group">
-            <img
-              src={logoSrc}
-              alt="phiUture"
-              className="w-8 h-8 rounded-md transition-transform duration-500 group-hover:scale-110"
-              style={{ filter: 'brightness(0.88) saturate(0.72) contrast(0.96)' }}
+            <PhiMark
+              title="phiUture"
+              className="text-[2rem] transition-transform duration-500 group-hover:scale-110"
             />
           </Link>
 

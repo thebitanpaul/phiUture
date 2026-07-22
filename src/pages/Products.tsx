@@ -8,6 +8,7 @@ import {
   ProductCard,
   FeaturedCarousel,
   ProductsScrollScene,
+  type ProductSortKey,
 } from '@/components/products'
 import { Pagination } from '@/components/ui'
 import {
@@ -58,6 +59,7 @@ export default function Products() {
 
   const [query, setQuery] = useState('')
   const trimmedQuery = query.trim().toLowerCase()
+  const [sort, setSort] = useState<ProductSortKey>('featured')
 
   const allProducts = useProducts()
   const featured = useFeaturedProducts()
@@ -71,12 +73,23 @@ export default function Products() {
     )
   }, [allProducts, active, trimmedQuery])
 
+  // "Featured" keeps the curated date-desc order from getProductsByCategory;
+  // the other keys sort by name. Sorting is layered on top of category + search.
+  const sorted = useMemo(() => {
+    if (sort === 'featured') return filtered
+    const arr = [...filtered]
+    arr.sort((a, b) =>
+      sort === 'az' ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name)
+    )
+    return arr
+  }, [filtered, sort])
+
   // Paginate the grid at 3 rows/page. Reset to the first page whenever the
   // result set changes underfoot (category switch or new search).
   const [page, setPage] = useState(0)
   useEffect(() => {
     setPage(0)
-  }, [active, trimmedQuery])
+  }, [active, trimmedQuery, sort])
 
   // On a user tab switch, glide the filter bar just under the navbar so the new
   // results start in view. The featured carousel + scroll scene stay mounted, so
@@ -96,9 +109,9 @@ export default function Products() {
     return () => cancelAnimationFrame(rafId)
   }, [active])
 
-  const pageCount = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE))
+  const pageCount = Math.max(1, Math.ceil(sorted.length / PAGE_SIZE))
   const safePage = Math.min(page, pageCount - 1)
-  const pageItems = filtered.slice(
+  const pageItems = sorted.slice(
     safePage * PAGE_SIZE,
     safePage * PAGE_SIZE + PAGE_SIZE
   )
@@ -182,6 +195,8 @@ export default function Products() {
         onChange={handleChange}
         query={query}
         onQueryChange={setQuery}
+        sort={sort}
+        onSortChange={setSort}
       />
 
       {/* ============================================================
@@ -201,7 +216,7 @@ export default function Products() {
           </h2>
         </div>
 
-        {filtered.length === 0 ? (
+        {sorted.length === 0 ? (
           <div className="py-24 text-center">
             <p className="typo-body text-sm text-text-muted">
               {trimmedQuery
@@ -213,7 +228,7 @@ export default function Products() {
           <>
             <AnimatePresence mode="wait">
               <motion.div
-                key={`${active}-${trimmedQuery}-${safePage}`}
+                key={`${active}-${trimmedQuery}-${sort}-${safePage}`}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}

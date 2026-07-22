@@ -1,19 +1,19 @@
 // ============================================
 // Remote data — GitHub-hosted JSON, fetched at runtime
 // --------------------------------------------
-// The site ships with the JSON files in public/data/ compiled in as an
+// The site ships with the JSON files in src/data/ compiled in as an
 // instant fallback. When a GitHub base URL is configured below, each
 // page ALSO fetches the newest committed version of its JSON directly
 // from GitHub at runtime (cache-busted, no-store) and swaps it in.
 //
-// => Edit any file in public/data/*.json on GitHub, commit, and the LIVE
+// => Edit any file in src/data/*.json on GitHub, commit, and the LIVE
 //    site reflects it within a minute — no rebuild, no redeploy.
 //
 // SETUP (once): set the base to your repo's raw path — the folder that
 // contains the JSON files. Two ways (env wins over the constant):
 //
 //   1. .env  (recommended):
-//        VITE_GITHUB_DATA_BASE="https://raw.githubusercontent.com/USER/REPO/BRANCH/public/data"
+//        VITE_GITHUB_DATA_BASE="https://raw.githubusercontent.com/USER/REPO/BRANCH/src/data"
 //
 //   2. Or hard-code CONFIG_BASE just below.
 //
@@ -21,7 +21,7 @@
 // ============================================
 
 // Optional hard-coded base (used only if the env var is not set).
-// e.g. 'https://raw.githubusercontent.com/bitanpaul/phiuture/main/public/data'
+// e.g. 'https://raw.githubusercontent.com/bitanpaul/phiuture/main/src/data'
 const CONFIG_BASE = ''
 
 const ENV_BASE = (import.meta.env.VITE_GITHUB_DATA_BASE as string | undefined) ?? ''
