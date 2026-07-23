@@ -2,6 +2,7 @@ import { useRef, useState, useEffect } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
 import { useMediaQuery, useIsMobile } from '@/hooks/useMediaQuery'
+import { SwipeHint } from '@/components/ui/SwipeHint'
 import type { Product } from '@/lib/types'
 import { FeaturedProductCard } from './FeaturedProductCard'
 
@@ -9,7 +10,13 @@ interface FeaturedCarouselProps {
   products: Product[]
 }
 
-function Header({ hint = false }: { hint?: boolean }) {
+function Header({
+  hint = false,
+  swipeHint = false,
+}: {
+  hint?: boolean
+  swipeHint?: boolean
+}) {
   return (
     <div className="mx-auto mb-8 flex w-full max-w-6xl items-end justify-between px-6">
       <div>
@@ -24,6 +31,7 @@ function Header({ hint = false }: { hint?: boolean }) {
           <ArrowRight size={15} className="text-magenta" />
         </span>
       )}
+      {swipeHint && <SwipeHint className="shrink-0" />}
     </div>
   )
 }
@@ -99,7 +107,7 @@ function PinnedCarousel({ products }: FeaturedCarouselProps) {
 function SwipeCarousel({ products }: FeaturedCarouselProps) {
   return (
     <section className="pt-6 md:pt-8" aria-label="Featured products">
-      <Header />
+      <Header swipeHint={products.length > 1} />
       <div
         className="flex snap-x snap-mandatory gap-5 overflow-x-auto px-6 pb-4"
         style={{ scrollbarWidth: 'none' }}

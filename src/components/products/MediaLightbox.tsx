@@ -55,6 +55,9 @@ export function MediaLightbox({
 
   const embed = getMediaEmbed(item.src)
 
+  // Portal targets document.body — absent during static prerender (SSG).
+  if (typeof document === 'undefined') return null
+
   return createPortal(
     <motion.div
       initial={{ opacity: 0 }}

@@ -19,6 +19,7 @@ import { AnimatedGroup, AnimatedItem } from '@/components/ui/AnimatedGroup'
 import { HomeScrollScene } from '@/components/home'
 import { FeaturedCarousel } from '@/components/products'
 import { SpotifyEmbed, PlayerModal, toGalleryItems } from '@/components/beyond'
+import { SEO } from '@/components/seo/SEO'
 
 import { useProducts, useFeaturedProducts } from '@/context/ProductsContext'
 import { useRemoteData } from '@/hooks/useRemoteData'
@@ -107,6 +108,7 @@ export default function Home() {
 
   return (
     <PageTransition>
+      <SEO path="/" />
       <Hero />
 
       {/* ============================================================

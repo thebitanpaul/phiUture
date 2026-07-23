@@ -3,6 +3,7 @@ import { motion, useScroll, useTransform, useMotionValueEvent } from 'framer-mot
 import { ChevronDown, ArrowRight } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { PhiLogo } from '@/components/ui/PhiLogo'
+import { useFrameSequence } from '@/hooks/useFrameSequence'
 
 const EASE = [0.16, 1, 0.3, 1] as const
 
@@ -10,89 +11,59 @@ const EASE = [0.16, 1, 0.3, 1] as const
 // The hero plays like a video that scrubs with the scroll wheel. As the user
 // scrolls through the tall (pinned) hero section, we advance through 135 stills
 // drawn to a full-bleed <canvas>, giving a smooth cinematic "scene" that reacts
-// to every scroll — inspired by jeskojets.com.
+// to every scroll — inspired by jeskojets.com. The mobile-safe preloading (frame
+// sampling, resolution capping, throttled requests) lives in useFrameSequence.
 const FRAME_COUNT = 135
 const FRAME_BASE = `${import.meta.env.BASE_URL}scroll-frames/`
 const frameSrc = (i: number) =>
   `${FRAME_BASE}ezgif-frame-${String(i + 1).padStart(3, '0')}.jpg`
 
-// Preloads every frame, reporting progress so we can show a tasteful loader and
-// only reveal the scene once enough frames exist to scrub without gaps.
-function useFrameSequence() {
-  const framesRef = useRef<HTMLImageElement[]>([])
-  const [ready, setReady] = useState(false)
-  const [progress, setProgress] = useState(0)
-
-  useEffect(() => {
-    let cancelled = false
-    let loaded = 0
-    const images: HTMLImageElement[] = new Array(FRAME_COUNT)
-
-    for (let i = 0; i < FRAME_COUNT; i++) {
-      const img = new Image()
-      img.decoding = 'async'
-      img.src = frameSrc(i)
-      img.onload = img.onerror = () => {
-        if (cancelled) return
-        loaded++
-        setProgress(loaded / FRAME_COUNT)
-        // Reveal as soon as the opening frames are in — the rest stream in.
-        if (loaded >= Math.min(12, FRAME_COUNT)) setReady(true)
-      }
-      images[i] = img
-    }
-    framesRef.current = images
-
-    return () => {
-      cancelled = true
-    }
-  }, [])
-
-  return { framesRef, ready, progress }
-}
-
 export function Hero() {
   const sectionRef = useRef<HTMLElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const { framesRef, ready, progress } = useFrameSequence()
+  const { framesRef, ready, progress, countRef } = useFrameSequence(
+    FRAME_COUNT,
+    frameSrc,
+    12
+  )
 
   // Smooth-scrub state: `target` follows scroll instantly, `current` eases
   // toward it each frame so fast flicks feel fluid rather than choppy.
   const targetFrame = useRef(0)
   const currentFrame = useRef(0)
   const rafId = useRef<number>()
+  // Pause the scrub loop once the (tall) hero has scrolled out of view.
+  const [onScreen, setOnScreen] = useState(true)
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ['start start', 'end end'],
   })
 
-  // Map scroll (0→1) to a frame index.
+  // Map scroll (0→1) to a frame index (of the effective, possibly-sampled set).
   useMotionValueEvent(scrollYProgress, 'change', (v) => {
-    targetFrame.current = Math.min(
-      FRAME_COUNT - 1,
-      Math.max(0, v * (FRAME_COUNT - 1))
-    )
+    const max = countRef.current - 1
+    targetFrame.current = Math.min(max, Math.max(0, v * max))
   })
 
   // Draws one frame to the canvas using "cover" fit + devicePixelRatio scaling.
   const drawFrame = useCallback((index: number) => {
     const canvas = canvasRef.current
-    const img = framesRef.current[Math.round(index)]
-    if (!canvas || !img || !img.complete || img.naturalWidth === 0) return
+    const frame = framesRef.current[Math.round(index)]
+    if (!canvas || !frame) return
     const ctx = canvas.getContext('2d')
     if (!ctx) return
 
     const cw = canvas.width
     const ch = canvas.height
-    const scale = Math.max(cw / img.naturalWidth, ch / img.naturalHeight)
-    const dw = img.naturalWidth * scale
-    const dh = img.naturalHeight * scale
+    const scale = Math.max(cw / frame.w, ch / frame.h)
+    const dw = frame.w * scale
+    const dh = frame.h * scale
     const dx = (cw - dw) / 2
     const dy = (ch - dh) / 2
 
     ctx.clearRect(0, 0, cw, ch)
-    ctx.drawImage(img, dx, dy, dw, dh)
+    ctx.drawImage(frame.source, dx, dy, dw, dh)
   }, [framesRef])
 
   // Size the canvas to its container (with DPR) and repaint on resize.
@@ -101,7 +72,8 @@ export function Hero() {
     if (!canvas) return
 
     const resize = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2)
+      const isMobile = window.matchMedia('(max-width: 768px)').matches
+      const dpr = Math.min(window.devicePixelRatio || 1, isMobile ? 1.5 : 2)
       const { clientWidth, clientHeight } = canvas
       canvas.width = Math.round(clientWidth * dpr)
       canvas.height = Math.round(clientHeight * dpr)
@@ -113,14 +85,27 @@ export function Hero() {
     return () => window.removeEventListener('resize', resize)
   }, [drawFrame, ready])
 
+  // Only drive the scrub loop while the hero is on screen.
+  useEffect(() => {
+    const el = sectionRef.current
+    if (!el) return
+    const io = new IntersectionObserver(
+      ([entry]) => setOnScreen(entry.isIntersecting),
+      { threshold: 0 }
+    )
+    io.observe(el)
+    return () => io.disconnect()
+  }, [])
+
   // Continuous rAF loop: eases the displayed frame toward the scroll target.
   useEffect(() => {
-    if (!ready) return
+    if (!ready || !onScreen) return
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
     const tick = () => {
       const cur = currentFrame.current
       const tgt = targetFrame.current
-      const next = cur + (tgt - cur) * 0.18
+      const next = reduce ? tgt : cur + (tgt - cur) * 0.18
       // Snap when close enough to stop needless repaints.
       currentFrame.current = Math.abs(tgt - next) < 0.05 ? tgt : next
       if (Math.round(currentFrame.current) !== Math.round(cur) || cur === 0) {
@@ -132,7 +117,7 @@ export function Hero() {
     return () => {
       if (rafId.current) cancelAnimationFrame(rafId.current)
     }
-  }, [ready, drawFrame])
+  }, [ready, onScreen, drawFrame])
 
   // ── Scroll-synced overlay captions (fade in/out at scroll checkpoints) ──────
   // Scene 1 — opening headline, top-left. Fades out early as you scroll in.

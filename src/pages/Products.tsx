@@ -17,6 +17,7 @@ import {
   type FilterId,
 } from '@/lib/products'
 import { useProducts, useFeaturedProducts } from '@/context/ProductsContext'
+import { SEO } from '@/components/seo/SEO'
 
 const EASE = [0.16, 1, 0.3, 1] as const
 
@@ -123,6 +124,11 @@ export default function Products() {
 
   return (
     <PageTransition>
+      <SEO
+        title="Products"
+        description="From AI-powered applications to intelligent automation, data pipelines, research and games — every phiUture product is designed to solve real-world problems, beautifully."
+        path="/products"
+      />
       {/* ============================================================
           HERO
           ============================================================ */}

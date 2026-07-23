@@ -7,6 +7,7 @@ import { useRemoteData } from '@/hooks/useRemoteData'
 import type { BeyondData, BeyondMedium } from '@/lib/types'
 import beyondFallback from '@data/beyond.json'
 import type { MotionValue } from 'framer-motion'
+import { SEO } from '@/components/seo/SEO'
 
 const EASE = [0.16, 1, 0.3, 1] as const
 
@@ -27,6 +28,11 @@ export default function BeyondPage() {
 
   return (
     <PageTransition>
+      <SEO
+        title="Beyond"
+        description="The creative side of phiUture — original music and film, crafted by hand with AI as a collaborator in the room."
+        path="/beyond"
+      />
       {/* ── Intro hero ─────────────────────────────────────────────────────── */}
       <section className="relative z-10 pt-40 pb-16 md:pb-20 overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">

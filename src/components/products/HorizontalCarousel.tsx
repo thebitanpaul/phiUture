@@ -3,6 +3,7 @@ import { motion, useScroll, useTransform } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useMediaQuery, useIsMobile } from '@/hooks/useMediaQuery'
+import { SwipeHint } from '@/components/ui/SwipeHint'
 
 interface HorizontalCarouselProps {
   label: string
@@ -16,10 +17,12 @@ function Header({
   label,
   title,
   hint = false,
+  swipeHint = false,
 }: {
   label: string
   title: string
   hint?: boolean
+  swipeHint?: boolean
 }) {
   return (
     <div className="mx-auto mb-8 flex w-full max-w-6xl items-end justify-between px-6">
@@ -35,6 +38,7 @@ function Header({
           <ArrowRight size={15} className="text-magenta" />
         </span>
       )}
+      {swipeHint && <SwipeHint className="shrink-0" />}
     </div>
   )
 }
@@ -122,7 +126,7 @@ function Pinned({ label, title, items, itemClassName }: HorizontalCarouselProps)
 function Swipe({ label, title, items, itemClassName }: HorizontalCarouselProps) {
   return (
     <section className="border-t border-white/[0.06] py-12 md:py-14">
-      <Header label={label} title={title} />
+      <Header label={label} title={title} swipeHint={items.length > 1} />
       <div
         className="flex snap-x snap-mandatory gap-5 overflow-x-auto pb-4 pl-6"
         style={{ scrollbarWidth: 'none' }}

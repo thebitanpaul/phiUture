@@ -1,5 +1,6 @@
 import { useRef, useEffect, useState, useCallback } from 'react'
 import { motion, useMotionValueEvent, type MotionValue } from 'framer-motion'
+import { useFrameSequence } from '@/hooks/useFrameSequence'
 
 const EASE = [0.16, 1, 0.3, 1] as const
 const VOID = '#020203'
@@ -9,40 +10,8 @@ const VOID = '#020203'
 // through a bounded scroll region, we advance through N stills painted to a
 // <canvas>, giving a cinematic backdrop that reacts to every scroll. Shared by
 // the Beyond scene and the Products scene — only the frame source differs.
-
-// Preloads every frame, reporting progress so we can show a tasteful loader and
-// only reveal the scene once the opening frames exist to scrub without gaps.
-function useFrameSequence(frameCount: number, frameSrc: (i: number) => string) {
-  const framesRef = useRef<HTMLImageElement[]>([])
-  const [ready, setReady] = useState(false)
-  const [progress, setProgress] = useState(0)
-
-  useEffect(() => {
-    let cancelled = false
-    let loaded = 0
-    const images: HTMLImageElement[] = new Array(frameCount)
-
-    for (let i = 0; i < frameCount; i++) {
-      const img = new Image()
-      img.decoding = 'async'
-      img.src = frameSrc(i)
-      img.onload = img.onerror = () => {
-        if (cancelled) return
-        loaded++
-        setProgress(loaded / frameCount)
-        if (loaded >= Math.min(10, frameCount)) setReady(true)
-      }
-      images[i] = img
-    }
-    framesRef.current = images
-
-    return () => {
-      cancelled = true
-    }
-  }, [frameCount, frameSrc])
-
-  return { framesRef, ready, progress }
-}
+// The heavy lifting (mobile-safe preloading, frame sampling, resolution capping)
+// lives in the shared useFrameSequence hook.
 
 interface ScrollFramesProps {
   /** Scroll progress (0→1) of the enclosing section, drives the frame index. */
@@ -61,11 +30,18 @@ export function ScrollFrames({
   frameSrc,
   label = '',
 }: ScrollFramesProps) {
+  const rootRef = useRef<HTMLDivElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const { framesRef, ready, progress } = useFrameSequence(frameCount, frameSrc)
+  const { framesRef, ready, progress, countRef } = useFrameSequence(
+    frameCount,
+    frameSrc
+  )
   // Only fade the canvas in once a real frame has been painted — prevents the
   // brief flash of an unpainted/half-sized canvas during the page transition.
   const [painted, setPainted] = useState(false)
+  // Pause the rAF scrub whenever the scene is off-screen, so scrolling the rest
+  // of the (long) page never fights a redraw loop it can't even see.
+  const [onScreen, setOnScreen] = useState(true)
 
   // Smooth-scrub state: `target` follows scroll instantly, `current` eases
   // toward it each frame so fast flicks feel fluid rather than choppy.
@@ -74,25 +50,23 @@ export function ScrollFrames({
   const rafId = useRef<number>()
 
   useMotionValueEvent(scrollYProgress, 'change', (v) => {
-    targetFrame.current = Math.min(
-      frameCount - 1,
-      Math.max(0, v * (frameCount - 1))
-    )
+    const max = countRef.current - 1
+    targetFrame.current = Math.min(max, Math.max(0, v * max))
   })
 
   // Draws one frame to the canvas using "cover" fit + devicePixelRatio scaling.
   const drawFrame = useCallback((index: number) => {
     const canvas = canvasRef.current
-    const img = framesRef.current[Math.round(index)]
-    if (!canvas || !img || !img.complete || img.naturalWidth === 0) return
+    const frame = framesRef.current[Math.round(index)]
+    if (!canvas || !frame) return
     const ctx = canvas.getContext('2d')
     if (!ctx) return
 
     const cw = canvas.width
     const ch = canvas.height
-    const scale = Math.max(cw / img.naturalWidth, ch / img.naturalHeight)
-    const dw = img.naturalWidth * scale
-    const dh = img.naturalHeight * scale
+    const scale = Math.max(cw / frame.w, ch / frame.h)
+    const dw = frame.w * scale
+    const dh = frame.h * scale
     const dx = (cw - dw) / 2
     const dy = (ch - dh) / 2
 
@@ -102,7 +76,7 @@ export function ScrollFrames({
     ctx.fillStyle = VOID
     ctx.fillRect(0, 0, cw, ch)
     ctx.drawImage(
-      img,
+      frame.source,
       Math.floor(dx) - 1,
       Math.floor(dy) - 1,
       Math.ceil(dw) + 2,
@@ -117,7 +91,8 @@ export function ScrollFrames({
     if (!canvas) return
 
     const resize = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2)
+      const isMobile = window.matchMedia('(max-width: 768px)').matches
+      const dpr = Math.min(window.devicePixelRatio || 1, isMobile ? 1.5 : 2)
       const { clientWidth, clientHeight } = canvas
       if (clientWidth === 0 || clientHeight === 0) return
       canvas.width = Math.round(clientWidth * dpr)
@@ -130,9 +105,21 @@ export function ScrollFrames({
     return () => window.removeEventListener('resize', resize)
   }, [drawFrame, ready])
 
+  // Only run the scrub loop while the scene is actually in view.
+  useEffect(() => {
+    const el = rootRef.current
+    if (!el) return
+    const io = new IntersectionObserver(
+      ([entry]) => setOnScreen(entry.isIntersecting),
+      { threshold: 0 }
+    )
+    io.observe(el)
+    return () => io.disconnect()
+  }, [])
+
   // Continuous rAF loop: eases the displayed frame toward the scroll target.
   useEffect(() => {
-    if (!ready) return
+    if (!ready || !onScreen) return
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
     const tick = () => {
@@ -150,10 +137,10 @@ export function ScrollFrames({
     return () => {
       if (rafId.current) cancelAnimationFrame(rafId.current)
     }
-  }, [ready, drawFrame])
+  }, [ready, onScreen, drawFrame])
 
   return (
-    <div className="relative w-full h-full overflow-hidden bg-void">
+    <div ref={rootRef} className="relative w-full h-full overflow-hidden bg-void">
       {/* The scrubbed frame sequence. The canvas is overscanned 2px beyond
           every edge (root clips it) so its own anti-aliased layer edge falls
           outside the visible area — kills the faint 1px seam that otherwise

@@ -13,6 +13,7 @@ import { BrandText } from '@/components/ui/BrandText'
 import { useProducts } from '@/context/ProductsContext'
 import { useAbout } from '@/context/AboutContext'
 import { useRemoteData } from '@/hooks/useRemoteData'
+import { SEO } from '@/components/seo/SEO'
 import type { AboutKpi, AboutPerson, BeyondData } from '@/lib/types'
 import beyondFallback from '@data/beyond.json'
 import {
@@ -161,6 +162,11 @@ export default function About() {
 
   return (
     <PageTransition>
+      <SEO
+        title="About"
+        description="The story and philosophy behind phiUture — beauty in engineering, the customer at the center, and eyes always on the horizon."
+        path="/about"
+      />
       {/* Page hero */}
       <section className="relative pt-40 pb-20 overflow-hidden">
         <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
@@ -346,7 +352,7 @@ export default function About() {
         >
           <Sparkles size={28} className="text-magenta mx-auto mb-5" />
           <h2 className="typo-section text-2xl md:text-3xl text-text-primary mb-5">
-            The vision is simple
+            The vision
           </h2>
           <p className="typo-body text-text-secondary text-lg leading-relaxed">
             Build products people love using, powered by AI that actually helps,
@@ -609,6 +615,10 @@ function JourneyModal({
     }
   }, [open, onClose])
 
+  // Portals target document.body, which doesn't exist during static
+  // prerender (SSG). Render nothing server-side; the modal is client-only.
+  if (typeof document === 'undefined') return null
+
   return createPortal(
     <AnimatePresence>
       {open && person && (
@@ -689,7 +699,7 @@ function JourneyModal({
                               {item.year}
                             </span>
                             <h3 className="typo-section text-lg text-text-primary mb-1.5">
-                              {item.title}
+                              <BrandText>{item.title}</BrandText>
                             </h3>
                             <p className="typo-body text-text-secondary text-sm leading-relaxed">
                               {item.description}
@@ -751,6 +761,10 @@ function AvatarLightbox({
       document.body.style.overflow = prev
     }
   }, [open, onClose])
+
+  // Portals target document.body, which doesn't exist during static
+  // prerender (SSG). Render nothing server-side; the modal is client-only.
+  if (typeof document === 'undefined') return null
 
   return createPortal(
     <AnimatePresence>

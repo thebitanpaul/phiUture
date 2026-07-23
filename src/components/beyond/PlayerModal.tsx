@@ -43,6 +43,9 @@ export function PlayerModal({ items, index, onIndex, onClose }: PlayerModalProps
   // Rendered through a portal to <body>: the page is wrapped in a transformed/
   // filtered PageTransition, which would otherwise make `position: fixed`
   // anchor to that ancestor instead of the viewport (modal ends up off-screen).
+  // Portal targets document.body — absent during static prerender (SSG).
+  if (typeof document === 'undefined') return null
+
   return createPortal(
     <AnimatePresence>
       {open && current && (

@@ -7,6 +7,7 @@ import { Send, CheckCircle, Mail, MapPin, Link2, Share2 } from 'lucide-react'
 import { useAbout } from '@/context/AboutContext'
 import { socialIcon } from '@/components/icons/socialIcons'
 import type { SocialLink } from '@/lib/types'
+import { SEO } from '@/components/seo/SEO'
 
 interface FormData {
   name: string
@@ -47,6 +48,11 @@ export default function Contact() {
 
   return (
     <PageTransition>
+      <SEO
+        title="Contact"
+        description="Have a project in mind, a question, or just want to connect with phiUture? Reach out and let's build something extraordinary."
+        path="/contact"
+      />
       {/* Header */}
       <section className="relative pt-40 pb-16 overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">

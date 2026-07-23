@@ -19,8 +19,10 @@ import {
   getProductBySlug,
   getProductCTAs,
   getRelatedProducts,
+  resolveImageUrl,
 } from '@/lib/products'
 import { useProducts } from '@/context/ProductsContext'
+import { SEO } from '@/components/seo/SEO'
 import type { ProductMetric } from '@/lib/types'
 
 const EASE = [0.16, 1, 0.3, 1] as const
@@ -159,6 +161,12 @@ function MetricGrid({ metrics }: { metrics: ProductMetric[] }) {
 function NotFound() {
   return (
     <PageTransition>
+      <SEO
+        title="Product not found"
+        description="We couldn't find that product. It may have moved or is still in the works."
+        path="/products"
+        noindex
+      />
       <section className="flex min-h-screen items-center justify-center px-6">
         <div className="max-w-md text-center">
           <h1 className="typo-section mb-4 text-3xl text-text-primary md:text-4xl">
@@ -209,6 +217,13 @@ export default function ProductDetail() {
 
   return (
     <PageTransition>
+      <SEO
+        title={product.name}
+        description={product.tagline || product.overview}
+        path={`/products/${product.slug}`}
+        image={resolveImageUrl(product.heroImage || product.icon)}
+        type="article"
+      />
       <article>
         {/* ===================== HERO ===================== */}
         <section className="relative overflow-hidden pb-10 pt-32 md:pt-36">
