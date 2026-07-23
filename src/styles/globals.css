@@ -184,6 +184,33 @@ body {
 }
 
 /* ============================================
+   Mobile compositing budget
+   ============================================
+   backdrop-filter: blur() is disproportionately expensive on iOS Safari: each
+   glass surface becomes a large GPU-backed layer, and a long page full of them
+   next to a continuously-repainting <canvas> scene can exhaust the tab's memory
+   — the black flashes and "Can't open this page" crashes seen on iPhone. On
+   phones we drop the live blur and lean on a near-opaque fill instead, which
+   reads almost identically over the dark UI but costs a fraction of the memory. */
+@media (max-width: 768px) {
+  .glass {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: linear-gradient(135deg, rgba(22, 22, 30, 0.9), rgba(14, 14, 20, 0.86));
+  }
+  .glass-strong {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: linear-gradient(135deg, rgba(26, 26, 36, 0.95), rgba(16, 16, 24, 0.93));
+  }
+  .glass-bar {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: rgba(9, 9, 14, 0.98);
+  }
+}
+
+/* ============================================
    Reduced Motion
    ============================================ */
 

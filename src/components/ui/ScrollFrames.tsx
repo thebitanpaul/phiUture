@@ -1,6 +1,7 @@
 import { useRef, useEffect, useState, useCallback } from 'react'
 import { motion, useMotionValueEvent, type MotionValue } from 'framer-motion'
 import { useFrameSequence } from '@/hooks/useFrameSequence'
+import { usePerfTier, usePerfWatchdog } from '@/lib/deviceCapability'
 
 const EASE = [0.16, 1, 0.3, 1] as const
 const VOID = '#020203'
@@ -32,9 +33,17 @@ export function ScrollFrames({
 }: ScrollFramesProps) {
   const rootRef = useRef<HTMLDivElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  // Weak / memory-tight devices (and anyone the watchdog catches janking) get a
+  // static backdrop instead of the scrubbing canvas — it can't crash or stutter.
+  const tier = usePerfTier()
+  const minimal = tier === 'minimal'
+  // Defer loading until the scene is near the viewport, so a page with more than
+  // one scene (e.g. Home) never reserves memory for all of them up front.
+  const [shouldLoad, setShouldLoad] = useState(false)
   const { framesRef, ready, progress, countRef } = useFrameSequence(
     frameCount,
-    frameSrc
+    frameSrc,
+    { start: shouldLoad && !minimal, tier }
   )
   // Only fade the canvas in once a real frame has been painted — prevents the
   // brief flash of an unpainted/half-sized canvas during the page transition.
@@ -42,6 +51,10 @@ export function ScrollFrames({
   // Pause the rAF scrub whenever the scene is off-screen, so scrolling the rest
   // of the (long) page never fights a redraw loop it can't even see.
   const [onScreen, setOnScreen] = useState(true)
+
+  // Measure real FPS while this scene animates; downgrade to 'minimal' if the
+  // device can't keep up. Runs only on the canvas path, on screen, once loaded.
+  usePerfWatchdog(!minimal && onScreen && ready)
 
   // Smooth-scrub state: `target` follows scroll instantly, `current` eases
   // toward it each frame so fast flicks feel fluid rather than choppy.
@@ -91,8 +104,7 @@ export function ScrollFrames({
     if (!canvas) return
 
     const resize = () => {
-      const isMobile = window.matchMedia('(max-width: 768px)').matches
-      const dpr = Math.min(window.devicePixelRatio || 1, isMobile ? 1.5 : 2)
+      const dpr = Math.min(window.devicePixelRatio || 1, tier === 'full' ? 2 : 1.5)
       const { clientWidth, clientHeight } = canvas
       if (clientWidth === 0 || clientHeight === 0) return
       canvas.width = Math.round(clientWidth * dpr)
@@ -103,23 +115,39 @@ export function ScrollFrames({
     resize()
     window.addEventListener('resize', resize)
     return () => window.removeEventListener('resize', resize)
-  }, [drawFrame, ready])
+  }, [drawFrame, ready, tier])
 
-  // Only run the scrub loop while the scene is actually in view.
+  // Two observers on the same element, different jobs:
+  //  • loader — pre-arms decoding ~1.5 viewports out, then latches on.
+  //  • gate   — true visibility, so the rAF scrub only runs when on screen.
   useEffect(() => {
     const el = rootRef.current
     if (!el) return
-    const io = new IntersectionObserver(
+
+    const loader = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShouldLoad(true)
+          loader.disconnect()
+        }
+      },
+      { threshold: 0, rootMargin: '150% 0px' }
+    )
+    const gate = new IntersectionObserver(
       ([entry]) => setOnScreen(entry.isIntersecting),
       { threshold: 0 }
     )
-    io.observe(el)
-    return () => io.disconnect()
+    loader.observe(el)
+    gate.observe(el)
+    return () => {
+      loader.disconnect()
+      gate.disconnect()
+    }
   }, [])
 
   // Continuous rAF loop: eases the displayed frame toward the scroll target.
   useEffect(() => {
-    if (!ready || !onScreen) return
+    if (!ready || !onScreen || minimal) return
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
     const tick = () => {
@@ -137,42 +165,56 @@ export function ScrollFrames({
     return () => {
       if (rafId.current) cancelAnimationFrame(rafId.current)
     }
-  }, [ready, onScreen, drawFrame])
+  }, [ready, onScreen, minimal, drawFrame])
 
   return (
     <div ref={rootRef} className="relative w-full h-full overflow-hidden bg-void">
-      {/* The scrubbed frame sequence. The canvas is overscanned 2px beyond
-          every edge (root clips it) so its own anti-aliased layer edge falls
-          outside the visible area — kills the faint 1px seam that otherwise
-          flashes at the top edge during transitions / tab switches. */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: ready && painted ? 1 : 0 }}
-        transition={{ duration: 1, ease: EASE }}
-        className="absolute -inset-[2px]"
-      >
-        <canvas
-          ref={canvasRef}
-          className="w-full h-full block"
-          style={{ backgroundColor: VOID }}
+      {minimal ? (
+        /* Minimal tier — a single static still, no canvas, no rAF, no risk. */
+        <img
+          src={frameSrc(Math.floor(frameCount / 2))}
+          alt=""
+          aria-hidden="true"
+          loading="lazy"
+          decoding="async"
+          className="absolute inset-0 h-full w-full object-cover"
         />
-      </motion.div>
+      ) : (
+        <>
+          {/* The scrubbed frame sequence. The canvas is overscanned 2px beyond
+              every edge (root clips it) so its own anti-aliased layer edge falls
+              outside the visible area — kills the faint 1px seam that otherwise
+              flashes at the top edge during transitions / tab switches. */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: ready && painted ? 1 : 0 }}
+            transition={{ duration: 1, ease: EASE }}
+            className="absolute -inset-[2px]"
+          >
+            <canvas
+              ref={canvasRef}
+              className="w-full h-full block"
+              style={{ backgroundColor: VOID }}
+            />
+          </motion.div>
 
-      {/* Loader while the opening frames stream in */}
-      {!(ready && painted) && (
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="flex flex-col items-center gap-4">
-            <div className="w-40 h-px bg-border-light overflow-hidden rounded-full">
-              <div
-                className="h-full bg-gradient-to-r from-magenta to-violet transition-[width] duration-300"
-                style={{ width: `${Math.round(progress * 100)}%` }}
-              />
+          {/* Loader while the opening frames stream in */}
+          {!(ready && painted) && (
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="flex flex-col items-center gap-4">
+                <div className="w-40 h-px bg-border-light overflow-hidden rounded-full">
+                  <div
+                    className="h-full bg-gradient-to-r from-magenta to-violet transition-[width] duration-300"
+                    style={{ width: `${Math.round(progress * 100)}%` }}
+                  />
+                </div>
+                <span className="typo-label text-text-muted/60" style={{ fontSize: '10px' }}>
+                  Loading experience
+                </span>
+              </div>
             </div>
-            <span className="typo-label text-text-muted/60" style={{ fontSize: '10px' }}>
-              Loading experience
-            </span>
-          </div>
-        </div>
+          )}
+        </>
       )}
 
       {/* ── Gradient blend layers ──────────────────────────────────────────── */}

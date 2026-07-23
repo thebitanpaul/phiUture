@@ -4,6 +4,7 @@ import { ChevronDown, ArrowRight } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { PhiLogo } from '@/components/ui/PhiLogo'
 import { useFrameSequence } from '@/hooks/useFrameSequence'
+import { usePerfTier, usePerfWatchdog } from '@/lib/deviceCapability'
 
 const EASE = [0.16, 1, 0.3, 1] as const
 
@@ -21,10 +22,14 @@ const frameSrc = (i: number) =>
 export function Hero() {
   const sectionRef = useRef<HTMLElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  // Weak / memory-tight devices get a static hero still instead of the scrubbing
+  // canvas — the scroll-synced captions below still animate (they're cheap).
+  const tier = usePerfTier()
+  const minimal = tier === 'minimal'
   const { framesRef, ready, progress, countRef } = useFrameSequence(
     FRAME_COUNT,
     frameSrc,
-    12
+    { readyThreshold: 12, start: !minimal, tier }
   )
 
   // Smooth-scrub state: `target` follows scroll instantly, `current` eases
@@ -34,6 +39,10 @@ export function Hero() {
   const rafId = useRef<number>()
   // Pause the scrub loop once the (tall) hero has scrolled out of view.
   const [onScreen, setOnScreen] = useState(true)
+
+  // Watch real FPS while the hero scrubs; downgrade to a static backdrop if the
+  // device can't hold a smooth rate.
+  usePerfWatchdog(!minimal && onScreen && ready)
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -72,8 +81,7 @@ export function Hero() {
     if (!canvas) return
 
     const resize = () => {
-      const isMobile = window.matchMedia('(max-width: 768px)').matches
-      const dpr = Math.min(window.devicePixelRatio || 1, isMobile ? 1.5 : 2)
+      const dpr = Math.min(window.devicePixelRatio || 1, tier === 'full' ? 2 : 1.5)
       const { clientWidth, clientHeight } = canvas
       canvas.width = Math.round(clientWidth * dpr)
       canvas.height = Math.round(clientHeight * dpr)
@@ -83,7 +91,7 @@ export function Hero() {
     resize()
     window.addEventListener('resize', resize)
     return () => window.removeEventListener('resize', resize)
-  }, [drawFrame, ready])
+  }, [drawFrame, ready, tier])
 
   // Only drive the scrub loop while the hero is on screen.
   useEffect(() => {
@@ -99,7 +107,7 @@ export function Hero() {
 
   // Continuous rAF loop: eases the displayed frame toward the scroll target.
   useEffect(() => {
-    if (!ready || !onScreen) return
+    if (!ready || !onScreen || minimal) return
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
     const tick = () => {
@@ -117,7 +125,7 @@ export function Hero() {
     return () => {
       if (rafId.current) cancelAnimationFrame(rafId.current)
     }
-  }, [ready, onScreen, drawFrame])
+  }, [ready, onScreen, minimal, drawFrame])
 
   // ── Scroll-synced overlay captions (fade in/out at scroll checkpoints) ──────
   // Scene 1 — opening headline, top-left. Fades out early as you scroll in.
@@ -148,19 +156,31 @@ export function Hero() {
       {/* ── Pinned viewport ── */}
       <div className="sticky top-0 h-screen overflow-hidden bg-void">
 
-        {/* Layer 0 — the scroll-scrubbed frame sequence */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: ready ? 1 : 0 }}
-          transition={{ duration: 1, ease: EASE }}
-          className="absolute inset-0"
-          style={{ zIndex: 0 }}
-        >
-          <canvas ref={canvasRef} className="w-full h-full block" />
-        </motion.div>
+        {/* Layer 0 — the scroll-scrubbed frame sequence, or a static still on
+            the minimal tier (weak / memory-tight devices). */}
+        {minimal ? (
+          <img
+            src={frameSrc(Math.floor(FRAME_COUNT / 2))}
+            alt=""
+            aria-hidden="true"
+            decoding="async"
+            className="absolute inset-0 h-full w-full object-cover"
+            style={{ zIndex: 0 }}
+          />
+        ) : (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: ready ? 1 : 0 }}
+            transition={{ duration: 1, ease: EASE }}
+            className="absolute inset-0"
+            style={{ zIndex: 0 }}
+          >
+            <canvas ref={canvasRef} className="w-full h-full block" />
+          </motion.div>
+        )}
 
         {/* Loading indicator while the opening frames stream in */}
-        {!ready && (
+        {!minimal && !ready && (
           <div
             className="absolute inset-0 flex items-center justify-center"
             style={{ zIndex: 1 }}
