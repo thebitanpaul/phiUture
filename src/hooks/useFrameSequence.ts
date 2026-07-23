@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import type { PerfTier } from '@/lib/deviceCapability'
+import { isHighMemoryDevice, type PerfTier } from '@/lib/deviceCapability'
 
 // A single decoded still, normalised so the canvas can paint an <img>, a
 // downscaled ImageBitmap, or a downscaled <canvas> through the same path.
@@ -12,7 +12,13 @@ export type Frame = { source: CanvasImageSource; w: number; h: number }
 // this page"). On the reduced tier we clamp frame COUNT and frame SIZE hard;
 // the scene sits full-bleed behind a heavy scrim, so the lost sharpness is
 // invisible while the memory saving is ~8×.
+//
+// Frame COUNT is the one axis where a powerful phone shows a real benefit — a
+// denser set scrubs more smoothly. So flagship-class devices (see
+// isHighMemoryDevice) get HIGH_MEM_MAX_FRAMES. Resolution stays capped either
+// way, so even the denser set is memory-safe (~65 MB/scene vs ~36 MB).
 const REDUCED_MAX_FRAMES = 40
+const HIGH_MEM_MAX_FRAMES = 72
 const REDUCED_MAX_EDGE = 640
 
 interface FrameSequenceOptions {
@@ -22,6 +28,12 @@ interface FrameSequenceOptions {
   start?: boolean
   /** Performance tier — drives sampling and resolution. */
   tier?: PerfTier
+  /**
+   * Optional fallback URL for a frame. If the primary (`frameSrc`) fails to
+   * load, that same frame is retried once from here before being skipped —
+   * lets a CDN-hosted sequence fall back to origin-bundled copies.
+   */
+  fallbackSrc?: (i: number) => string
 }
 
 const hasImageBitmap = typeof ImageBitmap !== 'undefined'
@@ -74,7 +86,12 @@ function makeFrame(img: HTMLImageElement, maxEdge: number): Frame | Promise<Fram
 export function useFrameSequence(
   frameCount: number,
   frameSrc: (i: number) => string,
-  { readyThreshold = 8, start = true, tier = 'full' }: FrameSequenceOptions = {}
+  {
+    readyThreshold = 8,
+    start = true,
+    tier = 'full',
+    fallbackSrc,
+  }: FrameSequenceOptions = {}
 ) {
   const framesRef = useRef<Frame[]>([])
   const countRef = useRef(frameCount)
@@ -86,9 +103,10 @@ export function useFrameSequence(
     let cancelled = false
 
     const lean = tier !== 'full'
-    const stride = lean
-      ? Math.max(1, Math.ceil(frameCount / REDUCED_MAX_FRAMES))
-      : 1
+    const maxFrames = isHighMemoryDevice()
+      ? HIGH_MEM_MAX_FRAMES
+      : REDUCED_MAX_FRAMES
+    const stride = lean ? Math.max(1, Math.ceil(frameCount / maxFrames)) : 1
     const effective = Math.ceil(frameCount / stride)
     const srcIndex = (i: number) => Math.min(frameCount - 1, i * stride)
     const maxEdge = lean ? REDUCED_MAX_EDGE : 0
@@ -129,9 +147,10 @@ export function useFrameSequence(
       const i = next++
       if (i >= effective) return
 
+      const idx = srcIndex(i)
+      let triedFallback = false
       const img = new Image()
       img.decoding = 'async'
-      img.src = frameSrc(srcIndex(i))
 
       img.onload = () => {
         if (cancelled) return
@@ -139,10 +158,19 @@ export function useFrameSequence(
         if (result instanceof Promise) result.then((f) => store(i, f))
         else store(i, result)
       }
-      // A broken frame shouldn't stall the pipeline — skip it and keep going.
       img.onerror = () => {
-        if (!cancelled) advance()
+        if (cancelled) return
+        // Primary (CDN) failed → retry this frame from the local fallback once.
+        if (!triedFallback && fallbackSrc) {
+          triedFallback = true
+          img.src = fallbackSrc(idx)
+          return
+        }
+        // Both sources failed — skip so the pipeline keeps moving.
+        advance()
       }
+
+      img.src = frameSrc(idx)
     }
 
     for (let c = 0; c < concurrency; c++) startNext()
@@ -154,7 +182,7 @@ export function useFrameSequence(
       for (const b of bitmaps) b.close()
       framesRef.current = []
     }
-  }, [frameCount, frameSrc, readyThreshold, start, tier])
+  }, [frameCount, frameSrc, readyThreshold, start, tier, fallbackSrc])
 
   return { framesRef, ready, progress, countRef }
 }

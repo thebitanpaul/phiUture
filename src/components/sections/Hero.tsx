@@ -1,10 +1,11 @@
-import { useRef, useEffect, useState, useCallback } from 'react'
+import { useRef, useEffect, useState, useCallback, useMemo } from 'react'
 import { motion, useScroll, useTransform, useMotionValueEvent } from 'framer-motion'
 import { ChevronDown, ArrowRight } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { PhiLogo } from '@/components/ui/PhiLogo'
 import { useFrameSequence } from '@/hooks/useFrameSequence'
 import { usePerfTier, usePerfWatchdog } from '@/lib/deviceCapability'
+import { cloudFrameSrc, localFrameSrc } from '@/lib/animationFrames'
 
 const EASE = [0.16, 1, 0.3, 1] as const
 
@@ -12,12 +13,10 @@ const EASE = [0.16, 1, 0.3, 1] as const
 // The hero plays like a video that scrubs with the scroll wheel. As the user
 // scrolls through the tall (pinned) hero section, we advance through 135 stills
 // drawn to a full-bleed <canvas>, giving a smooth cinematic "scene" that reacts
-// to every scroll — inspired by jeskojets.com. The mobile-safe preloading (frame
-// sampling, resolution capping, throttled requests) lives in useFrameSequence.
+// to every scroll — inspired by jeskojets.com. Frames come from Cloudinary (with
+// a /public fallback); the mobile-safe preloading lives in useFrameSequence.
 const FRAME_COUNT = 135
-const FRAME_BASE = `${import.meta.env.BASE_URL}scroll-frames/`
-const frameSrc = (i: number) =>
-  `${FRAME_BASE}ezgif-frame-${String(i + 1).padStart(3, '0')}.jpg`
+const FRAME_FOLDER = 'HeroScrollAnimation' as const
 
 export function Hero() {
   const sectionRef = useRef<HTMLElement>(null)
@@ -26,10 +25,14 @@ export function Hero() {
   // canvas — the scroll-synced captions below still animate (they're cheap).
   const tier = usePerfTier()
   const minimal = tier === 'minimal'
+  // Cloudinary primary + /public fallback, memoized so the loader effect stays
+  // stable across renders.
+  const frameSrc = useMemo(() => cloudFrameSrc(FRAME_FOLDER, tier), [tier])
+  const fallbackSrc = useMemo(() => localFrameSrc(FRAME_FOLDER), [])
   const { framesRef, ready, progress, countRef } = useFrameSequence(
     FRAME_COUNT,
     frameSrc,
-    { readyThreshold: 12, start: !minimal, tier }
+    { readyThreshold: 12, start: !minimal, tier, fallbackSrc }
   )
 
   // Smooth-scrub state: `target` follows scroll instantly, `current` eases
@@ -164,6 +167,13 @@ export function Hero() {
             alt=""
             aria-hidden="true"
             decoding="async"
+            onError={(e) => {
+              const img = e.currentTarget
+              if (!img.dataset.fallback) {
+                img.dataset.fallback = '1'
+                img.src = fallbackSrc(Math.floor(FRAME_COUNT / 2))
+              }
+            }}
             className="absolute inset-0 h-full w-full object-cover"
             style={{ zIndex: 0 }}
           />

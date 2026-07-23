@@ -11,9 +11,6 @@ import { ScrollFrames } from '@/components/ui/ScrollFrames'
 // on the right. When the scene's bounded scroll finishes, the sticky screen
 // releases and the sections below scroll into view.
 const FRAME_COUNT = 117
-const FRAME_BASE = `${import.meta.env.BASE_URL}HomeScrollAnimation/`
-const frameSrc = (i: number) =>
-  `${FRAME_BASE}ezgif-frame-${String(i + 1).padStart(3, '0')}.jpg`
 
 export function HomeScrollScene() {
   // The scene owns a fixed scroll budget; frame scrub maps to its progress.
@@ -31,7 +28,7 @@ export function HomeScrollScene() {
           <ScrollFrames
             scrollYProgress={scrollYProgress}
             frameCount={FRAME_COUNT}
-            frameSrc={frameSrc}
+            folder="HomeScrollAnimation"
           />
         </div>
         <SceneOverlay progress={scrollYProgress} />

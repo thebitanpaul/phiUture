@@ -1,7 +1,12 @@
-import { useRef, useEffect, useState, useCallback } from 'react'
+import { useRef, useEffect, useState, useCallback, useMemo } from 'react'
 import { motion, useMotionValueEvent, type MotionValue } from 'framer-motion'
 import { useFrameSequence } from '@/hooks/useFrameSequence'
 import { usePerfTier, usePerfWatchdog } from '@/lib/deviceCapability'
+import {
+  cloudFrameSrc,
+  localFrameSrc,
+  type FrameFolder,
+} from '@/lib/animationFrames'
 
 const EASE = [0.16, 1, 0.3, 1] as const
 const VOID = '#020203'
@@ -19,8 +24,8 @@ interface ScrollFramesProps {
   scrollYProgress: MotionValue<number>
   /** How many stills make up the sequence. */
   frameCount: number
-  /** Resolves a frame index (0-based) to its image URL. */
-  frameSrc: (i: number) => string
+  /** Frame folder — resolves to Cloudinary (primary) + /public (fallback) URLs. */
+  folder: FrameFolder
   /** Optional caption stamped over the scene. */
   label?: string
 }
@@ -28,7 +33,7 @@ interface ScrollFramesProps {
 export function ScrollFrames({
   scrollYProgress,
   frameCount,
-  frameSrc,
+  folder,
   label = '',
 }: ScrollFramesProps) {
   const rootRef = useRef<HTMLDivElement>(null)
@@ -37,13 +42,17 @@ export function ScrollFrames({
   // static backdrop instead of the scrubbing canvas — it can't crash or stutter.
   const tier = usePerfTier()
   const minimal = tier === 'minimal'
+  // Cloudinary primary + /public fallback, memoized so the loader effect is
+  // stable across renders (only rebuilds when the folder or tier changes).
+  const frameSrc = useMemo(() => cloudFrameSrc(folder, tier), [folder, tier])
+  const fallbackSrc = useMemo(() => localFrameSrc(folder), [folder])
   // Defer loading until the scene is near the viewport, so a page with more than
   // one scene (e.g. Home) never reserves memory for all of them up front.
   const [shouldLoad, setShouldLoad] = useState(false)
   const { framesRef, ready, progress, countRef } = useFrameSequence(
     frameCount,
     frameSrc,
-    { start: shouldLoad && !minimal, tier }
+    { start: shouldLoad && !minimal, tier, fallbackSrc }
   )
   // Only fade the canvas in once a real frame has been painted — prevents the
   // brief flash of an unpainted/half-sized canvas during the page transition.
@@ -170,13 +179,21 @@ export function ScrollFrames({
   return (
     <div ref={rootRef} className="relative w-full h-full overflow-hidden bg-void">
       {minimal ? (
-        /* Minimal tier — a single static still, no canvas, no rAF, no risk. */
+        /* Minimal tier — a single static still, no canvas, no rAF, no risk.
+           Cloudinary first; swap to the local copy if it fails to load. */
         <img
           src={frameSrc(Math.floor(frameCount / 2))}
           alt=""
           aria-hidden="true"
           loading="lazy"
           decoding="async"
+          onError={(e) => {
+            const img = e.currentTarget
+            if (!img.dataset.fallback) {
+              img.dataset.fallback = '1'
+              img.src = fallbackSrc(Math.floor(frameCount / 2))
+            }
+          }}
           className="absolute inset-0 h-full w-full object-cover"
         />
       ) : (

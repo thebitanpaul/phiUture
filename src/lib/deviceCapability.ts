@@ -77,10 +77,14 @@ function detectInitialTier(): PerfTier {
   const mem = typeof nav.deviceMemory === 'number' ? nav.deviceMemory : undefined
 
   // Explicit memory signal — present on Chromium (Android / desktop Chrome),
-  // never on Safari/iOS. Use it directly where we have it.
+  // never on Safari/iOS. It's quantized to {0.25,0.5,1,2,4,8} (a 3 GB phone
+  // reports 4), so we treat 2 GB as the floor: only genuinely tiny devices
+  // (≤2 GB) start static. Every phone above that — including common 3 GB Indian
+  // Androids — starts on the animated 'reduced' tier and the FPS watchdog
+  // downgrades it only if it actually can't keep up.
   if (mem !== undefined) {
     if (mem <= 2) return 'minimal'
-    if (mobile) return mem <= 3 ? 'minimal' : 'reduced'
+    if (mobile) return 'reduced'
     return mem <= 4 ? 'reduced' : 'full'
   }
 
@@ -119,6 +123,20 @@ function subscribe(listener: () => void) {
 /** Subscribe a component to the current tier; re-renders on downgrade. */
 export function usePerfTier(): PerfTier {
   return useSyncExternalStore(subscribe, getPerfTier, getPerfTier)
+}
+
+/**
+ * True when the device advertises plenty of RAM. Chromium caps `deviceMemory`
+ * at 8, so this is the top bucket — flagship-class phones. It lets the animated
+ * ('reduced') tier use a *denser frame set* for a smoother scrub, WITHOUT
+ * raising resolution, so the memory footprint stays in the safe zone. iOS never
+ * reports deviceMemory, so iPhones stay on the conservative default (correct —
+ * they're the memory-fragile platform). The FPS watchdog is still the backstop.
+ */
+export function isHighMemoryDevice(): boolean {
+  if (typeof navigator === 'undefined') return false
+  const mem = (navigator as Navigator & { deviceMemory?: number }).deviceMemory
+  return typeof mem === 'number' && mem >= 8
 }
 
 /**
