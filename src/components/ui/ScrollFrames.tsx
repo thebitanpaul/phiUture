@@ -194,7 +194,14 @@ export function ScrollFrames({
             <canvas
               ref={canvasRef}
               className="w-full h-full block"
-              style={{ backgroundColor: VOID }}
+              // Pin the canvas to its own stable compositing layer — reduces the
+              // black-flash iOS Safari can show when a repainting layer inside a
+              // sticky container falls behind during fast momentum scroll.
+              style={{
+                backgroundColor: VOID,
+                transform: 'translateZ(0)',
+                backfaceVisibility: 'hidden',
+              }}
             />
           </motion.div>
 

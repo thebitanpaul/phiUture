@@ -84,9 +84,12 @@ function detectInitialTier(): PerfTier {
     return mem <= 4 ? 'reduced' : 'full'
   }
 
-  // No memory signal → Safari/iOS (or a very old browser). Phones start on the
-  // lightweight 'reduced' pipeline; the watchdog drops the ones that can't cope
-  // (an iPhone 12 will, an iPhone 15 won't). Desktop Safari gets the full show.
+  // No memory signal → Safari/iOS (or a very old browser). Phones (incl. every
+  // iPhone/iPad) run the lightweight 'reduced' pipeline — downscaled, sampled,
+  // lazily-loaded frames — so the great majority get the full animated scenes.
+  // The FPS watchdog drops only the devices that genuinely can't cope (a very
+  // old iPhone under a fast scroll) to a static backdrop. Desktop Safari on a
+  // Mac is not iOS and gets the full show.
   return mobile ? 'reduced' : 'full'
 }
 

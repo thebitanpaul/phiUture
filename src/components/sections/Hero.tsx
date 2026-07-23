@@ -175,7 +175,12 @@ export function Hero() {
             className="absolute inset-0"
             style={{ zIndex: 0 }}
           >
-            <canvas ref={canvasRef} className="w-full h-full block" />
+            <canvas
+              ref={canvasRef}
+              className="w-full h-full block"
+              // Own stable compositing layer — eases iOS black-flash on fast scroll.
+              style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}
+            />
           </motion.div>
         )}
 
