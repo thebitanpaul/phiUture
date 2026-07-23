@@ -64,16 +64,27 @@ export const SOCIAL_SAMEAS: string[] = Array.from(
   )
 )
 
+// Stable @id anchors so the Organization, WebSite and Person nodes reference
+// one another as a single connected graph — a strong signal to Google that the
+// person and the brand behind this site are the same entity.
+export const ORG_ID = `${SITE_URL}/#organization`
+export const WEBSITE_ID = `${SITE_URL}/#website`
+export const PERSON_ID = `${SITE_URL}/#person`
+
+/** The founder, as an AboutData person (name, roles, bio, avatar). */
+const FOUNDER = about.people?.[0]
+
 /** Organization schema — enables Google's brand/knowledge panel. */
 export function organizationSchema(): Record<string, unknown> {
   return {
     '@context': 'https://schema.org',
     '@type': 'Organization',
+    '@id': ORG_ID,
     name: SITE_NAME,
     url: `${SITE_URL}/`,
     logo: ORG_LOGO,
     description: DEFAULT_DESCRIPTION,
-    founder: { '@type': 'Person', name: SITE_CONFIG.founder },
+    founder: { '@id': PERSON_ID },
     sameAs: SOCIAL_SAMEAS,
   }
 }
@@ -84,8 +95,32 @@ export function webSiteSchema(): Record<string, unknown> {
   return {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
+    '@id': WEBSITE_ID,
     name: SITE_NAME,
     url: `${SITE_URL}/`,
     description: DEFAULT_DESCRIPTION,
+    publisher: { '@id': ORG_ID },
+  }
+}
+
+/**
+ * Person schema for the founder — the key to associating this site with a name
+ * search ("Bitan Paul" / "thebitanpaul"). `sameAs` points at the same profiles
+ * that already rank for the name, so Google can tie this domain to that same
+ * entity; `alternateName` covers the handle form of the name.
+ */
+export function personSchema(): Record<string, unknown> {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    '@id': PERSON_ID,
+    name: SITE_CONFIG.founder,
+    alternateName: 'thebitanpaul',
+    url: `${SITE_URL}/`,
+    ...(FOUNDER?.avatar ? { image: absoluteUrl(FOUNDER.avatar) } : {}),
+    ...(FOUNDER?.roles?.length ? { jobTitle: FOUNDER.roles.join(', ') } : {}),
+    ...(FOUNDER?.bio ? { description: FOUNDER.bio } : {}),
+    worksFor: { '@id': ORG_ID },
+    sameAs: SOCIAL_SAMEAS,
   }
 }

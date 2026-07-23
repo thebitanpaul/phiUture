@@ -5,7 +5,7 @@ import { Navbar, Footer, ScrollProgress } from '@/components/layout'
 import { ProductsProvider } from '@/context/ProductsContext'
 import { AboutProvider } from '@/context/AboutContext'
 import { StructuredData } from '@/components/seo/SEO'
-import { organizationSchema, webSiteSchema } from '@/lib/seo'
+import { organizationSchema, webSiteSchema, personSchema } from '@/lib/seo'
 
 // A fresh navigation to a page should start at the top — otherwise the previous
 // page's scroll position carries over (e.g. 80% down on Home → land 80% down on
@@ -57,7 +57,7 @@ export default function Layout() {
         <div className="relative min-h-screen bg-void text-text-primary">
           {/* Site-wide structured data — present on every page. Kept separate
               from per-page <SEO> so it never competes with canonical/OG tags. */}
-          <StructuredData data={[organizationSchema(), webSiteSchema()]} />
+          <StructuredData data={[organizationSchema(), webSiteSchema(), personSchema()]} />
 
           {/* Ambient background glow — fixed, behind everything */}
           <div className="fixed inset-0 pointer-events-none z-0" aria-hidden="true">

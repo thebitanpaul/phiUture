@@ -84,10 +84,9 @@ export function FeaturedProductCard({
           {primary && <ProductCTA cta={primary} variant="primary" size="md" />}
           <Link
             to={detailPath}
-            aria-label={`Learn more about ${product.name}`}
             className="group/details inline-flex items-center gap-1.5 text-sm font-medium text-text-muted transition-colors duration-300 hover:text-text-primary"
           >
-            Learn more
+            Learn more<span className="sr-only"> about {product.name}</span>
             <ArrowRight
               size={15}
               className="transition-transform duration-300 group-hover/details:translate-x-1"
