@@ -13,6 +13,9 @@
        appended rather than replaced, creating a duplicate. -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <!-- Animation frames, brand logo, and product images are served from Cloudinary
+       — open the connection early so the LCP frame isn't blocked on DNS/TLS. -->
+  <link rel="preconnect" href="https://res.cloudinary.com" crossorigin />
   <link
     href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
     rel="stylesheet" />

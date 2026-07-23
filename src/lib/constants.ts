@@ -27,7 +27,7 @@ export const NAV_ITEMS: NavItem[] = [
   { label: 'About', path: '/about' },
 ]
 
-// Social links and the contact email now live in public/data/about.json
+// Social links and the contact email now live in src/data/about.json
 // (see AboutContext / useAbout) so they can be changed at runtime without a
 // rebuild. The Footer and Contact page read them from there.
 

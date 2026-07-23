@@ -127,7 +127,7 @@ export interface Product {
 }
 
 /**
- * Shape of public/data/products.json.
+ * Shape of src/data/products.json.
  * `featured` maps a rank ("1", "2", …) to a product slug, defining the
  * order of the featured carousel. Products no longer carry a featured flag.
  */
@@ -186,13 +186,13 @@ export interface BeyondMedium {
   videos?: BeyondVideo[]
 }
 
-/** Shape of public/data/beyond.json. */
+/** Shape of src/data/beyond.json. */
 export interface BeyondData {
   mediums: BeyondMedium[]
 }
 
 // --------------------------------------------
-// About page (public/data/about.json)
+// About page (src/data/about.json)
 // --------------------------------------------
 
 export interface AboutPerson {
@@ -285,7 +285,7 @@ export interface AboutSocial {
   artist?: SocialLink[]
 }
 
-/** Shape of public/data/about.json. */
+/** Shape of src/data/about.json. */
 export interface AboutData {
   /** One or more people. A single entry renders as one card; several render
       as a switchable stack. Each carries its own journey timeline. */

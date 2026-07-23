@@ -28,6 +28,11 @@ export function useRemoteData<T>(file: string, fallback: T): RemoteData<T> {
     fetchRemoteJson<T>(file)
       .then((remote) => {
         if (!active) return
+        if (remote === null) {
+          // No source configured server-side → keep the bundled data quietly.
+          setStatus('bundled')
+          return
+        }
         setData(remote)
         setStatus('remote')
       })

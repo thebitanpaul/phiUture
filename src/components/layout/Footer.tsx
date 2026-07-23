@@ -78,7 +78,7 @@ export function Footer() {
         </div>
 
         {/* Tagline */}
-        <p className="text-center text-text-muted/40 text-xs mt-10 tracking-wide">
+        <p className="text-center text-text-muted text-xs mt-10 tracking-wide">
           {SITE_CONFIG.tagline}
         </p>
       </div>

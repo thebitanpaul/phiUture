@@ -34,7 +34,10 @@ export function FeaturedProductCard({
           product={product}
           className="aspect-square w-full"
         />
-        <div className="pointer-events-none absolute inset-x-4 top-4 flex items-start justify-between gap-2">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-4 top-4 flex items-start justify-between gap-2"
+        >
           <CategoryBadge
             category={product.category}
             subcategory={product.subcategory}
@@ -81,6 +84,7 @@ export function FeaturedProductCard({
           {primary && <ProductCTA cta={primary} variant="primary" size="md" />}
           <Link
             to={detailPath}
+            aria-label={`Learn more about ${product.name}`}
             className="group/details inline-flex items-center gap-1.5 text-sm font-medium text-text-muted transition-colors duration-300 hover:text-text-primary"
           >
             Learn more
