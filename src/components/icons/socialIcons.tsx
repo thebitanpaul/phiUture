@@ -11,6 +11,7 @@ import {
   YouTubeMusicIcon,
   GooglePlayIcon,
   SnapchatIcon,
+  ThreadsIcon,
   JioSaavnIcon,
 } from './BrandIcons'
 
@@ -36,6 +37,7 @@ const ICONS: Record<string, SocialIcon> = {
   youtubemusic: YouTubeMusicIcon,
   googleplay: GooglePlayIcon,
   snapchat: SnapchatIcon,
+  threads: ThreadsIcon,
   jiosaavn: JioSaavnIcon,
 }
 

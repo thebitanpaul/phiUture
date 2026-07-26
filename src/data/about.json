@@ -182,9 +182,10 @@
       { "id": "people-linkedin", "platform": "LinkedIn", "url": "https://linkedin.com/in/thebitanpaul", "icon": "linkedin", "footer": true },
       { "id": "people-instagram", "platform": "Instagram", "url": "https://instagram.com/thebitanpaul", "icon": "instagram", "footer": true },
       { "id": "people-x", "platform": "X", "url": "https://x.com/thebitanpaul_", "icon": "x", "footer": true },
+      { "id": "people-threads", "platform": "Threads", "url": "https://www.threads.com/@thebitanpaul?igshid=NTc4MTIwNjQ2YQ==", "icon": "threads" },
       { "id": "people-facebook", "platform": "Facebook", "url": "https://facebook.com/thebitanpaul", "icon": "facebook" },
       { "id": "people-snapchat", "platform": "Snapchat", "url": "https://snapchat.com/t/UgO0Iywr", "icon": "snapchat" },
-      { "id": "people-email", "platform": "Personal Email", "url": "mailto:thebitanpaul@gmail.com", "icon": "mail" }
+      { "id": "people-email", "platform": "Email", "url": "mailto:thebitanpaul@gmail.com", "icon": "mail" }
     ],
 
     "artist": [

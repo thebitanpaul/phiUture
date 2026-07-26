@@ -245,7 +245,7 @@ export default function Contact() {
                     </p>
                     {social.personalEmail && (
                       <p className="typo-body text-sm mt-1">
-                        <span className="text-text-muted text-xs">Personal — </span>
+                        <span className="text-text-muted text-xs">Founder — </span>
                         <a
                           href={`mailto:${social.personalEmail}`}
                           className="text-text-secondary hover:text-magenta transition-colors break-all"
@@ -296,9 +296,9 @@ function SocialTabs({ social }: { social: ResolvedSocial }) {
     },
     {
       id: 'people' as const,
-      label: 'People',
+      label: 'Founder',
       icon: User,
-      blurb: 'People behind phiUture.',
+      blurb: 'The founder behind phiUture.',
       links: social.people,
     },
     {

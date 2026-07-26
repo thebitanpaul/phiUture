@@ -1,5 +1,5 @@
 import { Play } from 'lucide-react'
-import { resolveImageUrl, getMediaEmbed } from '@/lib/products'
+import { resolveImageUrl, getMediaEmbed, getYouTubeId } from '@/lib/products'
 
 interface GalleryMediaProps {
   src: string
@@ -8,10 +8,15 @@ interface GalleryMediaProps {
   onOpen: () => void
 }
 
-// The brand wordmark, via Cloudinary (optimized). Used as the branded thumbnail
-// for video tiles so the gallery stays on-theme.
+// The brand wordmark, via Cloudinary (optimized). Only used for videos that
+// have no thumbnail of their own to show (Instagram / Facebook embeds).
 const WORDMARK_SRC =
   'https://res.cloudinary.com/b0tb1mho/image/upload/f_auto,q_auto/v1784753097/lgvkw3dn9w5veqhbej2b.png'
+
+/** YouTube's own thumbnail for a video id. `hqdefault` rather than `maxres`
+    because maxres does not exist for every upload and 404s to a broken tile,
+    whereas hqdefault is always generated — and it is already 480×360. */
+const youTubeThumb = (id: string) => `https://i.ytimg.com/vi/${id}/hqdefault.jpg`
 
 /**
  * A single gallery tile — an image or a YouTube video, detected from
@@ -19,11 +24,12 @@ const WORDMARK_SRC =
  * Every tile uses a uniform 16:9 frame so the caption band is identical
  * regardless of the media's own aspect ratio.
  *
- * Videos use the phiUture wordmark as a clean branded thumbnail that fills the
- * whole 16:9 frame (the wordmark shares that aspect ratio).
+ * YouTube tiles show the video's real thumbnail, so a visitor can tell the
+ * videos apart before opening one. Other embeds fall back to the wordmark.
  */
 export function GalleryMedia({ src, caption, alt, onOpen }: GalleryMediaProps) {
   const isVideo = getMediaEmbed(src) !== null
+  const youTubeId = getYouTubeId(src)
 
   return (
     <figure className="flex flex-col overflow-hidden rounded-2xl border border-white/[0.06] bg-elevated">
@@ -35,12 +41,38 @@ export function GalleryMedia({ src, caption, alt, onOpen }: GalleryMediaProps) {
       >
         {isVideo ? (
           <>
-            {/* Wordmark fills the whole 16:9 thumbnail (shared aspect ratio) */}
-            <img
-              src={WORDMARK_SRC}
-              alt=""
+            {youTubeId ? (
+              /* The video's own thumbnail. `object-cover` is what makes both
+                 sizes work: maxres is already 16:9, and hqdefault is 4:3 with
+                 baked-in letterbox bars that the cover crop trims away. */
+              <img
+                src={`https://i.ytimg.com/vi/${youTubeId}/maxresdefault.jpg`}
+                alt=""
+                aria-hidden="true"
+                loading="lazy"
+                decoding="async"
+                onError={(e) => {
+                  // maxres isn't generated for every upload; hqdefault always is.
+                  const img = e.currentTarget
+                  const fallback = youTubeThumb(youTubeId)
+                  if (img.src !== fallback) img.src = fallback
+                }}
+                className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 ease-out group-hover/tile:scale-[1.03]"
+              />
+            ) : (
+              /* No thumbnail available for this embed — wordmark fills the
+                 whole 16:9 frame (it shares that aspect ratio). */
+              <img
+                src={WORDMARK_SRC}
+                alt=""
+                aria-hidden="true"
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+            )}
+            {/* Scrim — keeps the play button legible over a bright thumbnail. */}
+            <span
               aria-hidden="true"
-              className="absolute inset-0 h-full w-full object-cover"
+              className="absolute inset-0 bg-black/25 transition-colors duration-300 group-hover/tile:bg-black/10"
             />
             {/* Play button */}
             <span className="absolute left-1/2 top-1/2 flex h-16 w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-magenta/90 shadow-lg shadow-magenta/30 transition-transform duration-300 group-hover/tile:scale-110">
