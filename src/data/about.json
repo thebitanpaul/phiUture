@@ -168,30 +168,31 @@
 
   "social": {
     "email": "thephiuture@gmail.com",
-    "connect": [
-      { "id": "github", "platform": "GitHub", "url": "https://github.com/thebitanpaul", "icon": "github" },
-      { "id": "linkedin", "platform": "LinkedIn", "url": "https://linkedin.com/in/thebitanpaul", "icon": "linkedin" },
-      { "id": "x", "platform": "X", "url": "https://x.com/thebitanpaul_", "icon": "x" },
-      { "id": "email", "platform": "Email", "url": "mailto:thephiuture@gmail.com", "icon": "mail" }
+    "personalEmail": "thebitanpaul@gmail.com",
+
+    "business": [
+      { "id": "business-website", "platform": "Website", "url": "https://phiuture.com", "icon": "globe" },
+      { "id": "business-youtube", "platform": "YouTube", "url": "https://www.youtube.com/@phiuture", "icon": "youtube", "footer": true },
+      { "id": "business-google-play", "platform": "Google Play", "url": "https://play.google.com/store/apps/dev?id=6358474525178045834&hl=en", "icon": "googleplay", "footer": true },
+      { "id": "business-email", "platform": "Business Email", "url": "mailto:thephiuture@gmail.com", "icon": "mail", "footer": true }
     ],
-    "profiles": [
-      { "id": "instagram", "platform": "Instagram", "url": "https://instagram.com/thebitanpaul", "icon": "instagram", "footer": true },
-      { "id": "youtube", "platform": "YouTube", "url": "https://www.youtube.com/@thebitanpaul", "icon": "youtube", "footer": true },
-      { "id": "spotify", "platform": "Spotify", "url": "https://open.spotify.com/artist/6ghDcCBlKzJIgm3e586jpV", "icon": "spotify", "footer": true },
-      { "id": "apple-music", "platform": "Apple Music", "url": "https://music.apple.com/us/artist/thebitanpaul/1858534880", "icon": "applemusic" },
-      { "id": "amazon-music", "platform": "Amazon Music", "url": "https://music.amazon.com/albums/B0G52QMYDC", "icon": "amazonmusic" },
-      { "id": "facebook", "platform": "Facebook", "url": "https://www.facebook.com/thebitanpaul", "icon": "facebook" },
-      { "id": "snapchat", "platform": "Snapchat", "url": "https://snapchat.com/t/UgO0Iywr", "icon": "snapchat" },
-      { "id": "google-play", "platform": "Google Play", "url": "https://play.google.com/store/apps/dev?id=6358474525178045834&hl=en", "icon": "googleplay", "footer": true },
-      { "id": "youtube-music", "platform": "YouTube Music", "url": "https://music.youtube.com/@thebitanpaul?si=IhqDPrlOUFq_w360", "icon": "youtubemusic" },
-      { "id": "jiosaavn", "platform": "JioSaavn", "url": "https://www.jiosaavn.com/artist/thebitanpaul-songs/zuo0NgC65gQ_", "icon": "jiosaavn" }
+
+    "people": [
+      { "id": "people-github", "platform": "GitHub", "url": "https://github.com/thebitanpaul", "icon": "github", "footer": true },
+      { "id": "people-linkedin", "platform": "LinkedIn", "url": "https://linkedin.com/in/thebitanpaul", "icon": "linkedin", "footer": true },
+      { "id": "people-instagram", "platform": "Instagram", "url": "https://instagram.com/thebitanpaul", "icon": "instagram", "footer": true },
+      { "id": "people-x", "platform": "X", "url": "https://x.com/thebitanpaul_", "icon": "x", "footer": true },
+      { "id": "people-facebook", "platform": "Facebook", "url": "https://facebook.com/thebitanpaul", "icon": "facebook" },
+      { "id": "people-snapchat", "platform": "Snapchat", "url": "https://snapchat.com/t/UgO0Iywr", "icon": "snapchat" },
+      { "id": "people-email", "platform": "Personal Email", "url": "mailto:thebitanpaul@gmail.com", "icon": "mail" }
     ],
+
     "artist": [
-      { "id": "artist-spotify", "platform": "Spotify", "url": "https://open.spotify.com/artist/6ghDcCBlKzJIgm3e586jpV", "icon": "spotify" },
-      { "id": "artist-apple-music", "platform": "Apple Music", "url": "https://music.apple.com/us/artist/thebitanpaul/1858534880", "icon": "applemusic" },
-      { "id": "artist-amazon-music", "platform": "Amazon Music", "url": "https://music.amazon.com/albums/B0G52QMYDC", "icon": "amazonmusic" },
       { "id": "artist-youtube", "platform": "YouTube", "url": "https://www.youtube.com/@thebitanpaul", "icon": "youtube" },
-      { "id": "artist-youtube-music", "platform": "YouTube Music", "url": "https://music.youtube.com/@thebitanpaul?si=IhqDPrlOUFq_w360", "icon": "youtubemusic" },
+      { "id": "artist-spotify", "platform": "Spotify", "url": "https://open.spotify.com/artist/6ghDcCBlKzJIgm3e586jpV", "icon": "spotify", "footer": true },
+      { "id": "artist-youtube-music", "platform": "YouTube Music", "url": "https://music.youtube.com/playlist?list=OLAK5uy_km3cjEB2zl59Etcgv9UBKWw800O9G3NdE", "icon": "youtubemusic" },
+      { "id": "artist-amazon-music", "platform": "Amazon Music", "url": "https://music.amazon.com/albums/B0G52QMYDC", "icon": "amazonmusic" },
+      { "id": "artist-apple-music", "platform": "Apple Music", "url": "https://music.apple.com/us/artist/thebitanpaul/1858534880", "icon": "applemusic" },
       { "id": "artist-jiosaavn", "platform": "JioSaavn", "url": "https://www.jiosaavn.com/artist/thebitanpaul-songs/zuo0NgC65gQ_", "icon": "jiosaavn" }
     ]
   }

@@ -1,6 +1,7 @@
 import React from 'react'
 import type { RouteRecord } from 'vite-react-ssg'
 import Layout from './Layout'
+import RouteError from '@/components/layout/RouteError'
 import productsData from '@data/products.json'
 
 // ============================================
@@ -23,6 +24,12 @@ export const routes: RouteRecord[] = [
   {
     path: '/',
     element: <Layout />,
+    // Catches anything a route throws while loading or rendering — including
+    // the chunk/manifest misses a browser holding a previous deploy hits, which
+    // it heals by purging caches and reloading once. Imported eagerly on
+    // purpose: a lazily-loaded boundary would fail the same way as the chunk it
+    // is meant to recover from.
+    ErrorBoundary: RouteError,
     children: [
       { index: true, Component: React.lazy(() => import('@/pages/Home')) },
       { path: 'about', Component: React.lazy(() => import('@/pages/About')) },

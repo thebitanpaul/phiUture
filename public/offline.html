@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#050505" />
+  <meta name="robots" content="noindex" />
+  <title>Offline — phiUture</title>
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <!-- Served by the service worker with no network available, so everything
+       here is inline and self-contained: no web fonts, no stylesheets, no
+       scripts from elsewhere. -->
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      height: 100%;
+    }
+
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1.5rem;
+      background: #050505;
+      color: #f4f4f5;
+      font-family: 'Space Grotesk', ui-sans-serif, system-ui, -apple-system,
+        'Segoe UI', Roboto, sans-serif;
+      text-align: center;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .glow {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 78% 12%, rgba(217, 70, 239, 0.16), transparent 55%),
+        radial-gradient(circle at 18% 88%, rgba(168, 85, 247, 0.13), transparent 55%);
+      filter: blur(40px);
+    }
+
+    main {
+      position: relative;
+      max-width: 26rem;
+    }
+
+    .phi {
+      font-size: 3.5rem;
+      line-height: 1;
+      font-weight: 700;
+      background: linear-gradient(135deg, #d946ef, #a855f7);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin: 0 0 1.75rem;
+    }
+
+    h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin: 0 0 0.9rem;
+    }
+
+    p {
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: #a1a1aa;
+      margin: 0 0 2rem;
+    }
+
+    button {
+      font: inherit;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: #fff;
+      cursor: pointer;
+      padding: 0.85rem 2rem;
+      border: 0;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #d946ef, #a855f7);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    button:hover {
+      transform: scale(1.03);
+      box-shadow: 0 10px 30px -10px rgba(217, 70, 239, 0.6);
+    }
+
+    button:active {
+      transform: scale(0.98);
+    }
+
+    footer {
+      margin-top: 3rem;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #52525b;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="glow" aria-hidden="true"></div>
+
+  <main>
+    <p class="phi" aria-hidden="true">&#966;</p>
+    <h1>You're offline</h1>
+    <p>
+      This page needs a connection. Everything you've already visited is still
+      available &mdash; reconnect and it'll pick up right where it left off.
+    </p>
+    <button type="button" onclick="location.reload()">Try again</button>
+    <footer>phiUture</footer>
+  </main>
+
+  <script>
+    // Reload the moment connectivity returns, so the visitor doesn't have to.
+    addEventListener('online', function () {
+      location.reload()
+    })
+  </script>
+</body>
+
+</html>

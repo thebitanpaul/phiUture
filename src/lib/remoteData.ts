@@ -29,13 +29,20 @@ const CONTENT_API = '/api/content'
 export const REMOTE_DATA_ENABLED = import.meta.env.PROD
 
 /**
- * Fetches a content JSON file through the proxy. Returns `null` when the server
- * has no source configured (HTTP 204) so the caller keeps its bundled copy
- * silently; throws on a genuine failure so the caller can fall back and warn.
+ * Fetches a content JSON file through the proxy.
+ *
+ * Returns `null` for the two outcomes that are not errors, so the caller keeps
+ * its bundled copy silently:
+ *   • 204 — no content source is configured server-side.
+ *   • 429 — the proxy's rate limiter turned us away. The bundled data is a
+ *     complete, correct copy, so there is nothing to warn about and nothing to
+ *     retry; the next visit picks up the newest version.
+ *
+ * Throws on a genuine failure so the caller can fall back and warn.
  */
 export async function fetchRemoteJson<T>(file: string): Promise<T | null> {
   const res = await fetch(`${CONTENT_API}/${file}`, { cache: 'no-store' })
-  if (res.status === 204) return null
+  if (res.status === 204 || res.status === 429) return null
   if (!res.ok) throw new Error(`${file}: HTTP ${res.status}`)
   return (await res.json()) as T
 }

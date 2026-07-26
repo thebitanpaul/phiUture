@@ -1,5 +1,5 @@
 import type { ComponentType } from 'react'
-import { Github, Linkedin, Mail } from 'lucide-react'
+import { Github, Linkedin, Mail, Globe } from 'lucide-react'
 import {
   XIcon,
   InstagramIcon,
@@ -23,6 +23,9 @@ const ICONS: Record<string, SocialIcon> = {
   github: Github,
   linkedin: Linkedin,
   mail: Mail,
+  // Used for the business Website link — a plain globe, since there is no brand
+  // glyph for "our own site".
+  globe: Globe,
   x: XIcon,
   instagram: InstagramIcon,
   facebook: FacebookIcon,

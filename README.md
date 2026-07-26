@@ -126,6 +126,44 @@ content that updates live from JSON — deployed on **Vercel**.
 
 <br/>
 
+## Install it as an app
+
+The site is a **PWA** — Chrome and Edge (desktop and Android) offer an install button once
+you've looked around, and on iOS it's *Share → Add to Home Screen*. Installed, it runs
+full-screen with its own icon, launcher shortcuts to Products / Beyond / Contact, and a
+branded offline page for when there's no connection.
+
+The service worker (`public/sw.js`) is deliberately conservative: **HTML is always fetched
+from the network first**, and only content-hashed `/assets/` output is served cache-first.
+That ordering is the whole design — a cached document is how a PWA ends up pinning visitors
+to a build the server no longer has.
+
+<br/>
+
+## Abuse protection
+
+Two layers, because they solve different problems.
+
+**In the app** — `api/_rateLimit.js` gives the content proxy a per-IP fixed-window limit
+(60 requests/minute). That's the one route that spends a function invocation and an upstream
+fetch, so it's the one worth guarding in code.
+
+**At the edge** — nothing in this repo can throttle a request that never reaches it, and
+static pages never invoke a function at all. That has to happen upstream:
+
+```bash
+npm i -g vercel && vercel login && vercel link
+bash scripts/setup-firewall.sh    # stages WAF rate-limit + probe rules in log mode
+```
+
+The script stages every rule in **log mode** and does not publish — it prints the staged
+rollout to follow (log → review real traffic → enforce). Vercel's platform DDoS mitigation
+(L3/L4/L7) is already on for every project with no configuration, and traffic it blocks
+isn't billed. During an active attack, `vercel firewall attack-mode enable --duration 1h`
+is the switch.
+
+<br/>
+
 ## License
 
 This project is licensed under the [phiUture Proprietary License](LICENSE).

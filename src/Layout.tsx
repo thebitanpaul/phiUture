@@ -1,7 +1,7 @@
 import { Suspense, useEffect } from 'react'
 import { useLocation, useOutlet } from 'react-router-dom'
 import { AnimatePresence } from 'framer-motion'
-import { Navbar, Footer, ScrollProgress } from '@/components/layout'
+import { Navbar, Footer, ScrollProgress, InstallPrompt } from '@/components/layout'
 import { ProductsProvider } from '@/context/ProductsContext'
 import { AboutProvider } from '@/context/AboutContext'
 import { StructuredData } from '@/components/seo/SEO'
@@ -80,6 +80,10 @@ export default function Layout() {
           </main>
 
           <Footer />
+
+          {/* Offers installation only when the browser reports the site is
+              installable, and only once — see useInstallPrompt. */}
+          <InstallPrompt />
         </div>
       </AboutProvider>
     </ProductsProvider>

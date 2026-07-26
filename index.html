@@ -5,8 +5,20 @@
   <meta charset="UTF-8" />
   <link rel="icon" type="image/png" href="/favicon.png" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#050505" />
+
+  <!-- PWA. The manifest carries the name, icons, colours and shortcuts used
+       when the site is installed; the apple-* tags are the iOS equivalents,
+       which Safari still reads instead of the manifest. -->
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <meta name="application-name" content="phiUture" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="phiUture" />
+  <!-- black-translucent lets the dark page run under the status bar, matching
+       the standalone look on Android. -->
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <!-- Title and all metadata are injected per route by the SEO component
        (vite-react-ssg Head, backed by react-helmet-async) and prerendered into
        every page. Nothing is declared here: a static title tag would be

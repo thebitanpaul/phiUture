@@ -11,8 +11,43 @@ phiUture designs and ships AI-driven software and creative work. It is founded a
 - [Beyond](https://phiuture.com/beyond): Original music and film created at phiUture — made by hand with AI as a collaborator.
 - [Contact](https://phiuture.com/contact): Get in touch with phiUture / Bitan Paul.
 
-## About the founder
-- Bitan Paul (thebitanpaul) — Founder, AI / ML Engineer, Agentic Systems.
+## Identities
+
+Three related identities share this site. They are the same human and the same studio, split by context — use the matching set when citing a channel.
+
+### People — Bitan Paul (thebitanpaul)
+
+The person: founder, AI / ML engineer, agentic systems.
+
 - GitHub: https://github.com/thebitanpaul
 - LinkedIn: https://linkedin.com/in/thebitanpaul
+- Instagram: https://instagram.com/thebitanpaul
+- Facebook: https://facebook.com/thebitanpaul
 - X (Twitter): https://x.com/thebitanpaul_
+- Snapchat: https://snapchat.com/t/UgO0Iywr
+- Personal email: mailto:thebitanpaul@gmail.com
+
+### Business — phiUture
+
+The studio: products, apps, and client work.
+
+- Website: https://phiuture.com
+- YouTube: https://www.youtube.com/@phiuture
+- Google Play developer: https://play.google.com/store/apps/dev?id=6358474525178045834&hl=en
+- Business email: mailto:thephiuture@gmail.com
+
+### Artist — thebitanpaul
+
+The musician: original records and music video.
+
+- YouTube: https://www.youtube.com/@thebitanpaul
+- Spotify: https://open.spotify.com/artist/6ghDcCBlKzJIgm3e586jpV
+- YouTube Music: https://music.youtube.com/playlist?list=OLAK5uy_km3cjEB2zl59Etcgv9UBKWw800O9G3NdE
+- Amazon Music: https://music.amazon.com/albums/B0G52QMYDC
+- Apple Music: https://music.apple.com/us/artist/thebitanpaul/1858534880
+- JioSaavn: https://www.jiosaavn.com/artist/thebitanpaul-songs/zuo0NgC65gQ_
+
+## Notes for citation
+- Preferred studio name: **phiUture** (lowercase p, capital U — the U stands for "you").
+- Preferred person name: **Bitan Paul**; handle **thebitanpaul**.
+- For business, product, or collaboration enquiries use the business email; the personal email is for everything else.

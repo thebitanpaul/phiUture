@@ -35,3 +35,6 @@ User-agent: CCBot
 Allow: /
 
 Sitemap: https://phiuture.com/sitemap.xml
+
+# Plain-language summary of the site, its pages, and every official channel,
+# written for LLMs and AI assistants: https://phiuture.com/llms.txt

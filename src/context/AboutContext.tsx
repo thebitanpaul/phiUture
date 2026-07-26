@@ -1,17 +1,24 @@
-import { createContext, useContext, type ReactNode } from 'react'
-import type { AboutData } from '@/lib/types'
+import { createContext, useContext, useMemo, type ReactNode } from 'react'
+import type { AboutData, ResolvedAboutData } from '@/lib/types'
 import aboutData from '@data/about.json'
+import { normalizeSocial } from '@/lib/social'
 import { useRemoteData, type RemoteDataStatus } from '@/hooks/useRemoteData'
 
 const FALLBACK = aboutData as unknown as AboutData
 
+/** Normalizes the social groups once, here, so no consumer has to guard for a
+    missing or legacy key. See src/lib/social.ts for why either can occur. */
+function resolve(data: AboutData): ResolvedAboutData {
+  return { ...data, social: normalizeSocial(data.social) }
+}
+
 interface AboutContextValue {
-  about: AboutData
+  about: ResolvedAboutData
   status: RemoteDataStatus
 }
 
 const AboutContext = createContext<AboutContextValue>({
-  about: FALLBACK,
+  about: resolve(FALLBACK),
   status: 'bundled',
 })
 
@@ -24,14 +31,14 @@ const AboutContext = createContext<AboutContextValue>({
  */
 export function AboutProvider({ children }: { children: ReactNode }) {
   const { data, status } = useRemoteData<AboutData>('about.json', FALLBACK)
-  return (
-    <AboutContext.Provider value={{ about: data, status }}>
-      {children}
-    </AboutContext.Provider>
-  )
+  // Memoized so the normalized groups aren't rebuilt (and every consumer
+  // re-rendered) on unrelated renders of the provider.
+  const value = useMemo(() => ({ about: resolve(data), status }), [data, status])
+
+  return <AboutContext.Provider value={value}>{children}</AboutContext.Provider>
 }
 
-/** The active About data (bundled or remote). */
-export function useAbout(): AboutData {
+/** The active About data (bundled or remote), social groups normalized. */
+export function useAbout(): ResolvedAboutData {
   return useContext(AboutContext).about
 }

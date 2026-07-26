@@ -270,19 +270,52 @@ export interface AboutCapability {
   href?: string
 }
 
-/** Social presence, configurable at runtime from about.json. */
+/**
+ * Social presence, configurable at runtime from about.json.
+ *
+ * Three groups, matching the three identities behind the site and the three
+ * tabs on the Contact page: the studio (`business`), the person (`people`), and
+ * the musician (`artist`). Any link in any group can carry `footer: true` to
+ * also appear in the compact footer row.
+ */
 export interface AboutSocial {
-  /** Address the Contact form composes to, and shown in the sidebar. */
+  /** Business inbox. The Contact form composes to this, and it's shown in the
+      page sidebar as the direct address. */
   email: string
-  /** Professional / direct-contact links (Contact page "Connect" tab). */
-  connect: SocialLink[]
-  /** Creator / audience channels (Contact page "Social" tab). `footer: true`
-      also surfaces the link in the compact footer row. */
-  profiles: SocialLink[]
-  /** Artist / streaming profiles surfaced on the Beyond page so visitors can
-      jump straight to the music & video. Independent of `profiles` so the
-      Contact grid stays symmetrical. */
+  /** Personal inbox, listed under People. */
+  personalEmail?: string
+  /** The studio: site, channel, developer page, business inbox. */
+  business?: SocialLink[]
+  /** The person: code, professional and personal social, personal inbox. */
+  people?: SocialLink[]
+  /** The musician: streaming and video profiles. Also surfaced on the Beyond
+      page so a visitor who likes a track can go straight to it. */
   artist?: SocialLink[]
+
+  // --------------------------------------------
+  // Legacy shape (pre business/people/artist split). Still declared because
+  // about.json is ALSO fetched at runtime from the content source: a deploy can
+  // briefly be paired with an older copy of the file. `normalizeSocial` maps
+  // these onto the groups above so the Contact page and footer degrade to the
+  // old link set instead of rendering empty.
+  // --------------------------------------------
+  /** @deprecated use `people` / `business` */
+  connect?: SocialLink[]
+  /** @deprecated use `people` / `artist` */
+  profiles?: SocialLink[]
+}
+
+/**
+ * The social groups after normalization — every group present, so nothing
+ * downstream has to guard for a missing or legacy key. Produced by
+ * `normalizeSocial` (src/lib/social.ts); this is what components receive.
+ */
+export interface ResolvedSocial {
+  email: string
+  personalEmail?: string
+  business: SocialLink[]
+  people: SocialLink[]
+  artist: SocialLink[]
 }
 
 /** Shape of src/data/about.json. */
@@ -293,4 +326,9 @@ export interface AboutData {
   kpis: AboutKpi[]
   capabilities: AboutCapability[]
   social: AboutSocial
+}
+
+/** `AboutData` as the app consumes it, with the social groups normalized. */
+export interface ResolvedAboutData extends Omit<AboutData, 'social'> {
+  social: ResolvedSocial
 }

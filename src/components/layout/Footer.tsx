@@ -2,18 +2,16 @@ import { Link } from 'react-router-dom'
 import { SITE_CONFIG } from '@/lib/constants'
 import { useAbout } from '@/context/AboutContext'
 import { socialIcon } from '@/components/icons/socialIcons'
+import { footerSocialLinks } from '@/lib/social'
 import { Wordmark } from '@/components/ui/Wordmark'
 
 export function Footer() {
   const { social } = useAbout()
   const year = new Date().getFullYear()
 
-  // "Connect" links + the creator channels flagged for the footer — all
-  // configurable at runtime from about.json.
-  const footerLinks = [
-    ...social.connect,
-    ...social.profiles.filter((s) => s.footer),
-  ]
+  // Every link flagged `footer: true` across the business / people / artist
+  // groups — curated in about.json, so the row can be changed at runtime.
+  const footerLinks = footerSocialLinks(social)
 
   return (
     <footer className="relative border-t border-border">

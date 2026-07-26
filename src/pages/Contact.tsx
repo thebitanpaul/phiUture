@@ -3,10 +3,10 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { PageTransition } from '@/components/layout/PageTransition'
 import { Section } from '@/components/layout/Section'
 import { GlassCard } from '@/components/ui/GlassCard'
-import { Send, CheckCircle, Mail, MapPin, Link2, Share2 } from 'lucide-react'
+import { Send, CheckCircle, Mail, MapPin, Briefcase, User, Music } from 'lucide-react'
 import { useAbout } from '@/context/AboutContext'
 import { socialIcon } from '@/components/icons/socialIcons'
-import type { SocialLink } from '@/lib/types'
+import type { ResolvedSocial, SocialLink } from '@/lib/types'
 import { SEO } from '@/components/seo/SEO'
 
 interface FormData {
@@ -228,24 +228,40 @@ export default function Contact() {
 
                 <div className="flex items-start gap-4">
                   <div className="w-10 h-10 rounded-xl bg-violet/10 flex items-center justify-center shrink-0">
-                    <Mail size={18} className="text-violet" />
+                    <Mail size={18} className="text-violet" aria-hidden="true" />
                   </div>
                   <div className="min-w-0">
-                    <h4 className="typo-section text-sm text-text-primary mb-1">Email</h4>
-                    <a
-                      href={`mailto:${contactEmail}`}
-                      className="typo-body text-text-secondary text-sm hover:text-magenta transition-colors break-all"
-                    >
-                      {contactEmail}
-                    </a>
+                    <h4 className="typo-section text-sm text-text-primary mb-1.5">Email</h4>
+                    {/* Both inboxes, labelled — project enquiries and anything
+                        personal genuinely go to different places. */}
+                    <p className="typo-body text-sm">
+                      <span className="text-text-muted text-xs">Business — </span>
+                      <a
+                        href={`mailto:${contactEmail}`}
+                        className="text-text-secondary hover:text-magenta transition-colors break-all"
+                      >
+                        {contactEmail}
+                      </a>
+                    </p>
+                    {social.personalEmail && (
+                      <p className="typo-body text-sm mt-1">
+                        <span className="text-text-muted text-xs">Personal — </span>
+                        <a
+                          href={`mailto:${social.personalEmail}`}
+                          className="text-text-secondary hover:text-magenta transition-colors break-all"
+                        >
+                          {social.personalEmail}
+                        </a>
+                      </p>
+                    )}
                   </div>
                 </div>
               </div>
             </GlassCard>
 
-            {/* Connect / Social — one card, two switchable tabs */}
+            {/* Business / People / Artist — one card, three switchable tabs */}
             <GlassCard className="p-6" hoverTilt={false}>
-              <SocialTabs connect={social.connect} profiles={social.profiles} />
+              <SocialTabs social={social} />
             </GlassCard>
 
             {/* Quick note */}
@@ -259,24 +275,45 @@ export default function Contact() {
   )
 }
 
-type TabId = 'connect' | 'social'
+type TabId = 'business' | 'people' | 'artist'
 
-/** One card, two tabs: a sliding gradient pill (shared design language with the
-    product / gallery filter bars) over a crossfading grid of social chips.
-    Both link sets come from about.json, so they're editable at runtime. */
-function SocialTabs({
-  connect,
-  profiles,
-}: {
-  connect: SocialLink[]
-  profiles: SocialLink[]
-}) {
+/** One card, three tabs — the three identities behind the site: the studio, the
+    person, and the musician. A sliding gradient pill (shared design language
+    with the product / gallery filter bars) sits over a crossfading grid of
+    chips. Every link comes from about.json, so all three sets are editable at
+    runtime without a rebuild.
+
+    Empty groups are dropped rather than rendered as a dead tab, which is what
+    keeps this correct if an older copy of about.json is ever served. */
+function SocialTabs({ social }: { social: ResolvedSocial }) {
   const tabs = [
-    { id: 'connect' as const, label: 'Connect', icon: Link2, links: connect },
-    { id: 'social' as const, label: 'Social', icon: Share2, links: profiles },
-  ]
-  const [active, setActive] = useState<TabId>('connect')
+    {
+      id: 'business' as const,
+      label: 'Business',
+      icon: Briefcase,
+      blurb: 'Official channels.',
+      links: social.business,
+    },
+    {
+      id: 'people' as const,
+      label: 'People',
+      icon: User,
+      blurb: 'People behind phiUture.',
+      links: social.people,
+    },
+    {
+      id: 'artist' as const,
+      label: 'Artist',
+      icon: Music,
+      blurb: 'Creativity beyond Technology.',
+      links: social.artist,
+    },
+  ].filter((tab) => tab.links.length > 0)
+
+  const [active, setActive] = useState<TabId>('business')
   const current = tabs.find((t) => t.id === active) ?? tabs[0]
+
+  if (!current) return null
 
   return (
     <div>
@@ -284,17 +321,17 @@ function SocialTabs({
       <div
         role="tablist"
         aria-label="Ways to connect"
-        className="relative mb-5 flex gap-1 rounded-xl border border-white/[0.05] bg-white/[0.03] p-1"
+        className="relative mb-4 flex gap-1 rounded-xl border border-white/[0.05] bg-white/[0.03] p-1"
       >
         {tabs.map((tab) => {
-          const on = tab.id === active
+          const on = tab.id === current.id
           return (
             <button
               key={tab.id}
               role="tab"
               aria-selected={on}
               onClick={() => setActive(tab.id)}
-              className={`relative flex flex-1 items-center justify-center gap-2 rounded-lg py-2 text-sm font-medium transition-colors duration-300 ${
+              className={`relative flex flex-1 items-center justify-center gap-1.5 rounded-lg py-2 text-xs font-medium transition-colors duration-300 sm:text-sm ${
                 on ? 'text-text-primary' : 'text-text-muted hover:text-text-secondary'
               }`}
             >
@@ -310,7 +347,7 @@ function SocialTabs({
                   transition={{ type: 'spring', stiffness: 320, damping: 30 }}
                 />
               )}
-              <tab.icon size={15} className="relative z-10" />
+              <tab.icon size={14} className="relative z-10 shrink-0" aria-hidden="true" />
               <span className="relative z-10">{tab.label}</span>
             </button>
           )
@@ -321,13 +358,14 @@ function SocialTabs({
       <motion.div layout transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}>
         <AnimatePresence mode="wait" initial={false}>
           <motion.div
-            key={active}
+            key={current.id}
             role="tabpanel"
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
           >
+            <p className="typo-body mb-3.5 text-xs text-text-muted">{current.blurb}</p>
             <SocialGrid links={current.links} />
           </motion.div>
         </AnimatePresence>
@@ -336,21 +374,24 @@ function SocialTabs({
   )
 }
 
-/** A two-column grid of social chips, resolving each link's brand glyph. */
+/** A two-column grid of social chips, resolving each link's brand glyph.
+    `mailto:` entries open the visitor's mail client in place, so they get no
+    `target="_blank"` — a blank tab that immediately closes itself is worse than
+    no tab at all. */
 function SocialGrid({ links }: { links: SocialLink[] }) {
   return (
     <div className="grid grid-cols-2 gap-3">
       {links.map((link) => {
         const Icon = socialIcon(link.icon)
+        const external = /^https?:\/\//i.test(link.url)
         return (
           <a
             key={link.id ?? link.platform}
             href={link.url}
-            target="_blank"
-            rel="noopener noreferrer"
+            {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
             className="flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-white/[0.02] border border-white/[0.04] text-text-secondary text-sm hover:text-text-primary hover:border-white/10 transition-all duration-300"
           >
-            {Icon && <Icon size={16} className="shrink-0" />}
+            {Icon && <Icon size={16} className="shrink-0" aria-hidden="true" />}
             <span className="truncate">{link.platform}</span>
           </a>
         )

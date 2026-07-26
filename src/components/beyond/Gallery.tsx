@@ -33,7 +33,7 @@ interface GalleryProps {
  */
 export function Gallery({ mediums, activeId, onSelect }: GalleryProps) {
   const { social } = useAbout()
-  const artistProfiles = social.artist ?? []
+  const artistProfiles = social.artist
   const active = mediums.find((m) => m.id === activeId) ?? mediums[0]
   const allItems = useMemo(() => toGalleryItems(active), [active])
   const isLive = active?.status === 'live' && allItems.length > 0

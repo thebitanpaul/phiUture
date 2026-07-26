@@ -9,6 +9,7 @@
 
 import aboutData from '@data/about.json'
 import type { AboutData } from '@/lib/types'
+import { normalizeSocial, socialSameAs } from '@/lib/social'
 import { SITE_CONFIG } from '@/lib/constants'
 
 /** Display name of the site / organization. */
@@ -24,10 +25,10 @@ export const DEFAULT_TITLE = `${SITE_NAME} — Beautifully engineered technology
 /** Fallback meta description. */
 export const DEFAULT_DESCRIPTION = SITE_CONFIG.description
 
-/** Default social share image (1200×630). Used as the Open Graph / Twitter
-    image wherever a page doesn't supply its own. */
+/** Default social share image. Used as the Open Graph / Twitter image wherever
+    a page doesn't supply its own. */
 export const DEFAULT_OG_IMAGE =
-  'https://res.cloudinary.com/b0tb1mho/image/upload/v1784753097/lgvkw3dn9w5veqhbej2b.png'
+  'https://res.cloudinary.com/b0tb1mho/image/upload/v1785090107/phiUture/BrandAssets/phiWordmark.png'
 
 /** Official transparent logo — used for the Organization JSON-LD. */
 export const ORG_LOGO =
@@ -51,17 +52,30 @@ export function absoluteUrl(path: string): string {
 
 const about = aboutData as unknown as AboutData
 
+const SOCIAL = normalizeSocial(about.social)
+
+/** Drops the site's own origin — `sameAs` is for OTHER URLs that identify the
+    entity, and the canonical one is already the node's `url`. */
+const notSelf = (url: string) => url.replace(/\/+$/, '') !== SITE_URL
+
 /**
- * Social profiles for the Organization `sameAs` array — derived live from
- * about.json (connect + profiles), so adding a channel there also feeds SEO.
- * mailto: and non-http links are excluded; duplicates are removed.
+ * `sameAs` for each entity, derived live from about.json so adding a channel
+ * there is all it takes to feed structured data too. mailto: and non-http links
+ * are excluded (schema.org wants URLs), and duplicates are removed.
+ *
+ * The split matters: `sameAs` is how Google reconciles a node with profiles it
+ * already knows, so pointing the studio at the studio's channels and the person
+ * at the person's — rather than one merged list on both — is what lets it treat
+ * them as two linked entities instead of one blurred one. Between them the two
+ * lists still cover every link in the file.
  */
-export const SOCIAL_SAMEAS: string[] = Array.from(
-  new Set(
-    [...(about.social?.connect ?? []), ...(about.social?.profiles ?? [])]
-      .map((s) => s.url)
-      .filter((u) => /^https?:\/\//i.test(u))
-  )
+export const ORG_SAMEAS: string[] = socialSameAs(SOCIAL)
+  .filter((url) => SOCIAL.business.some((l) => l.url === url))
+  .filter(notSelf)
+
+/** The person, including the artist identity — same human, same entity. */
+export const PERSON_SAMEAS: string[] = socialSameAs(SOCIAL).filter((url) =>
+  [...SOCIAL.people, ...SOCIAL.artist].some((l) => l.url === url)
 )
 
 // Stable @id anchors so the Organization, WebSite and Person nodes reference
@@ -85,7 +99,8 @@ export function organizationSchema(): Record<string, unknown> {
     logo: ORG_LOGO,
     description: DEFAULT_DESCRIPTION,
     founder: { '@id': PERSON_ID },
-    sameAs: SOCIAL_SAMEAS,
+    email: SOCIAL.email,
+    sameAs: ORG_SAMEAS,
   }
 }
 
@@ -121,6 +136,6 @@ export function personSchema(): Record<string, unknown> {
     ...(FOUNDER?.roles?.length ? { jobTitle: FOUNDER.roles.join(', ') } : {}),
     ...(FOUNDER?.bio ? { description: FOUNDER.bio } : {}),
     worksFor: { '@id': ORG_ID },
-    sameAs: SOCIAL_SAMEAS,
+    sameAs: PERSON_SAMEAS,
   }
 }

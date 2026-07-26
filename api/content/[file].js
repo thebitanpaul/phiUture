@@ -17,11 +17,28 @@
 //   GITHUB_DATA_TOKEN  (optional) bearer token for a private source
 // ============================================================================
 
+import { enforceRateLimit } from '../_rateLimit.js'
+
 // Only these files may be proxied — never let the path parameter fetch anything
 // else from the upstream base.
 const ALLOWED = new Set(['products.json', 'beyond.json', 'about.json'])
 
+// A real visit costs 3 requests (products + beyond + about) per session, and the
+// CDN absorbs repeats for 60s — so this ceiling is far above legitimate use even
+// for a dozen people sharing one NAT, while still cutting off a fetch loop.
+const RATE_LIMIT = { limit: 60, windowMs: 60_000 }
+
 export default async function handler(req, res) {
+  // Reads only. Anything else is either a probe or a mistake.
+  if (req.method !== 'GET' && req.method !== 'HEAD') {
+    res.setHeader('Allow', 'GET, HEAD')
+    return res.status(405).json({ error: 'Method not allowed' })
+  }
+
+  // Before any work: an abusive client should cost us as little as possible,
+  // and must never reach the upstream fetch.
+  if (enforceRateLimit(req, res, RATE_LIMIT)) return
+
   const file = req.query.file
   if (typeof file !== 'string' || !ALLOWED.has(file)) {
     return res.status(404).json({ error: 'Unknown content file' })
