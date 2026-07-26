@@ -274,19 +274,23 @@ export interface AboutCapability {
  * Social presence, configurable at runtime from about.json.
  *
  * Three groups, matching the three identities behind the site and the three
- * tabs on the Contact page: the studio (`business`), the person (`people`), and
+ * tabs on the Contact page: the studio (`business`), the founder (`people`), and
  * the musician (`artist`). Any link in any group can carry `footer: true` to
  * also appear in the compact footer row.
+ *
+ * The `people` key predates the "Founder" label and is kept as-is: renaming it
+ * would break any older copy of about.json fetched at runtime from the content
+ * source, for no gain the UI can see.
  */
 export interface AboutSocial {
   /** Business inbox. The Contact form composes to this, and it's shown in the
       page sidebar as the direct address. */
   email: string
-  /** Personal inbox, listed under People. */
-  personalEmail?: string
+  /** The founder's own inbox, listed under the Founder group. */
+  founderEmail?: string
   /** The studio: site, channel, developer page, business inbox. */
   business?: SocialLink[]
-  /** The person: code, professional and personal social, personal inbox. */
+  /** The founder: code, professional and everyday social, direct inbox. */
   people?: SocialLink[]
   /** The musician: streaming and video profiles. Also surfaced on the Beyond
       page so a visitor who likes a track can go straight to it. */
@@ -312,7 +316,7 @@ export interface AboutSocial {
  */
 export interface ResolvedSocial {
   email: string
-  personalEmail?: string
+  founderEmail?: string
   business: SocialLink[]
   people: SocialLink[]
   artist: SocialLink[]

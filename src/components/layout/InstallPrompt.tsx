@@ -30,7 +30,10 @@ export function InstallPrompt() {
           aria-label="Install phiUture"
           className="fixed inset-x-0 bottom-0 z-[70] flex justify-center px-4 pb-[max(1rem,env(safe-area-inset-bottom))] pointer-events-none"
         >
-          <div className="glass-strong pointer-events-auto flex w-full max-w-md items-center gap-3.5 rounded-2xl border border-white/[0.08] p-3.5 shadow-2xl shadow-black/50">
+          {/* `glass-bar`, the same near-opaque surface as the navbar and the
+              sticky filter bars — plain `glass-strong` is transparent enough
+              that page text bleeds through and tangles with this text. */}
+          <div className="glass-bar pointer-events-auto flex w-full max-w-md items-center gap-3.5 rounded-2xl p-3.5 shadow-2xl shadow-black/50">
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-magenta/10 text-xl">
               <PhiLogo />
             </div>

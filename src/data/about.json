@@ -168,7 +168,7 @@
 
   "social": {
     "email": "thephiuture@gmail.com",
-    "personalEmail": "thebitanpaul@gmail.com",
+    "founderEmail": "thebitanpaul@gmail.com",
 
     "business": [
       { "id": "business-website", "platform": "Website", "url": "https://phiuture.com", "icon": "globe" },

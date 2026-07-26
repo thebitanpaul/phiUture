@@ -50,7 +50,7 @@ export function normalizeSocial(social: AboutSocial): ResolvedSocial {
   if (business.length || people.length || artist.length) {
     return {
       email: social.email,
-      personalEmail: social.personalEmail,
+      founderEmail: social.founderEmail,
       business,
       people,
       artist,
@@ -61,7 +61,7 @@ export function normalizeSocial(social: AboutSocial): ResolvedSocial {
   const legacyProfiles = clean(social.profiles)
   return {
     email: social.email,
-    personalEmail: social.personalEmail,
+    founderEmail: social.founderEmail,
     business: [],
     people: [
       ...clean(social.connect),
