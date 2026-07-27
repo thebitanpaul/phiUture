@@ -24,6 +24,8 @@ import { SEO } from '@/components/seo/SEO'
 import { useProducts, useFeaturedProducts } from '@/context/ProductsContext'
 import { useRemoteData } from '@/hooks/useRemoteData'
 import { CATEGORIES, getCategoryCounts } from '@/lib/products'
+import { getMedium, getFreshRelease, getLatestVideos } from '@/lib/beyond'
+import type { GalleryItem } from '@/components/beyond'
 import type { BeyondData } from '@/lib/types'
 import beyondFallback from '@data/beyond.json'
 
@@ -83,15 +85,26 @@ export default function Home() {
     beyondFallback as BeyondData
   )
   const mediums = beyond.mediums ?? []
-  const musicMedium = mediums.find((m) => m.id === 'music')
-  const video = mediums.find((m) => m.id === 'video')
-  const featuredAlbum = musicMedium?.music?.[0]
+  const musicMedium = getMedium(beyond, 'music')
+  const video = getMedium(beyond, 'video')
+
+  // Both home-page picks come from the `featured` block in beyond.json, keyed by
+  // slug — see lib/beyond.ts. That file loads at runtime, so swapping a slug
+  // changes what the home page shows without a redeploy.
+  const featuredAlbum = getFreshRelease(beyond)
 
   // Videos as gallery items so the same popup player used on the Beyond page
   // can play a clip in place here — clicking a thumbnail opens the player at
-  // that clip instead of navigating away.
+  // that clip instead of navigating away. The player keeps the FULL video list
+  // so its next/prev can walk past the four featured clips.
   const videoItems = useMemo(() => toGalleryItems(video), [video])
-  const filmClips = videoItems.slice(0, 4)
+  const filmClips = useMemo<GalleryItem[]>(
+    () =>
+      getLatestVideos(beyond)
+        .map((v) => videoItems.find((item) => item.key === v.id))
+        .filter((item): item is GalleryItem => Boolean(item)),
+    [beyond, videoItems]
+  )
   const [videoIndex, setVideoIndex] = useState<number | null>(null)
 
   const counts = getCategoryCounts(allProducts)
@@ -361,11 +374,17 @@ export default function Home() {
                   </div>
 
                   <div className="grid grid-cols-2 gap-3 flex-1">
-                    {filmClips.map((clip, i) => (
+                    {filmClips.map((clip) => (
                       <button
                         key={clip.key}
                         type="button"
-                        onClick={() => setVideoIndex(i)}
+                        // Index into the full list, not into filmClips — the
+                        // featured four are an arbitrary subset of it.
+                        onClick={() =>
+                          setVideoIndex(
+                            videoItems.findIndex((v) => v.key === clip.key)
+                          )
+                        }
                         aria-label={`Play ${clip.title}`}
                         className="group relative block w-full aspect-video rounded-xl overflow-hidden glass border border-white/[0.06]"
                       >

@@ -146,6 +146,8 @@ export type BeyondMediumStatus = 'live' | 'coming-soon'
 /** A single release on the Music medium (one embedded Spotify item). */
 export interface BeyondMusicItem {
   id: string
+  /** Stable, human-readable handle — what `featured["fresh release"]` points at. */
+  slug?: string
   /** Spotify album ID (the segment after /album/ in the embed URL). */
   spotifyId: string
   /** Embed height in px — 152 for a compact single, 352 for a full tracklist. */
@@ -163,6 +165,8 @@ export interface BeyondMusicItem {
 /** A YouTube video on the Video medium. */
 export interface BeyondVideo {
   id: string
+  /** Stable, human-readable handle — what `featured["latest videos"]` points at. */
+  slug?: string
   title: string
   youtubeId: string
   artist?: string
@@ -186,8 +190,26 @@ export interface BeyondMedium {
   videos?: BeyondVideo[]
 }
 
+/**
+ * Home-page picks, by slug — the equivalent of products.json's `featured`
+ * block. Because beyond.json is loaded remotely at runtime, editing these two
+ * lists reshuffles the home page's Beyond section without a redeploy.
+ *
+ * Slugs are resolved WITHIN the medium each field feeds, so a music item and a
+ * video may safely share a slug. Unknown slugs are skipped, and an empty or
+ * missing field falls back to the natural data order.
+ */
+export interface BeyondFeatured {
+  /** Slug of the Music item embedded in the home page's "Fresh Release" card. */
+  'fresh release'?: string
+  /** Slugs of the Video items shown in the home page's "Latest Videos" grid,
+      in the order they should appear (first four are used). */
+  'latest videos'?: string[]
+}
+
 /** Shape of src/data/beyond.json. */
 export interface BeyondData {
+  featured?: BeyondFeatured
   mediums: BeyondMedium[]
 }
 

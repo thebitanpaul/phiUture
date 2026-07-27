@@ -1775,8 +1775,12 @@
       "status": "live",
       "overview": "Shape your business with AI: Turn a plain-English requirements document into a complete microservice architecture — a service map, an AI risk audit, a failure-resilience simulation, architecture metrics, a traceability matrix, a migration roadmap, and live competitor intelligence.",
       "icon": "https://res.cloudinary.com/b0tb1mho/image/upload/v1784579210/mvc0kqxxwrtax3d5wh1n.webp",
-      "heroImage": "https://res.cloudinary.com/b0tb1mho/image/upload/v1784626188/q8vgomhungoglex9axyk.webp",
+      "heroImage": "https://res.cloudinary.com/b0tb1mho/image/upload/v1785177731/ArchAITect_Thumbnail.webp",
       "features": [
+        {
+          "title": "Bring Your Own Key (BYO) with bank-grade security",
+          "description": "Supports 10+ LLM providers (Google Gemini, Anthropic Claude, OpenAI, AWS Bedrock, Groq, Mistral, OpenRouter, xAI, DeepSeek, and custom OpenAI-compatible endpoints). Keys are encrypted with AES-256-GCM and stored in IndexedDB with a non-extractable wrapping key — never written to disk in readable form and never persisted server-side. Free shared engine with rate limits for instant start."
+        },
         {
           "title": "Token-first architecture",
           "description": "Pre-processes specs in pure Python to cut input tokens by up to 70% before invoking LLMs."
@@ -1796,11 +1800,19 @@
         {
           "title": "On-demand AI lenses",
           "description": "Runs targeted single-call LLM audits for risk evaluation, traceability matrices, migration roadmaps, and competitor intelligence."
-        }
+        }        
       ],
       "problem": "Designing and stress-testing a microservice architecture from complex requirements documents is traditionally slow, expensive, and token-heavy.",
       "solution": "ArchAItect uses deterministic Python to pre-compress specs and run instant, 0-token resilience and architecture analyses, invoking surgical LLM calls only when semantic reasoning or on-demand deep dives are required.",
       "gallery": [
+        {
+          "src": "https://youtu.be/fFKH_kVNXpQ",
+          "caption": "Product Demo Video"
+        },
+        {
+          "src": "https://res.cloudinary.com/b0tb1mho/image/upload/v1785179218/Screenshot_2026-07-28_at_12.36.34_AM.webp",
+          "caption": "Buy Your Own Key (BYO) with bank-grade security"
+        },
         {
           "src": "https://res.cloudinary.com/b0tb1mho/image/upload/v1784579257/lad6w4g1ks2egche5luh.webp",
           "caption": "Architecture Overview"
@@ -1854,14 +1866,16 @@
         "Token efficiency is a hard engineering constraint, not an optimisation afterthought — it shaped every design decision from document compression to inter-agent payload structure.",
         "UX framing matters for AI tools: letting the user edit first and then running AI analyses as an independent review board avoids the credibility gap of AI auditing its own output.",
         "Provider-agnostic abstraction from day one (llm_client.py) prevents painful rework and signals open-source intent clearly.",
-        "Modelling integrations explicitly (Stripe, Auth0, SendGrid) per service is a correctness requirement — defaulting everything to just a database misrepresents real architecture."
+        "Modelling integrations explicitly (Stripe, Auth0, SendGrid) per service is a correctness requirement — defaulting everything to just a database misrepresents real architecture.",
+        "BYO security with non-extractable browser keys and server-side ephemeral credentials bridges enterprise security requirements with consumer-grade usability."
       ],
       "motivation": "Built solo for a company hackathon to prove that agentic AI pipelines, when designed token-first, can automate the most expensive phase of software planning — translating business requirements into validated microservice architectures — at a fraction of the traditional cost and time.",
       "findings": [
         "Deterministic Python can handle the majority of architecture analysis (graph traversal, metric computation) without any LLM involvement, dramatically reducing cost.",
         "Collapsing multi-call agents into single surgical LLM calls maintained output quality while halving token spend.",
         "Users trust AI-generated architectures more when they can edit the service map before running independent AI audits on their version.",
-        "A staged pipeline (compress → required agents → free analyses → optional lenses) gives the best balance of cost, quality, and user control."
+        "A staged pipeline (compress → required agents → free analyses → optional lenses) gives the best balance of cost, quality, and user control.",
+        "AES-256-GCM client-side encryption with non-extractable wrapping keys ensures that even the app's own scripts cannot read stored API keys."
       ],
       "technologies": [
         "FastAPI",
@@ -1873,16 +1887,20 @@
         "Vite",
         "React Flow",
         "Framer Motion",
-        "Claude API"
+        "Claude API",
+        "Google Gemini API",
+        "OpenAI API",
+        "AWS Bedrock"
       ],
-      "architecture": "A staged agentic pipeline: uploaded documents are first compressed by deterministic Python, then passed through three required LLM agents (domain analysis, service decomposition, dependency mapping) to produce a service graph. Free Python analyses — resilience simulation via graph traversal and architecture metrics — run on that graph at zero token cost. Four optional on-demand LLM lenses (risk audit, traceability, migration roadmap, competitor intelligence) let users deep-dive without paying upfront. The LLM layer is abstracted behind a provider-agnostic client, keeping the system portable across models.",
+      "architecture": "A staged agentic pipeline: uploaded documents are first compressed by deterministic Python, then passed through three required LLM agents (domain analysis, service decomposition, dependency mapping) to produce a service graph. Free Python analyses — resilience simulation via graph traversal and architecture metrics — run on that graph at zero token cost. Four optional on-demand LLM lenses (risk audit, traceability, migration roadmap, competitor intelligence) let users deep-dive without paying upfront. The LLM layer is abstracted behind a provider-agnostic client, keeping the system portable across models. The BYO system uses browser-native AES-256-GCM encryption with non-extractable wrapping keys, stored in IndexedDB with no readable key material ever written to disk or transmitted to the backend.",
       "challenges": [
         "Fitting complex requirements documents within free-tier token limits required multiple compression rounds and slimmed inter-agent payloads.",
         "Avoiding the logical awkwardness of AI auditing its own output — solved by reframing on-demand analyses as an independent review board that stress-tests the user's edited design.",
         "Ensuring every service didn't default to just a database — adding an explicit integrations field (Stripe, Auth0, SendGrid, etc.) was a correctness fix, not cosmetic.",
-        "Collapsing multi-call agents into single calls and keeping all edit operations client-side to stay within token and cost budgets."
+        "Collapsing multi-call agents into single calls and keeping all edit operations client-side to stay within token and cost budgets.",
+        "Designing a secure BYO mechanism that works across 10+ providers while keeping keys never readable at rest or in transit — achieved through browser-based encryption and request-scoped backend credentials."
       ],
-      "results": "Delivered a fully functional agentic AI product — solo-built end-to-end in a hackathon sprint — that generates interactive, editable microservice architectures from plain-English documents, with ~65% token savings and zero-cost graph-based analyses.",
+      "results": "Delivered a fully functional agentic AI product — solo-built end-to-end in a hackathon sprint — that generates interactive, editable microservice architectures from plain-English documents, with ~65% token savings and zero-cost graph-based analyses. Supports 10+ LLM providers with bank-grade BYO security through AES-256-GCM client-side encryption.",
       "metrics": [
         {
           "value": "~65%",
@@ -1898,11 +1916,11 @@
         "playStore": "",
         "appStore": "",
         "github": "https://github.com/thebitanpaul/ArchAItect",
-        "demo": "",
+        "demo": "https://youtu.be/fFKH_kVNXpQ",
         "dashboard": "",
         "workflow": "",
         "caseStudy": "",
-        "youtube": "",
+        "youtube": "https://youtu.be/fFKH_kVNXpQ",
         "facebook": "",
         "instagram": "",
         "x": "",
