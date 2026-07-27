@@ -32,12 +32,16 @@ export function Navbar() {
   return (
     <>
       {/* Navbar is pinned (always visible) so the hero heading has a stable
-          target to fly into, and constant padding so that target never drifts. */}
+          target to fly into, and constant padding so that target never drifts.
+          --pwa-top-inset is 0 in a browser tab and becomes the status-bar height
+          when the site runs as an installed app, where the document starts under
+          the status bar and the bar would otherwise be unreachable. */}
       <motion.header
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        className="fixed top-0 left-0 right-0 z-50 py-4"
+        className="fixed top-0 left-0 right-0 z-50 pb-4"
+        style={{ paddingTop: 'calc(1rem + var(--pwa-top-inset))' }}
       >
         <nav
           className="mx-auto max-w-6xl px-6 flex items-center justify-between rounded-2xl py-2.5 glass-bar"
@@ -116,7 +120,8 @@ export function Navbar() {
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-              className="absolute right-0 top-0 bottom-0 w-72 bg-elevated border-l border-border p-6 pt-24 flex flex-col gap-2"
+              className="absolute right-0 top-0 bottom-0 w-72 bg-elevated border-l border-border p-6 flex flex-col gap-2"
+              style={{ paddingTop: 'calc(6rem + var(--pwa-top-inset))' }}
             >
               {NAV_ITEMS.map((item) => (
                 <Link

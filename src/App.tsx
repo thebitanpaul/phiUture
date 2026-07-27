@@ -20,6 +20,50 @@ const productPaths = (productsData.products ?? []).map(
   (p) => `products/${p.slug}`
 )
 
+// Page chunks, named so they can be both lazily rendered AND warmed ahead of
+// time (see prefetchPages). ESM caches modules per specifier, so the prefetch
+// and the React.lazy import resolve to the very same module — warming one means
+// the navigation never has to wait on the network.
+const pageImports = {
+  Home: () => import('@/pages/Home'),
+  About: () => import('@/pages/About'),
+  Products: () => import('@/pages/Products'),
+  ProductDetail: () => import('@/pages/ProductDetail'),
+  Beyond: () => import('@/pages/Beyond'),
+  Contact: () => import('@/pages/Contact'),
+  NotFound: () => import('@/pages/NotFound'),
+}
+
+/**
+ * Downloads every page chunk once the browser is idle, so switching tabs never
+ * suspends on a cold chunk. Purely an optimisation — the Suspense boundary in
+ * Layout still covers a cold navigation — but it removes the visible loader on
+ * the common path. Skipped when the visitor has asked to save data.
+ */
+export function prefetchPages(): void {
+  if (typeof window === 'undefined') return
+
+  const connection = (
+    navigator as Navigator & { connection?: { saveData?: boolean } }
+  ).connection
+  if (connection?.saveData) return
+
+  const run = () => {
+    for (const load of Object.values(pageImports)) {
+      // A prefetch failure is not a problem: the route's own lazy import will
+      // retry (and the route error boundary handles a genuine chunk miss).
+      void load().catch(() => {})
+    }
+  }
+
+  // requestIdleCallback is missing on Safari before 18 — fall back to a timer.
+  if (typeof window.requestIdleCallback === 'function') {
+    window.requestIdleCallback(run, { timeout: 4000 })
+  } else {
+    window.setTimeout(run, 2000)
+  }
+}
+
 export const routes: RouteRecord[] = [
   {
     path: '/',
@@ -31,18 +75,18 @@ export const routes: RouteRecord[] = [
     // is meant to recover from.
     ErrorBoundary: RouteError,
     children: [
-      { index: true, Component: React.lazy(() => import('@/pages/Home')) },
-      { path: 'about', Component: React.lazy(() => import('@/pages/About')) },
-      { path: 'products', Component: React.lazy(() => import('@/pages/Products')) },
+      { index: true, Component: React.lazy(pageImports.Home) },
+      { path: 'about', Component: React.lazy(pageImports.About) },
+      { path: 'products', Component: React.lazy(pageImports.Products) },
       {
         path: 'products/:slug',
-        Component: React.lazy(() => import('@/pages/ProductDetail')),
+        Component: React.lazy(pageImports.ProductDetail),
         // Enumerate every product page so each is prerendered at build time.
         getStaticPaths: () => productPaths,
       },
-      { path: 'beyond', Component: React.lazy(() => import('@/pages/Beyond')) },
-      { path: 'contact', Component: React.lazy(() => import('@/pages/Contact')) },
-      { path: '*', Component: React.lazy(() => import('@/pages/NotFound')) },
+      { path: 'beyond', Component: React.lazy(pageImports.Beyond) },
+      { path: 'contact', Component: React.lazy(pageImports.Contact) },
+      { path: '*', Component: React.lazy(pageImports.NotFound) },
     ],
   },
 ]

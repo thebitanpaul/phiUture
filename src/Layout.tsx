@@ -27,20 +27,31 @@ function PageLoader() {
   )
 }
 
-// Renders the active route (via <Outlet/>) with the same page-transition
-// behaviour as before: a keyed wrapper inside <AnimatePresence mode="wait">
-// lets each page's <PageTransition> exit animation play before the next enters.
+// Renders the active route (via <Outlet/>): a keyed wrapper inside
+// <AnimatePresence mode="wait"> lets each page's <PageTransition> exit
+// animation play before the next one enters.
+//
+// The <Suspense> boundary sits INSIDE the keyed child, and that placement is
+// the fix for the "page goes blank and black until reload" bug on tab
+// switches. With the boundary wrapped AROUND <AnimatePresence>, navigating to
+// a route whose lazy chunk wasn't downloaded yet suspended the whole presence
+// tree: React detached it and rendered the fallback, the outgoing page's exit
+// animation resolved while detached, and AnimatePresence came back with the old
+// child already removed and the new one still pending — so it rendered nothing.
+// Nothing but a reload could recover it, because the stuck state lives in
+// AnimatePresence's own internals.
+//
+// Suspending inside the keyed child instead keeps AnimatePresence mounted the
+// whole time; only the incoming page shows the loader while its chunk arrives.
 function AnimatedOutlet() {
   const location = useLocation()
   const outlet = useOutlet()
   return (
-    <Suspense fallback={<PageLoader />}>
-      <AnimatePresence mode="wait">
-        <div key={location.pathname} className="contents">
-          {outlet}
-        </div>
-      </AnimatePresence>
-    </Suspense>
+    <AnimatePresence mode="wait">
+      <div key={location.pathname} className="contents">
+        <Suspense fallback={<PageLoader />}>{outlet}</Suspense>
+      </div>
+    </AnimatePresence>
   )
 }
 

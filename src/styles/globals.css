@@ -31,6 +31,41 @@
 }
 
 /* ============================================
+   Installed-app (PWA) top inset
+   ============================================
+   index.html ships `viewport-fit=cover` plus
+   `apple-mobile-web-app-status-bar-style: black-translucent`, so once the site
+   is added to the home screen the document starts at the very top of the
+   screen — underneath the status bar / notch. The pinned navbar then sits
+   partly behind it and its controls become untappable.
+
+   `--pwa-top-inset` is the extra top padding the fixed chrome needs. It is 0 in
+   a normal browser tab (where the browser's own chrome occupies that strip and
+   `env(safe-area-inset-top)` reports 0 anyway) and only becomes non-zero in a
+   standalone/installed window. The `max()` floor covers Android, which runs
+   standalone under an opaque status bar that `env()` reports as 0 inset.
+
+   Two selectors on purpose: iOS Safari below 16.4 does not match
+   `display-mode: standalone` reliably, but it does expose
+   `navigator.standalone` — mirrored onto <html> as `.pwa-standalone` by
+   lib/standaloneMode.ts.
+   ============================================ */
+
+:root {
+  --pwa-top-inset: 0px;
+}
+
+@media (display-mode: standalone), (display-mode: fullscreen), (display-mode: minimal-ui) {
+  :root {
+    --pwa-top-inset: max(env(safe-area-inset-top, 0px), 1.5rem);
+  }
+}
+
+html.pwa-standalone {
+  --pwa-top-inset: max(env(safe-area-inset-top, 0px), 1.5rem);
+}
+
+/* ============================================
    Base
    ============================================ */
 

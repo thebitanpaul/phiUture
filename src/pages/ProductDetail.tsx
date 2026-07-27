@@ -474,7 +474,7 @@ export default function ProductDetail() {
             </Block>
           )}
           {product.findings && product.findings.length > 0 && (
-            <Block label="Findings" title="What we learned">
+            <Block label="Research" title="What the research showed">
               <BulletList items={product.findings} />
             </Block>
           )}
@@ -502,9 +502,9 @@ export default function ProductDetail() {
             </Block>
           )}
 
-          {/* Challenges & Learnings */}
+          {/* Challenges */}
           {product.challenges && product.challenges.length > 0 && (
-            <Block label="Learnings" title="Challenges & learnings">
+            <Block label="Challenges" title="Challenges we tackled">
               <BulletList items={product.challenges} />
             </Block>
           )}
