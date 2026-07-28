@@ -8,6 +8,7 @@ import {
   CategoryBadge,
   StatusBadge,
   ProductThumbnail,
+  ProductName,
   ProductCTA,
   ProductCard,
   GalleryMedia,
@@ -214,6 +215,10 @@ export default function ProductDetail() {
   const heroSrc = product.heroImage || product.icon
   const featureItems = product.features ?? []
   const galleryItems = product.gallery ?? []
+  // `technologies` is required by the type but this product may have come off the
+  // network from a hand-edited file, so an omitted list must render as "no stack
+  // section" rather than crash the page.
+  const techItems = product.technologies ?? []
 
   return (
     <PageTransition>
@@ -278,7 +283,7 @@ export default function ProductDetail() {
               transition={{ duration: 0.8, delay: 0.1, ease: EASE }}
               className="typo-display mt-5 max-w-3xl text-4xl text-text-primary md:text-6xl"
             >
-              {product.name}
+              <ProductName name={product.name} className="trademark-display" />
             </motion.h1>
 
             <motion.p
@@ -480,10 +485,10 @@ export default function ProductDetail() {
           )}
 
           {/* Technologies */}
-          {product.technologies.length > 0 && (
+          {techItems.length > 0 && (
             <Block label="Stack" title="Technologies used">
               <div className="flex flex-wrap gap-2">
-                {product.technologies.map((tech) => (
+                {techItems.map((tech) => (
                   <span
                     key={tech}
                     className="rounded-lg border border-white/[0.06] bg-white/[0.03] px-3.5 py-1.5 text-sm text-text-secondary"

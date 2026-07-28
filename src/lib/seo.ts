@@ -28,7 +28,13 @@ export const DEFAULT_DESCRIPTION = SITE_CONFIG.description
 /** Default social share image. Used as the Open Graph / Twitter image wherever
     a page doesn't supply its own. */
 export const DEFAULT_OG_IMAGE =
-  'https://res.cloudinary.com/b0tb1mho/image/upload/v1785090107/phiUture/BrandAssets/phiWordmark.png'
+  'https://res.cloudinary.com/b0tb1mho/image/upload/v1785254015/phiUture/BrandAssets/phiOGimage.png'
+
+/** The brand wordmark image. The one place this URL lives — anywhere the UI
+    needs the wordmark as an IMAGE (rather than the typeset <Wordmark /> lockup)
+    imports it from here. */
+export const BRAND_WORDMARK =
+  'https://res.cloudinary.com/b0tb1mho/image/upload/v1785254017/phiUture/BrandAssets/phiWordMark.png'
 
 /** Official transparent logo — used for the Organization JSON-LD. */
 export const ORG_LOGO =
@@ -99,7 +105,9 @@ export function organizationSchema(): Record<string, unknown> {
     logo: ORG_LOGO,
     description: DEFAULT_DESCRIPTION,
     founder: { '@id': PERSON_ID },
-    email: SOCIAL.email,
+    // Omitted rather than emitted empty — an `email: ""` property is worse for
+    // the knowledge graph than no property at all.
+    ...(SOCIAL.email ? { email: SOCIAL.email } : {}),
     sameAs: ORG_SAMEAS,
   }
 }

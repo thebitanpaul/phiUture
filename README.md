@@ -27,7 +27,7 @@ the surface.* This repository hosts the phiUture showcase website — the single
 philosophy, the engineer, the products, and the creative releases all come together.
 
 <div align="center">
-<img src="https://res.cloudinary.com/b0tb1mho/image/upload/v1784753097/lgvkw3dn9w5veqhbej2b.png" alt="phiUture showcase" width="85%" />
+<img src="https://res.cloudinary.com/b0tb1mho/image/upload/v1785254017/phiUture/BrandAssets/phiWordMark.png" alt="phiUture wordmark" width="85%" />
 </div>
 
 <br/>

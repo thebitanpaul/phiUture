@@ -153,6 +153,10 @@ body {
   text-shadow:
     0 4px 30px rgba(0, 0, 0, 0.85),
     0 0 100px rgba(2, 2, 3, 0.7);
+  /* Cancels this class's own letter-spacing — see --tm-gap below. The hero
+     typesets the wordmark by hand (it needs this scale and shadow, not
+     .hero-wordmark's), so it has to carry the same correction itself. */
+  --tm-gap: 0.055;
 }
 
 /* Shared wordmark style — navbar + anywhere the phiUture
@@ -161,6 +165,71 @@ body {
   font-family: var(--font-display);
   font-weight: 600;
   letter-spacing: -0.02em;
+  /* Cancels this class's own letter-spacing so the TM mark lands the same
+     distance from "ture" here as it does in the hero. See --tm-gap below. */
+  --tm-gap: 0.03;
+}
+
+/* ============================================
+   Trademark mark — see components/ui/Trademark.tsx
+   ============================================
+   Trails the brand wordmark and every product name, sized entirely relative to
+   the text it follows so one class is correct at any type size.
+
+   The three knobs are unitless MULTIPLIERS OF THE PARENT font-size, which is
+   what makes a size variant a one-line override: change --tm-scale and the lift
+   and the gap stay put instead of shrinking with the mark.
+
+   The trick that allows that: inside `font-size`, `1em` means the PARENT's
+   font-size, while in every other property `1em` means this element's OWN
+   (already scaled) size. Dividing a parent-relative figure by --tm-scale
+   converts it into the element's own em space, so both land on the same
+   parent-relative result.
+
+   --tm-lift of 0.38 puts the mark's top at roughly the parent's cap height — the
+   top-right corner of the name rather than floating above it. It overrides
+   <sup>'s default `vertical-align: super`, which raises by a share of the LINE
+   height and so drifts on the tight-leading display headings.
+
+   `line-height: 1` keeps the mark from stretching the line box of the heading it
+   sits in, which would otherwise nudge the whole heading down a fraction. */
+.trademark {
+  /* Read from a variable with a fallback rather than set here, so an ANCESTOR
+     can override them too — that is what lets `.trademark-display` be dropped on
+     a heading (or passed to <Wordmark className>) and still reach the mark
+     nested inside it. Declaring them on `.trademark` itself would win over any
+     inherited value and break that. */
+  font-size: calc(var(--tm-scale, 0.36) * 1em);
+  vertical-align: calc(var(--tm-lift, 0.45) / var(--tm-scale, 0.36) * 1em);
+  /* --tm-gap is NOT the visible gap on its own. `letter-spacing` applies after
+     every character INCLUDING the last one, so each heading class's negative
+     tracking also lands between the name and the mark — and every class uses a
+     different value (hero-heading -0.045em, hero-wordmark/typo-section -0.02em,
+     typo-display -0.03em). Left alone, that made the same mark sit up to 6×
+     farther out on the wordmark than on a product name.
+     So --tm-gap = the intended gap PLUS the context's own tracking, and each
+     class that sets `letter-spacing` overrides it to cancel its own. Every
+     wordmark then reads at the same ~0.01em from "ture". */
+  margin-left: calc(var(--tm-gap, 0.05) / var(--tm-scale, 0.36) * 1em);
+
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  opacity: 0.7;
+  /* Never the target of a text selection drag or a stray click. */
+  user-select: none;
+}
+
+/* Display-scale headings — the hero and About wordmarks, the product-detail
+   title. At 3–7rem the default ratio makes the mark read as a second heading
+   rather than as a mark, so it drops to a third of the size.
+   --tm-lift rises to compensate: the lift positions the mark's BASELINE, so a
+   smaller glyph at the same lift hangs lower. To keep the mark's TOP on the
+   parent's cap height (≈0.70em), the lift has to be cap height minus the mark's
+   own cap height (≈0.70 × --tm-scale) — 0.62 here, 0.45 at the default scale. */
+.trademark-display {
+  --tm-scale: 0.12;
+  --tm-lift: 0.62;
 }
 
 /* ============================================

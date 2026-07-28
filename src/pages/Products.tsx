@@ -67,10 +67,12 @@ export default function Products() {
   const filtered = useMemo(() => {
     const list = getProductsByCategory(allProducts, active)
     if (!trimmedQuery) return list
+    // `?? ''` because a live-edited product may not have filled both fields in
+    // yet, and a missing one must not break search for every other product.
     return list.filter(
       (p) =>
-        p.name.toLowerCase().includes(trimmedQuery) ||
-        p.tagline.toLowerCase().includes(trimmedQuery)
+        (p.name ?? '').toLowerCase().includes(trimmedQuery) ||
+        (p.tagline ?? '').toLowerCase().includes(trimmedQuery)
     )
   }, [allProducts, active, trimmedQuery])
 

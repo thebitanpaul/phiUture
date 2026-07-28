@@ -1,5 +1,6 @@
 import { Play } from 'lucide-react'
 import { resolveImageUrl, getMediaEmbed, getYouTubeId } from '@/lib/products'
+import { BRAND_WORDMARK } from '@/lib/seo'
 
 interface GalleryMediaProps {
   src: string
@@ -8,10 +9,13 @@ interface GalleryMediaProps {
   onOpen: () => void
 }
 
-// The brand wordmark, via Cloudinary (optimized). Only used for videos that
-// have no thumbnail of their own to show (Instagram / Facebook embeds).
-const WORDMARK_SRC =
-  'https://res.cloudinary.com/b0tb1mho/image/upload/f_auto,q_auto/v1784753097/lgvkw3dn9w5veqhbej2b.png'
+// The brand wordmark, from the single definition in lib/seo. Only used for videos
+// that have no thumbnail of their own to show (Instagram / Facebook embeds).
+// `f_auto,q_auto` lets Cloudinary serve an optimized, tiny variant of it.
+const WORDMARK_SRC = BRAND_WORDMARK.replace(
+  '/image/upload/',
+  '/image/upload/f_auto,q_auto/'
+)
 
 /** YouTube's own thumbnail for a video id. `hqdefault` rather than `maxres`
     because maxres does not exist for every upload and 404s to a broken tile,

@@ -7,6 +7,7 @@ import type { Product } from '@/lib/types'
 import { CategoryBadge } from './CategoryBadge'
 import { StatusBadge } from './StatusBadge'
 import { ProductThumbnail } from './ProductThumbnail'
+import { ProductName } from './ProductName'
 import { ProductCTA } from './ProductCTA'
 
 interface FeaturedProductCardProps {
@@ -61,7 +62,7 @@ export function FeaturedProductCard({
           to={detailPath}
           className="typo-section text-2xl text-text-primary transition-colors duration-300 hover:text-magenta md:text-3xl"
         >
-          {product.name}
+          <ProductName name={product.name} />
         </Link>
         <p className="typo-body mt-2 text-base text-text-secondary">
           {product.tagline}
@@ -69,7 +70,7 @@ export function FeaturedProductCard({
 
         {/* Technologies */}
         <div className="mt-5 flex flex-wrap gap-1.5">
-          {product.technologies.slice(0, 5).map((tech) => (
+          {(product.technologies ?? []).slice(0, 5).map((tech) => (
             <span
               key={tech}
               className="rounded-md border border-white/[0.05] bg-white/[0.03] px-2.5 py-0.5 text-xs text-text-muted"

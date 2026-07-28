@@ -4,14 +4,13 @@
 // The safety net for anything that throws while a route renders or loads. Two
 // jobs, in order:
 //
-//  1. SELF-HEAL the stale-deploy class of error. When a new version ships, a
-//     tab still holding the previous build asks for chunks and manifests that
-//     no longer exist. The host answers those misses with an HTML page, so the
-//     failure surfaces as "Failed to fetch dynamically imported module" or as
-//     a JSON parse error on "<!DOCTYPE" — errors where the code is fine and
-//     only the cached copy is wrong. Those get one automatic cache purge and
-//     reload, guarded by a sessionStorage flag so a genuine bug can never turn
-//     into a reload loop.
+//  1. SELF-HEAL the stale-deploy class of error — a tab holding a build the
+//     server has replaced, asking for chunks and manifests that no longer
+//     exist. What counts as one, and the one-reload-per-tab guard, live in
+//     lib/staleDeploy.ts so this boundary and the lazy page loader in App.tsx
+//     agree. (App.tsx catches the common case first, at the import itself; this
+//     is the backstop for route loaders and anything else with the same
+//     signature.)
 //
 //  2. Show a branded page for everything else, instead of React Router's bare
 //     "Unexpected Application Error!" default.
@@ -20,64 +19,24 @@
 import { useEffect, useState } from 'react'
 import { Link, useRouteError, isRouteErrorResponse } from 'react-router-dom'
 import { RefreshCw, Home, AlertTriangle } from 'lucide-react'
-import { purgeAppCachesAndReload } from '@/lib/registerServiceWorker'
+import {
+  beginRecovery,
+  canAttemptRecovery,
+  describeError,
+  isStaleDeployMessage,
+} from '@/lib/staleDeploy'
 import { Wordmark } from '@/components/ui/Wordmark'
 
-/** One recovery attempt per tab session. */
-const RECOVERY_FLAG = 'phiuture:recovered-stale-deploy'
-
-/**
- * Signatures of a load failure caused by stale cached code rather than by a
- * defect in the app. All of them mean "this browser is asking for a file that
- * this deploy no longer has".
- */
-const STALE_DEPLOY_SIGNATURES = [
-  'failed to fetch dynamically imported module',
-  'error loading dynamically imported module',
-  'importing a module script failed',
-  '<!doctype',
-  'is not valid json',
-  'unexpected token <',
-  "unexpected token '<'",
-  'chunkloaderror',
-  'loading chunk',
-  'loading css chunk',
-]
-
+/** Display text. Route responses (a 404 from a loader) carry status, not message. */
 function errorText(error: unknown): string {
   if (isRouteErrorResponse(error)) return `${error.status} ${error.statusText}`
-  if (error instanceof Error) return `${error.name}: ${error.message}`
-  if (typeof error === 'string') return error
-  return 'Unknown error'
-}
-
-function isStaleDeployError(error: unknown): boolean {
-  const text = errorText(error).toLowerCase()
-  return STALE_DEPLOY_SIGNATURES.some((sig) => text.includes(sig))
-}
-
-function alreadyTriedRecovery(): boolean {
-  try {
-    return sessionStorage.getItem(RECOVERY_FLAG) === '1'
-  } catch {
-    // Private mode / storage blocked → treat as "already tried" so we show the
-    // error page rather than risk an unguarded reload loop.
-    return true
-  }
-}
-
-function markRecoveryAttempted(): void {
-  try {
-    sessionStorage.setItem(RECOVERY_FLAG, '1')
-  } catch {
-    /* storage unavailable — the flag check above already handled this */
-  }
+  return describeError(error)
 }
 
 export default function RouteError() {
   const error = useRouteError()
   const [recovering, setRecovering] = useState(
-    () => isStaleDeployError(error) && !alreadyTriedRecovery()
+    () => isStaleDeployMessage(errorText(error)) && canAttemptRecovery()
   )
 
   useEffect(() => {
@@ -86,8 +45,7 @@ export default function RouteError() {
       console.error('[route] unrecoverable error', error)
       return
     }
-    markRecoveryAttempted()
-    void purgeAppCachesAndReload()
+    beginRecovery()
   }, [recovering, error])
 
   const retry = () => {

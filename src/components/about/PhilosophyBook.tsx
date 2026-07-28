@@ -269,7 +269,9 @@ function CoverSpread({ page }: { page: Extract<BookPage, { kind: 'cover' }> }) {
         </div>
         <span className="typo-label text-magenta mb-4 block">{page.kicker}</span>
         <h3 className="typo-display text-3xl md:text-5xl text-text-primary mb-6">
-          <BrandText>{page.title}</BrandText>
+          {/* No TM here: the storybook is a narrative spread, and the mark
+              inside a story title reads as clutter rather than notice. */}
+          <BrandText mark={false}>{page.title}</BrandText>
         </h3>
         <p className="typo-body text-text-secondary text-base md:text-lg leading-relaxed">
           {page.subtitle}

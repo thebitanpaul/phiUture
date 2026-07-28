@@ -6,6 +6,7 @@ import type { Product } from '@/lib/types'
 import { CategoryBadge } from './CategoryBadge'
 import { StatusBadge } from './StatusBadge'
 import { ProductThumbnail } from './ProductThumbnail'
+import { ProductName } from './ProductName'
 import { ProductCTA } from './ProductCTA'
 
 interface ProductCardProps {
@@ -36,7 +37,7 @@ export function ProductCard({ product }: ProductCardProps) {
           to={detailPath}
           className="typo-section text-lg text-text-primary transition-colors duration-300 hover:text-magenta"
         >
-          {product.name}
+          <ProductName name={product.name} />
         </Link>
         <p className="typo-body mt-1 flex-1 text-sm text-text-muted">
           {product.tagline}

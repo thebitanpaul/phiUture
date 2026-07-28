@@ -448,7 +448,7 @@ export default function Home() {
             <Sparkles size={14} /> About
           </span>
           <h2 className="typo-section text-3xl md:text-4xl lg:text-5xl text-text-primary mb-6">
-            The story behind <Wordmark />
+            The story behind <Wordmark className="trademark-display" />
           </h2>
           <p className="typo-body text-text-secondary text-lg mb-10">
             A comprehensive view of the philosophy, the engineer, and the work

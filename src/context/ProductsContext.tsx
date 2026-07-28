@@ -13,9 +13,13 @@ interface ProductsContextValue {
 
 const FALLBACK = bundledData as unknown as ProductsData
 
+/** Never anything but an array, whatever the JSON on the other end looks like. */
+const productList = (data: ProductsData | undefined | null): Product[] =>
+  Array.isArray(data?.products) ? data.products : []
+
 const ProductsContext = createContext<ProductsContextValue>({
-  products: FALLBACK.products,
-  featured: resolveFeaturedProducts(FALLBACK.featured, FALLBACK.products),
+  products: productList(FALLBACK),
+  featured: resolveFeaturedProducts(FALLBACK.featured, productList(FALLBACK)),
   status: 'bundled',
 })
 
@@ -30,9 +34,9 @@ export function ProductsProvider({ children }: { children: ReactNode }) {
     FALLBACK
   )
 
-  const products = data.products ?? []
+  const products = productList(data)
   const featured = useMemo(
-    () => resolveFeaturedProducts(data.featured, products),
+    () => resolveFeaturedProducts(data?.featured, productList(data)),
     [data]
   )
 

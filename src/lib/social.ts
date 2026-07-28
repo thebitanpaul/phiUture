@@ -42,15 +42,24 @@ const ARTIST_ICONS = new Set([
  *   • `profiles` was audience channels             → artist if it's a streaming
  *                                                    platform, else people
  */
-export function normalizeSocial(social: AboutSocial): ResolvedSocial {
-  const business = clean(social.business)
-  const people = clean(social.people)
-  const artist = clean(social.artist)
+/**
+ * `social` is optional here on purpose: the runtime copy of about.json is
+ * fetched from the content source and may be an older revision, a partially
+ * edited file, or — if someone reshapes the JSON — missing the key entirely.
+ * Returning empty groups drops the footer social row for that render; throwing
+ * would take the whole page down.
+ */
+export function normalizeSocial(social?: AboutSocial | null): ResolvedSocial {
+  const business = clean(social?.business)
+  const people = clean(social?.people)
+  const artist = clean(social?.artist)
 
   if (business.length || people.length || artist.length) {
     return {
-      email: social.email,
-      founderEmail: social.founderEmail,
+      // `?? ''` keeps the contract (always a string) for the one file with no
+      // social block at all; consumers already treat a falsy address as "none".
+      email: social?.email ?? '',
+      founderEmail: social?.founderEmail,
       business,
       people,
       artist,
@@ -58,22 +67,33 @@ export function normalizeSocial(social: AboutSocial): ResolvedSocial {
   }
 
   // Legacy copy of about.json — derive the groups from the old two arrays.
-  const legacyProfiles = clean(social.profiles)
+  const legacyProfiles = clean(social?.profiles)
   return {
-    email: social.email,
-    founderEmail: social.founderEmail,
+    email: social?.email ?? '',
+    founderEmail: social?.founderEmail,
     business: [],
     people: [
-      ...clean(social.connect),
+      ...clean(social?.connect),
       ...legacyProfiles.filter((l) => !ARTIST_ICONS.has(l.icon)),
     ],
     artist: legacyProfiles.filter((l) => ARTIST_ICONS.has(l.icon)),
   }
 }
 
-/** Every link, across all three groups, in Business → People → Artist order. */
-export function allSocialLinks(social: ResolvedSocial): SocialLink[] {
-  return [...social.business, ...social.people, ...social.artist]
+/**
+ * Every link, across all three groups, in Business → People → Artist order.
+ *
+ * Each group is re-cleaned rather than spread directly: a ResolvedSocial should
+ * only ever come from `normalizeSocial` above, but this is also reachable with a
+ * raw object parsed from remote JSON, and spreading a missing group would throw
+ * "Spread syntax requires ...iterable not be null or undefined".
+ */
+export function allSocialLinks(social?: ResolvedSocial | null): SocialLink[] {
+  return [
+    ...clean(social?.business),
+    ...clean(social?.people),
+    ...clean(social?.artist),
+  ]
 }
 
 /**
@@ -81,7 +101,7 @@ export function allSocialLinks(social: ResolvedSocial): SocialLink[] {
  * the group ordering. Flagging lives in the JSON so the row can be re-curated
  * without touching code.
  */
-export function footerSocialLinks(social: ResolvedSocial): SocialLink[] {
+export function footerSocialLinks(social?: ResolvedSocial | null): SocialLink[] {
   return allSocialLinks(social).filter((link) => link.footer)
 }
 
@@ -91,7 +111,7 @@ export function footerSocialLinks(social: ResolvedSocial): SocialLink[] {
  * rank for the name. mailto: and relative links are excluded (schema.org
  * `sameAs` expects a URL for the same entity), and duplicates are removed.
  */
-export function socialSameAs(social: ResolvedSocial): string[] {
+export function socialSameAs(social?: ResolvedSocial | null): string[] {
   return Array.from(
     new Set(
       allSocialLinks(social)

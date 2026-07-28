@@ -5,6 +5,9 @@ interface BrandTextProps {
   children: string
   /** Passed through to each rendered <Wordmark />. */
   className?: string
+  /** Passed through to each rendered <Wordmark /> — set false to drop the TM
+      mark, e.g. in prose where the name recurs and the mark would be noise. */
+  mark?: boolean
 }
 
 /**
@@ -14,12 +17,12 @@ interface BrandTextProps {
  * data-driven string — a page title, a section heading, or a journey entry
  * someone types tomorrow — carries the brand mark without hand-splitting it.
  */
-export function BrandText({ children, className }: BrandTextProps) {
+export function BrandText({ children, className, mark = true }: BrandTextProps) {
   return (
     <>
       {children.split(/(phiuture)/gi).map((part, i) =>
         part.toLowerCase() === 'phiuture' ? (
-          <Wordmark key={i} className={className} />
+          <Wordmark key={i} className={className} mark={mark} />
         ) : (
           <Fragment key={i}>{part}</Fragment>
         )

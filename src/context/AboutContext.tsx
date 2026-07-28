@@ -7,9 +7,11 @@ import { useRemoteData, type RemoteDataStatus } from '@/hooks/useRemoteData'
 const FALLBACK = aboutData as unknown as AboutData
 
 /** Normalizes the social groups once, here, so no consumer has to guard for a
-    missing or legacy key. See src/lib/social.ts for why either can occur. */
-function resolve(data: AboutData): ResolvedAboutData {
-  return { ...data, social: normalizeSocial(data.social) }
+    missing or legacy key. See src/lib/social.ts for why either can occur.
+    `data` itself is treated as possibly absent for the same reason: the runtime
+    copy comes off the network. */
+function resolve(data: AboutData | undefined | null): ResolvedAboutData {
+  return { ...data, social: normalizeSocial(data?.social) } as ResolvedAboutData
 }
 
 interface AboutContextValue {

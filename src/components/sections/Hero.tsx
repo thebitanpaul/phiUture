@@ -3,6 +3,7 @@ import { motion, useScroll, useTransform, useMotionValueEvent } from 'framer-mot
 import { ChevronDown, ArrowRight } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { PhiLogo } from '@/components/ui/PhiLogo'
+import { Trademark } from '@/components/ui/Trademark'
 import { useFrameSequence } from '@/hooks/useFrameSequence'
 import { usePerfTier, usePerfWatchdog } from '@/lib/deviceCapability'
 import { cloudFrameSrc, localFrameSrc } from '@/lib/animationFrames'
@@ -258,7 +259,11 @@ export function Hero() {
                 transition={{ duration: 0.9, delay: 0.35, ease: EASE }}
                 className="hero-heading text-text-primary"
               >
+                {/* Spelled out rather than <Wordmark /> because the hero needs
+                    `hero-heading`'s scale and text-shadow, not the inline
+                    wordmark's. The TM mark is the same component either way. */}
                 phi<span className="gradient-text">U</span>ture
+                <Trademark className="trademark-display" />
               </motion.h1>
 
               <motion.p

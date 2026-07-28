@@ -158,9 +158,13 @@ export interface ResolvedCTA extends CTAMeta {
 
 /** All available external CTAs for a product, in priority order. */
 export function getProductCTAs(product: Product): ResolvedCTA[] {
-  return CTA_ORDER.filter((c) => Boolean(product.links[c.key])).map((c) => ({
+  // `links` is required by the type but optional in practice: products.json is
+  // hand-edited and also loaded live from the content source, so an entry can
+  // legitimately arrive without it. No links simply means no CTA row.
+  const links = product?.links ?? {}
+  return CTA_ORDER.filter((c) => Boolean(links[c.key])).map((c) => ({
     ...c,
-    href: product.links[c.key] as string,
+    href: links[c.key] as string,
   }))
 }
 
@@ -175,6 +179,16 @@ export function getPrimaryCTA(product: Product): ResolvedCTA | null {
 // These are PURE functions: pass in the current product list (from the
 // ProductsProvider — bundled or remotely loaded). They never read a
 // hard-coded array, so the same code works for both data sources.
+//
+// Every one of them treats its `list` as UNTRUSTED. The types say Product[], but
+// the values can come from a JSON file fetched at runtime and edited by hand, so
+// a missing or reshaped key is a real possibility rather than a hypothetical —
+// and an unguarded spread of one throws "Spread syntax requires ...iterable not
+// be null or undefined", killing the whole page instead of one section.
+
+/** The argument as a usable array — never throws, never returns undefined. */
+const asList = (list: Product[] | undefined | null): Product[] =>
+  Array.isArray(list) ? list : []
 
 /**
  * Resolves the featured ranking ({ "1": slug, "2": slug, … }) into an
@@ -186,16 +200,17 @@ export function resolveFeaturedProducts(
   list: Product[]
 ): Product[] {
   if (!ranking) return []
+  const products = asList(list)
   return Object.keys(ranking)
     .sort((a, b) => Number(a) - Number(b))
-    .map((rank) => list.find((p) => p.slug === ranking[rank]))
+    .map((rank) => products.find((p) => p.slug === ranking[rank]))
     .filter((p): p is Product => Boolean(p))
 }
 
 export const getProductBySlug = (
   list: Product[],
   slug: string
-): Product | undefined => list.find((p) => p.slug === slug)
+): Product | undefined => asList(list).find((p) => p.slug === slug)
 
 /** Newest first; products without a date sink to the bottom. */
 const byDateDesc = (a: Product, b: Product): number =>
@@ -204,25 +219,30 @@ const byDateDesc = (a: Product, b: Product): number =>
 export const getProductsByCategory = (
   list: Product[],
   category: FilterId
-): Product[] =>
-  (category === 'all'
-    ? [...list]
-    : list.filter((p) => p.category === category)
+): Product[] => {
+  const products = asList(list)
+  return (
+    category === 'all'
+      ? [...products]
+      : products.filter((p) => p.category === category)
   ).sort(byDateDesc)
+}
 
 export function getRelatedProducts(
   list: Product[],
   product: Product,
   limit = 3
 ): Product[] {
-  const explicit = (product.relatedProducts ?? [])
-    .map((slug) => getProductBySlug(list, slug))
+  const products = asList(list)
+  const related = product?.relatedProducts
+  const explicit = (Array.isArray(related) ? related : [])
+    .map((slug) => getProductBySlug(products, slug))
     .filter((p): p is Product => Boolean(p))
 
   if (explicit.length >= limit) return explicit.slice(0, limit)
 
   const explicitSlugs = new Set(explicit.map((p) => p.slug))
-  const sameCategory = list.filter(
+  const sameCategory = products.filter(
     (p) =>
       p.category === product.category &&
       p.slug !== product.slug &&
@@ -234,11 +254,12 @@ export function getRelatedProducts(
 
 /** Per-category product counts (used to hide empty filter tabs). */
 export function getCategoryCounts(list: Product[]): Record<string, number> {
+  const products = asList(list)
   return CATEGORIES.reduce((acc, cat) => {
     acc[cat.id] =
       cat.id === 'all'
-        ? list.length
-        : list.filter((p) => p.category === cat.id).length
+        ? products.length
+        : products.filter((p) => p.category === cat.id).length
     return acc
   }, {} as Record<string, number>)
 }

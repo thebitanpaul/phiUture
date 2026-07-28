@@ -193,7 +193,7 @@ export default function About() {
           >
             The meaning behind
             <br />
-            <Wordmark />
+            <Wordmark className="trademark-display" />
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 15 }}

@@ -1,7 +1,13 @@
-import React from 'react'
+import React, { type ComponentType } from 'react'
 import type { RouteRecord } from 'vite-react-ssg'
 import Layout from './Layout'
 import RouteError from '@/components/layout/RouteError'
+import {
+  beginRecovery,
+  canAttemptRecovery,
+  describeError,
+  isStaleDeployMessage,
+} from '@/lib/staleDeploy'
 import productsData from '@data/products.json'
 
 // ============================================
@@ -32,6 +38,44 @@ const pageImports = {
   Beyond: () => import('@/pages/Beyond'),
   Contact: () => import('@/pages/Contact'),
   NotFound: () => import('@/pages/NotFound'),
+}
+
+type PageLoader = () => Promise<{ default: ComponentType }>
+
+/**
+ * `React.lazy`, with the two things a plain lazy() gets wrong on a live site.
+ *
+ * 1. ONE QUIET RETRY. A dropped request on a flaky mobile connection rejects the
+ *    import, and React.lazy memoises that rejection FOREVER — the route stays
+ *    broken for the life of the document even once the network is back. A failed
+ *    module is not entered into the ESM module map, so simply asking again
+ *    re-fetches it.
+ *
+ * 2. SELF-HEAL A STALE DEPLOY. If the second attempt fails with a chunk-miss
+ *    signature, this tab is holding a build the server has replaced (see
+ *    lib/staleDeploy.ts). Purge and reload once; the fresh HTML names chunks
+ *    that exist. The returned promise deliberately never settles, so React keeps
+ *    showing the Suspense fallback for the moment the reload is in flight rather
+ *    than flashing an error page about a build that is already gone.
+ *
+ * Anything else rethrows and lands on the route error boundary as before.
+ */
+function lazyPage(load: PageLoader) {
+  return React.lazy(async () => {
+    try {
+      return await load()
+    } catch {
+      try {
+        return await load()
+      } catch (error) {
+        if (isStaleDeployMessage(describeError(error)) && canAttemptRecovery()) {
+          beginRecovery()
+          return new Promise<{ default: ComponentType }>(() => {})
+        }
+        throw error
+      }
+    }
+  })
 }
 
 /**
@@ -75,18 +119,18 @@ export const routes: RouteRecord[] = [
     // is meant to recover from.
     ErrorBoundary: RouteError,
     children: [
-      { index: true, Component: React.lazy(pageImports.Home) },
-      { path: 'about', Component: React.lazy(pageImports.About) },
-      { path: 'products', Component: React.lazy(pageImports.Products) },
+      { index: true, Component: lazyPage(pageImports.Home) },
+      { path: 'about', Component: lazyPage(pageImports.About) },
+      { path: 'products', Component: lazyPage(pageImports.Products) },
       {
         path: 'products/:slug',
-        Component: React.lazy(pageImports.ProductDetail),
+        Component: lazyPage(pageImports.ProductDetail),
         // Enumerate every product page so each is prerendered at build time.
         getStaticPaths: () => productPaths,
       },
-      { path: 'beyond', Component: React.lazy(pageImports.Beyond) },
-      { path: 'contact', Component: React.lazy(pageImports.Contact) },
-      { path: '*', Component: React.lazy(pageImports.NotFound) },
+      { path: 'beyond', Component: lazyPage(pageImports.Beyond) },
+      { path: 'contact', Component: lazyPage(pageImports.Contact) },
+      { path: '*', Component: lazyPage(pageImports.NotFound) },
     ],
   },
 ]

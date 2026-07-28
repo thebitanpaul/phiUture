@@ -64,5 +64,8 @@ desktop.ini
 .cache/
 coverage/
 
-# Claude Code local settings
-.claude/
+# Claude Code — ignore the machine-local settings, but KEEP the shared skills.
+# `.claude/*` rather than `.claude/`: git never descends into an ignored
+# directory, so the negation below would have no effect on a whole-dir ignore.
+.claude/*
+!.claude/skills/

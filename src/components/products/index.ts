@@ -1,6 +1,7 @@
 export { StatusBadge } from './StatusBadge'
 export { CategoryBadge } from './CategoryBadge'
 export { ProductThumbnail } from './ProductThumbnail'
+export { ProductName } from './ProductName'
 export { ProductCTA } from './ProductCTA'
 export { ProductCard } from './ProductCard'
 export { FeaturedProductCard } from './FeaturedProductCard'
