@@ -100,7 +100,8 @@ export default function RouteError() {
         </div>
 
         <p className="mt-10 text-xs text-text-muted tracking-wide">
-          <Wordmark className="text-text-secondary" />
+          {/* No TM — see the Footer: too small at this size to read as a mark. */}
+          <Wordmark className="text-text-secondary" mark={false} />
         </p>
       </div>
     </div>

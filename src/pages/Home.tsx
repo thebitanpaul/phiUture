@@ -171,7 +171,9 @@ export default function Home() {
               <span className="gradient-text">everything</span>.
             </h2>
             <p className="typo-body text-text-secondary text-lg mt-6 max-w-xl">
-              <PhiLogo alt="phi" /> is for perfection, U is for you — <Wordmark /> is where the two meet.
+              {/* No TM inside running prose: the mark belongs on the prominent
+                  brand appearances, not on every mention. */}
+              <PhiLogo alt="phi" /> is for perfection, U is for you — <Wordmark mark={false} /> is where the two meet.
               Every product and every piece of creative work is measured against
               the same standard: harmonious, considered, and built to evolve.
             </p>
@@ -448,7 +450,7 @@ export default function Home() {
             <Sparkles size={14} /> About
           </span>
           <h2 className="typo-section text-3xl md:text-4xl lg:text-5xl text-text-primary mb-6">
-            The story behind <Wordmark className="trademark-display" />
+            The story behind <Wordmark />
           </h2>
           <p className="typo-body text-text-secondary text-lg mb-10">
             A comprehensive view of the philosophy, the engineer, and the work

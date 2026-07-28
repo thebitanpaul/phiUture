@@ -193,7 +193,7 @@ export default function About() {
           >
             The meaning behind
             <br />
-            <Wordmark className="trademark-display" />
+            <Wordmark />
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 15 }}
@@ -699,7 +699,9 @@ function JourneyModal({
                               {item.year}
                             </span>
                             <h3 className="typo-section text-lg text-text-primary mb-1.5">
-                              <BrandText>{item.title}</BrandText>
+                              {/* No TM — a timeline entry title is prose, and at
+                                  this size the mark is under 2px anyway. */}
+                              <BrandText mark={false}>{item.title}</BrandText>
                             </h3>
                             <p className="typo-body text-text-secondary text-sm leading-relaxed">
                               {item.description}

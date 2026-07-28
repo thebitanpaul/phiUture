@@ -261,9 +261,10 @@ export function Hero() {
               >
                 {/* Spelled out rather than <Wordmark /> because the hero needs
                     `hero-heading`'s scale and text-shadow, not the inline
-                    wordmark's. The TM mark is the same component either way. */}
+                    wordmark's. `hero-heading` carries the same TM settings as
+                    `.hero-wordmark`, so the mark matches every other wordmark. */}
                 phi<span className="gradient-text">U</span>ture
-                <Trademark className="trademark-display" />
+                <Trademark />
               </motion.h1>
 
               <motion.p

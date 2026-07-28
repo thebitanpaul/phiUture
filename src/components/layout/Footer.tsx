@@ -29,7 +29,9 @@ export function Footer() {
           {/* Brand */}
           <div className="flex items-center gap-3">
             <span className="text-text-muted text-sm">
-              <Wordmark className="text-text-secondary" /> &copy; {year}
+              {/* No TM: at this size a proportional mark is under 2px and reads
+                  as a speck. The © beside it already carries the notice. */}
+              <Wordmark className="text-text-secondary" mark={false} /> &copy; {year}
             </span>
           </div>
 

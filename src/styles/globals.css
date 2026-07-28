@@ -153,10 +153,13 @@ body {
   text-shadow:
     0 4px 30px rgba(0, 0, 0, 0.85),
     0 0 100px rgba(2, 2, 3, 0.7);
-  /* Cancels this class's own letter-spacing — see --tm-gap below. The hero
-     typesets the wordmark by hand (it needs this scale and shadow, not
-     .hero-wordmark's), so it has to carry the same correction itself. */
-  --tm-gap: 0.055;
+  /* The hero typesets the wordmark by hand (it needs this scale and shadow, not
+     .hero-wordmark's), so it repeats the wordmark TM settings. Same --tm-scale
+     and --tm-lift as .hero-wordmark; --tm-gap differs only because it cancels
+     this class's own, larger, letter-spacing. See the TM block below. */
+  --tm-scale: 0.12;
+  --tm-lift: 0.52;
+  --tm-gap: 0.049;
 }
 
 /* Shared wordmark style — navbar + anywhere the phiUture
@@ -165,9 +168,14 @@ body {
   font-family: var(--font-display);
   font-weight: 600;
   letter-spacing: -0.02em;
-  /* Cancels this class's own letter-spacing so the TM mark lands the same
-     distance from "ture" here as it does in the hero. See --tm-gap below. */
-  --tm-gap: 0.03;
+  /* THE TM SETTINGS FOR EVERY WORDMARK, at any size. Because they live on the
+     wordmark class itself rather than on the headings that contain it, one ratio
+     applies everywhere — a 48px wordmark gets a mark exactly two thirds the size
+     of a 72px one. Product names are a separate lockup and keep the defaults in
+     the TM block below. */
+  --tm-scale: 0.12;
+  --tm-lift: 0.52;
+  --tm-gap: 0.024;
 }
 
 /* ============================================
@@ -176,20 +184,31 @@ body {
    Trails the brand wordmark and every product name, sized entirely relative to
    the text it follows so one class is correct at any type size.
 
-   The three knobs are unitless MULTIPLIERS OF THE PARENT font-size, which is
-   what makes a size variant a one-line override: change --tm-scale and the lift
-   and the gap stay put instead of shrinking with the mark.
+   All three knobs are unitless MULTIPLIERS OF THE PARENT font-size. That is what
+   keeps the mark proportional: set the ratio once on the lockup's own class
+   (.hero-wordmark for the brand, these defaults for product names) and every
+   instance scales with its text, so a half-size wordmark gets a half-size mark.
+   Setting them on the CONTAINING heading instead is what produced the bug where
+   a 48px wordmark carried a mark twice the size of a 72px one.
 
-   The trick that allows that: inside `font-size`, `1em` means the PARENT's
-   font-size, while in every other property `1em` means this element's OWN
-   (already scaled) size. Dividing a parent-relative figure by --tm-scale
+   The trick that allows the em maths: inside `font-size`, `1em` means the
+   PARENT's font-size, while in every other property `1em` means this element's
+   OWN (already scaled) size. Dividing a parent-relative figure by --tm-scale
    converts it into the element's own em space, so both land on the same
    parent-relative result.
 
-   --tm-lift of 0.38 puts the mark's top at roughly the parent's cap height — the
-   top-right corner of the name rather than floating above it. It overrides
-   <sup>'s default `vertical-align: super`, which raises by a share of the LINE
-   height and so drifts on the tight-leading display headings.
+   --tm-lift positions the mark's BASELINE, not its top, so it has to account for
+   the mark's own height (≈0.70 × --tm-scale):
+     • product names (0.45) put the mark's TOP on the parent's cap height (≈0.70em).
+       They end on a cap or an ascender, so that reads as attached.
+     • the wordmark (0.52) puts the mark's BASELINE on the x-height instead.
+       "phiUture" ends on a lowercase "e", and a mark at cap height leaves a wide
+       diagonal void above that "e" — it measures ~1px away horizontally but reads
+       as floating. Sitting it on the x-height tucks it into the corner of the
+       final letter, which is the conventional placement for a wordmark that ends
+       lowercase.
+   Either way it overrides <sup>'s default `vertical-align: super`, which raises
+   by a share of the LINE height and so drifts on tight-leading display headings.
 
    `line-height: 1` keeps the mark from stretching the line box of the heading it
    sits in, which would otherwise nudge the whole heading down a fraction. */
@@ -209,7 +228,7 @@ body {
      farther out on the wordmark than on a product name.
      So --tm-gap = the intended gap PLUS the context's own tracking, and each
      class that sets `letter-spacing` overrides it to cancel its own. Every
-     wordmark then reads at the same ~0.01em from "ture". */
+     wordmark then reads at the same ~0.004em — effectively flush. */
   margin-left: calc(var(--tm-gap, 0.05) / var(--tm-scale, 0.36) * 1em);
 
   font-weight: 600;
@@ -220,13 +239,12 @@ body {
   user-select: none;
 }
 
-/* Display-scale headings — the hero and About wordmarks, the product-detail
-   title. At 3–7rem the default ratio makes the mark read as a second heading
-   rather than as a mark, so it drops to a third of the size.
-   --tm-lift rises to compensate: the lift positions the mark's BASELINE, so a
-   smaller glyph at the same lift hangs lower. To keep the mark's TOP on the
-   parent's cap height (≈0.70em), the lift has to be cap height minus the mark's
-   own cap height (≈0.70 × --tm-scale) — 0.62 here, 0.45 at the default scale. */
+/* Display-scale PRODUCT NAMES — currently just the product-detail title. At
+   3–4rem the default ratio makes the mark read as a second heading rather than as
+   a mark, so it drops to a third of the size, and --tm-lift rises to keep the
+   mark's top on the cap height despite the smaller glyph (0.70 − 0.70 × 0.12).
+   Wordmarks do NOT use this: their ratio lives on .hero-wordmark so it applies
+   at every size rather than only on the headings that opt in. */
 .trademark-display {
   --tm-scale: 0.12;
   --tm-lift: 0.62;
