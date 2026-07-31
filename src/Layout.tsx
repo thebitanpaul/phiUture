@@ -1,7 +1,7 @@
-import { Suspense, useEffect } from 'react'
+import { Suspense, useCallback, useEffect, useRef, useState } from 'react'
 import { useLocation, useOutlet } from 'react-router-dom'
-import { AnimatePresence } from 'framer-motion'
 import { Navbar, Footer, ScrollProgress, InstallPrompt } from '@/components/layout'
+import { useBlankPageGuard } from '@/hooks/useBlankPageGuard'
 import { ProductsProvider } from '@/context/ProductsContext'
 import { AboutProvider } from '@/context/AboutContext'
 import { StructuredData } from '@/components/seo/SEO'
@@ -27,31 +27,34 @@ function PageLoader() {
   )
 }
 
-// Renders the active route (via <Outlet/>): a keyed wrapper inside
-// <AnimatePresence mode="wait"> lets each page's <PageTransition> exit
-// animation play before the next one enters.
+// Renders the active route (via <Outlet/>).
 //
-// The <Suspense> boundary sits INSIDE the keyed child, and that placement is
-// the fix for the "page goes blank and black until reload" bug on tab
-// switches. With the boundary wrapped AROUND <AnimatePresence>, navigating to
-// a route whose lazy chunk wasn't downloaded yet suspended the whole presence
-// tree: React detached it and rendered the fallback, the outgoing page's exit
-// animation resolved while detached, and AnimatePresence came back with the old
-// child already removed and the new one still pending — so it rendered nothing.
-// Nothing but a reload could recover it, because the stuck state lives in
-// AnimatePresence's own internals.
+// There is no <AnimatePresence> here, and that is the fix for the "page goes
+// black and blank until you reload it" bug on navbar tab switches. In wait mode
+// AnimatePresence withholds the incoming page until every motion component in
+// the outgoing one confirms its exit animation finished — a handshake that this
+// site could lose (a remote products.json / about.json arriving mid-exit
+// re-renders the outgoing page, and a motion component that unmounts while
+// exiting is dropped from the tally without the tally being re-checked). The
+// old page was gone, the new page was never rendered, and only a reload cleared
+// it. Two earlier attempts moved the <Suspense> boundary around to dodge this;
+// the handshake itself was the hazard.
 //
-// Suspending inside the keyed child instead keeps AnimatePresence mounted the
-// whole time; only the incoming page shows the loader while its chunk arrives.
-function AnimatedOutlet() {
-  const location = useLocation()
+// Now the route swaps immediately and the incoming page fades itself in with a
+// CSS animation (see PageTransition). Nothing has to complete for the next page
+// to appear, so there is no state this can get stuck in.
+//
+// The boundary is keyed by pathname so each route gets a fresh one: a cold lazy
+// chunk shows the loader for the incoming page only, and the enter animation
+// replays on every navigation. `healKey` is part of that key so the blank-page
+// guard can force a clean remount of the route without a reload.
+function RouteOutlet({ healKey }: { healKey: number }) {
+  const { pathname } = useLocation()
   const outlet = useOutlet()
   return (
-    <AnimatePresence mode="wait">
-      <div key={location.pathname} className="contents">
-        <Suspense fallback={<PageLoader />}>{outlet}</Suspense>
-      </div>
-    </AnimatePresence>
+    <Suspense key={`${pathname}#${healKey}`} fallback={<PageLoader />}>
+      {outlet}
+    </Suspense>
   )
 }
 
@@ -59,9 +62,17 @@ function AnimatedOutlet() {
  * Root layout — the single element for the "/" route. Provides the app-wide
  * data providers, the persistent chrome (background glow, scroll progress,
  * navbar, footer) and the site-wide Organization + WebSite structured data.
- * Child routes render through <AnimatedOutlet/>.
+ * Child routes render through <RouteOutlet/>.
  */
 export default function Layout() {
+  // Blank-page guard: if the page area ends up empty (or invisible) after a
+  // navigation or a tab switch, remount the route — and only if that fails,
+  // reload. See hooks/useBlankPageGuard.
+  const mainRef = useRef<HTMLElement>(null)
+  const [healKey, setHealKey] = useState(0)
+  const heal = useCallback(() => setHealKey((k) => k + 1), [])
+  useBlankPageGuard(mainRef, heal)
+
   return (
     <ProductsProvider>
       <AboutProvider>
@@ -86,8 +97,8 @@ export default function Layout() {
           <ScrollProgress />
           <Navbar />
 
-          <main className="relative z-10">
-            <AnimatedOutlet />
+          <main ref={mainRef} className="relative z-10">
+            <RouteOutlet healKey={healKey} />
           </main>
 
           <Footer />

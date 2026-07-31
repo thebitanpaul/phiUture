@@ -91,8 +91,21 @@ export const ORG_ID = `${SITE_URL}/#organization`
 export const WEBSITE_ID = `${SITE_URL}/#website`
 export const PERSON_ID = `${SITE_URL}/#person`
 
-/** The person behind the site, as an AboutData person (name, roles, bio, avatar). */
+/** The founder, as an AboutData person (name, roles, bio, avatar). */
 const FOUNDER = about.people?.[0]
+
+/**
+ * Machine-facing job title and description for the Person node.
+ *
+ * Deliberately NOT derived from the visible `roles` / `bio` in about.json. The
+ * on-page copy is written for a human skimming the site; structured data is
+ * written for search engines and AI answer engines, where the fact worth
+ * stating plainly is that Bitan Paul founded phiUture and owns the brand. Keep
+ * both in sync in substance, not in wording.
+ */
+const PERSON_JOB_TITLE = 'Founder of phiUture, AI / ML Engineer, Agentic Systems'
+const PERSON_DESCRIPTION =
+  'Bitan Paul is the founder of phiUture, the independent technology and creative studio behind its AI products, agentic systems, automation, data platforms, and original music and film. An AI / ML engineer with 2+ years building production Generative AI, LLM, and agentic systems, he founded phiUture in 2024 and designs and engineers everything released under it.'
 
 /** Organization schema — enables Google's brand/knowledge panel. */
 export function organizationSchema(): Record<string, unknown> {
@@ -105,6 +118,7 @@ export function organizationSchema(): Record<string, unknown> {
     logo: ORG_LOGO,
     description: DEFAULT_DESCRIPTION,
     founder: { '@id': PERSON_ID },
+    foundingDate: '2024',
     // Omitted rather than emitted empty — an `email: ""` property is worse for
     // the knowledge graph than no property at all.
     ...(SOCIAL.email ? { email: SOCIAL.email } : {}),
@@ -127,7 +141,7 @@ export function webSiteSchema(): Record<string, unknown> {
 }
 
 /**
- * Person schema for the person behind the brand — the key to associating this site with a name
+ * Person schema for the founder — the key to associating this site with a name
  * search ("Bitan Paul" / "thebitanpaul"). `sameAs` points at the same profiles
  * that already rank for the name, so Google can tie this domain to that same
  * entity; `alternateName` covers the handle form of the name.
@@ -141,8 +155,11 @@ export function personSchema(): Record<string, unknown> {
     alternateName: 'thebitanpaul',
     url: `${SITE_URL}/`,
     ...(FOUNDER?.avatar ? { image: absoluteUrl(FOUNDER.avatar) } : {}),
-    ...(FOUNDER?.roles?.length ? { jobTitle: FOUNDER.roles.join(', ') } : {}),
-    ...(FOUNDER?.bio ? { description: FOUNDER.bio } : {}),
+    jobTitle: PERSON_JOB_TITLE,
+    description: PERSON_DESCRIPTION,
+    // The founder ↔ brand link is carried by Organization.founder pointing back
+    // at this node — schema.org has no inverse property to state it from the
+    // Person side, so `worksFor` plus that link is the complete relation.
     worksFor: { '@id': ORG_ID },
     sameAs: PERSON_SAMEAS,
   }

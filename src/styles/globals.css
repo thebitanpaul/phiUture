@@ -335,6 +335,47 @@ body {
 }
 
 /* ============================================
+   Page enter transition
+   ============================================
+   Used by <PageTransition>, which wraps every page. Kept in CSS rather than
+   framer-motion so a route change can never leave the page invisible: the
+   element's own style is fully visible and this animation only takes it there
+   from a fade/blur, so a throttled or skipped animation degrades to "no
+   transition", never to a blank page. See PageTransition.tsx for the bug this
+   replaced. */
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0px);
+  }
+}
+
+.page-enter {
+  animation: page-enter 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Phones skip the blur: a full-page blur layer is the expensive part of this
+   animation and the same compositing cost the glass surfaces below avoid. */
+@media (max-width: 768px) {
+  @keyframes page-enter {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+/* ============================================
    Reduced Motion
    ============================================ */
 
