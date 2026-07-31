@@ -233,7 +233,7 @@ export default function Contact() {
                   <div className="min-w-0">
                     <h4 className="typo-section text-sm text-text-primary mb-1.5">Email</h4>
                     {/* Both inboxes, labelled — studio enquiries and anything
-                        for the founder directly go to different places. */}
+                        for Bitan directly go to different places. */}
                     <p className="typo-body text-sm">
                       <span className="text-text-muted text-xs">Business — </span>
                       <a
@@ -245,7 +245,7 @@ export default function Contact() {
                     </p>
                     {social.founderEmail && (
                       <p className="typo-body text-sm mt-1">
-                        <span className="text-text-muted text-xs">Founder — </span>
+                        <span className="text-text-muted text-xs">Creator — </span>
                         <a
                           href={`mailto:${social.founderEmail}`}
                           className="text-text-secondary hover:text-magenta transition-colors break-all"
@@ -296,9 +296,9 @@ function SocialTabs({ social }: { social: ResolvedSocial }) {
     },
     {
       id: 'people' as const,
-      label: 'Founder',
+      label: 'Creator',
       icon: User,
-      blurb: 'The founder behind phiUture.',
+      blurb: 'The mind behind phiUture.',
       links: social.people,
     },
     {

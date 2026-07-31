@@ -91,7 +91,7 @@ export const ORG_ID = `${SITE_URL}/#organization`
 export const WEBSITE_ID = `${SITE_URL}/#website`
 export const PERSON_ID = `${SITE_URL}/#person`
 
-/** The founder, as an AboutData person (name, roles, bio, avatar). */
+/** The person behind the site, as an AboutData person (name, roles, bio, avatar). */
 const FOUNDER = about.people?.[0]
 
 /** Organization schema — enables Google's brand/knowledge panel. */
@@ -127,7 +127,7 @@ export function webSiteSchema(): Record<string, unknown> {
 }
 
 /**
- * Person schema for the founder — the key to associating this site with a name
+ * Person schema for the person behind the brand — the key to associating this site with a name
  * search ("Bitan Paul" / "thebitanpaul"). `sameAs` points at the same profiles
  * that already rank for the name, so Google can tie this domain to that same
  * entity; `alternateName` covers the handle form of the name.
