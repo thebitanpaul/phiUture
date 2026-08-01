@@ -300,7 +300,7 @@ export interface AboutCapability {
  * the musician (`artist`). Any link in any group can carry `footer: true` to
  * also appear in the compact footer row.
  *
- * The `people` key predates the "Creator" label and is kept as-is: renaming it
+ * The `people` key predates the "Engineer" label and is kept as-is: renaming it
  * would break any older copy of about.json fetched at runtime from the content
  * source, for no gain the UI can see.
  */
@@ -308,7 +308,7 @@ export interface AboutSocial {
   /** Business inbox. The Contact form composes to this, and it's shown in the
       page sidebar as the direct address. */
   email: string
-  /** Bitan's own inbox, listed under the Creator group. */
+  /** Bitan's own inbox, listed under the Engineer group. */
   founderEmail?: string
   /** The studio: site, channel, developer page, business inbox. */
   business?: SocialLink[]

@@ -101,7 +101,7 @@ Note `products` here is a list of **labels**, not slugs — see the table.
 
 - `email` — the business inbox. The Contact form composes to it and the page
   shows it as the direct address.
-- `founderEmail` — optional; Bitan's own inbox, listed under the Creator group.
+- `founderEmail` — optional; Bitan's own inbox, listed under the Engineer group.
 
 Three groups matching the three identities behind the site, which are also the
 three tabs on the Contact page:
@@ -112,7 +112,7 @@ three tabs on the Contact page:
 | `people` | the person | code, professional and everyday social, direct inbox |
 | `artist` | the musician | streaming and video profiles. **Also surfaced on the Beyond page**, so a listener can go straight to a platform. |
 
-The `people` key predates the "Creator" label in the UI and is kept as-is:
+The `people` key predates the "Engineer" label in the UI and is kept as-is:
 renaming it would break any older copy of this file still being served at runtime.
 
 ### Link entries

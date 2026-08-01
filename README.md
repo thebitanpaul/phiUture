@@ -21,7 +21,7 @@
 
 ## What is phiUture?
 
-**phiUture** is a technology and creative studio created by **Bitan Paul**. It is the umbrella
+**phiUture** is a technology and creative studio engineered by **Bitan Paul**. It is the umbrella
 for a growing ecosystem of production-grade **AI & data products, agentic systems, automation
 workflows, applications, games** — and an equally serious **creative practice** of original
 **music and film**.

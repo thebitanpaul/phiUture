@@ -6,8 +6,8 @@
       "avatar": "https://res.cloudinary.com/b0tb1mho/image/upload/w_512,h_512,c_fill,g_auto,q_auto,f_auto/v1784711074/aup4vqxarodsfwjouf0v.jpg",
       "monogram": "BP",
       "location": "Bengaluru, India",
-      "roles": ["Creator of phiUture", "AI / ML Engineer", "Agentic Systems"],
-      "bio": "phiUture is the name Bitan Paul builds under — he created it, and he designs and engineers everything released through it. With 2+ years building production-grade Generative AI, LLM, and agentic systems, he works across the full AI lifecycle — RAG pipelines, multi-agent orchestration, computer vision, and cloud-native data engineering — and maintains a large body of open-source work. Through phiUture he brings that same standard to every product and creative release: capable underneath, effortless on the surface.",
+      "roles": ["Engineer behind phiUture", "AI / ML Engineer", "Agentic Systems"],
+      "bio": "phiUture is the name Bitan Paul builds under — he engineers everything released through it, end to end. With 2+ years building production-grade Generative AI, LLM, and agentic systems, he works across the full AI lifecycle — RAG pipelines, multi-agent orchestration, computer vision, and cloud-native data engineering — and maintains a large body of open-source work. Through phiUture he brings that same standard to every product and creative release: capable underneath, effortless on the surface.",
       "journeyCta": "Explore the journey",
       "journey": [
         {
@@ -53,7 +53,7 @@
         {
           "id": "phi-jrny-006",
           "year": "2024",
-          "title": "Created phiUture",
+          "title": "Engineered phiUture",
           "description": "Brought phiUture to life as the name behind his products, AI agents, automation solutions, and creative work.",
           "icon": "lightbulb",
           "color": "#a855f7"
